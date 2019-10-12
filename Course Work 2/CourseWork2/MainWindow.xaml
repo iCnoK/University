@@ -5,15 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MainGUI"
         mc:Ignorable="d"
-        Title="Course Work" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="300" MinHeight="300" Loaded="Window_Loaded">
-    <Window.Background>
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FF1C1C1C"/>
-            <GradientStop Color="#FF2D2D30" Offset="1"/>
-        </LinearGradientBrush>
-    </Window.Background>
+        Title="Course Work" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="300" MinHeight="300" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Background="White">
     <Grid>
-        <Image x:Name="MainPictureBox" Margin="10,10,9.6,10" Source="C:\Users\Андрей\Desktop\8t7RUieLKoo.jpg" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <ScrollViewer x:Name="WorkSpace"  Margin="5,100,200,23">
+            <Image x:Name="MainPictureBox" Margin="0" Source="C:\Users\Andrey\Desktop\BoardingPass_MyNameOnMars2020.png" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" StretchDirection="DownOnly" Stretch="None" MouseEnter="MainPictureBox_MouseEnter" MouseLeave="MainPictureBox_MouseLeave" MouseMove="MainPictureBox_MouseMove" SourceUpdated="MainPictureBox_SourceUpdated" />
+        </ScrollViewer>
+        <StatusBar x:Name="StatusBar" Height="23" VerticalAlignment="Bottom" Margin="0,0,200,0">
+            <StatusBarItem HorizontalContentAlignment="Center" Height="23" Width="23" HorizontalAlignment="Left">
+                <Image Height="20" Width="20" Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="Z:\GitHub Repositories\University\Course Work 2\CourseWork2\Icons\Arrows.png" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+            </StatusBarItem>
+            <StatusBarItem x:Name="MousePositionInMainPictureBox" Content="1234x1024" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"></StatusBarItem>
+            <Separator HorizontalAlignment="Left" Height="23" ></Separator>
+            <StatusBarItem HorizontalContentAlignment="Center" Height="23" Width="23" HorizontalAlignment="Left">
+                <Image Height="20" Width="20" Stretch="UniformToFill" Source="Z:\GitHub Repositories\University\Course Work 2\CourseWork2\Icons\SizeOfElement.png"></Image>
+            </StatusBarItem>
+            <StatusBarItem x:Name="StatusBarSizeOfImage" Content="" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"></StatusBarItem>
+            <Separator HorizontalAlignment="Left" Height="23" ></Separator>
+        </StatusBar>
 
     </Grid>
 </Window>

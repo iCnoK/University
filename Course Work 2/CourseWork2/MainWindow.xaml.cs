@@ -12,8 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using CourseWork2.AudioParser;
-
+//<Image x:Name="MainPictureBox" Margin="10,100,10,10" Source="C:\Users\Andrey\Desktop\BoardingPass_MyNameOnMars2020.png" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" StretchDirection="DownOnly" Stretch="None" />
 namespace MainGUI
 {
     public partial class MainWindow : Window
@@ -27,8 +26,36 @@ namespace MainGUI
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow.MinHeight = MainPictureBox.Source.Height + 20;
-            Application.Current.MainWindow.MinWidth = MainPictureBox.Source.Width + 20;
+            Application.Current.MainWindow.MinHeight = 480;
+            Application.Current.MainWindow.MinWidth = 720;
+            MousePositionInMainPictureBox.Visibility = Visibility.Hidden;
+            MainPictureBox_SourceUpdated(null, null);
+            //WorkSpace.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+            //WorkSpace.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
+            
         }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            //StatusBar.Width = Application.Current.MainWindow.ActualWidth;
+            if (WorkSpace.ActualHeight < MainPictureBox.ActualHeight)
+            {
+                WorkSpace.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
+            }
+            else
+            {
+                WorkSpace.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            }
+            if (WorkSpace.ActualWidth < MainPictureBox.ActualWidth)
+            {
+                WorkSpace.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
+            }
+            else
+            {
+                WorkSpace.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            }
+        }
+
+        
     }
 }
