@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 //<Image x:Name="MainPictureBox" Margin="10,100,10,10" Source="C:\Users\Andrey\Desktop\BoardingPass_MyNameOnMars2020.png" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" StretchDirection="DownOnly" Stretch="None" />
 namespace MainGUI
 {
     public partial class MainWindow : Window
     {
+        CourseWork2.User_Interfaces.Menu MainMenu = new CourseWork2.User_Interfaces.Menu();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,30 +33,15 @@ namespace MainGUI
             MainPictureBox_SourceUpdated(null, null);
             ScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
             ScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
+            MainWindowBlurEffect.Radius = 0;
             //ScrollViewer.Height = WorkSpace.Source.Height;
             //ScrollViewer.Width = WorkSpace.Source.Width;
-            
+
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //StatusBar.Width = Application.Current.MainWindow.ActualWidth;
-            //if (ScrollViewer.ActualHeight < WorkSpace.ActualHeight)
-            //{
-            //    ScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Visible;
-            //}
-            //else
-            //{
-            //    ScrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            //}
-            //if (ScrollViewer.ActualWidth < WorkSpace.ActualWidth)
-            //{
-            //    ScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
-            //}
-            //else
-            //{
-            //    ScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            //}
+            MainMenu.Height = Application.Current.MainWindow.ActualHeight - 35;
         }
 
         private void ImageScale_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -65,6 +52,32 @@ namespace MainGUI
             WorkSpace.Width = WorkSpace.Source.Width / 100 * ImageScale.Value;
             //WorkSpace.HorizontalAlignment = HorizontalAlignment.Center;
             //WorkSpace.VerticalAlignment = VerticalAlignment.Center;
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu.Height = Application.Current.MainWindow.ActualHeight - 35;
+            MainWindowBlurEffect.Radius = 5;
+            AllControlsGrid.IsEnabled = false;
+            if (MainMenu.IsLoaded)
+            {
+                MainMenu.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MenuPanel.Children.Add(MainMenu);
+            }
+            MainMenu.IsVisibleChanged += MainMenu_IsVisibleChanged;
+        }
+
+        private void MainMenu_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            UserControl user = (UserControl)sender;
+            if (user.Visibility == Visibility.Hidden)
+            {
+                MainWindowBlurEffect.Radius = 0;
+                AllControlsGrid.IsEnabled = true;
+            }
         }
     }
 }

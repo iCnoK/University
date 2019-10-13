@@ -6,38 +6,92 @@
         xmlns:local="clr-namespace:MainGUI"
         mc:Ignorable="d"
         Title="AI PAINT" Height="720" Width="1280" WindowStartupLocation="CenterScreen" MinWidth="300" MinHeight="300" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Background="White">
-
     <Grid>
-        <Rectangle Margin="0,110,200,0" Stroke="Black" Fill="#FFB7BAB8"/>
+        <Grid x:Name="AllControlsGrid">
+            <Grid.Effect>
+                <BlurEffect x:Name="MainWindowBlurEffect"/>
+            </Grid.Effect>
+            
+            <Rectangle Margin="0,110,200,0" Stroke="#FF9C9C9C" >
+                <Rectangle.Fill>
+                    <RadialGradientBrush>
+                        <GradientStop Color="#FF9C9C9C"/>
+                        <GradientStop Color="#FFB8B8B8" Offset="1"/>
+                    </RadialGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
 
-        <ScrollViewer x:Name="ScrollViewer" Margin="0,110,200,23" RenderTransformOrigin = "0.5,0.5" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
-            <Image x:Name="WorkSpace" Source="Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg" HorizontalAlignment="Left" VerticalAlignment="Top" StretchDirection="DownOnly" Stretch="Fill" MouseEnter="MainPictureBox_MouseEnter" MouseLeave="MainPictureBox_MouseLeave" MouseMove="MainPictureBox_MouseMove" SourceUpdated="MainPictureBox_SourceUpdated" />
-        </ScrollViewer>
-        <StatusBar x:Name="StatusBar" Height="23" VerticalAlignment="Bottom" Margin="0,0,200,0">
-            <StatusBarItem HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="23" Width="23" HorizontalAlignment="Left">
-                <Image Margin="-3" Height="23" Width="23" Stretch="None" Source="Resources/Arrows.png"/>
-            </StatusBarItem>
+            <ScrollViewer x:Name="ScrollViewer" Margin="0,110,200,23" RenderTransformOrigin = "0.5,0.5" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Foreground="Black">
+                <Image x:Name="WorkSpace" Height="100" Source="Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" StretchDirection="DownOnly" Stretch="Fill" MouseEnter="MainPictureBox_MouseEnter" MouseLeave="MainPictureBox_MouseLeave" MouseMove="MainPictureBox_MouseMove" SourceUpdated="MainPictureBox_SourceUpdated" />
+            </ScrollViewer>
+            <StatusBar x:Name="StatusBar" Height="23" VerticalAlignment="Bottom" Margin="0,0,200,0">
+                <StatusBarItem HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="23" Width="23" HorizontalAlignment="Left">
+                    <Image Margin="-3" Height="23" Width="23" Stretch="None" Source="Resources/Arrows.png"/>
+                </StatusBarItem>
 
-            <StatusBarItem x:Name="MousePositionInMainPictureBox" Content="" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"/>
-            <Separator HorizontalAlignment="Left" Height="23" />
+                <StatusBarItem x:Name="MousePositionInMainPictureBox" Content="" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"/>
+                <Separator HorizontalAlignment="Left" Height="23" />
 
-            <StatusBarItem HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="23" Width="23" HorizontalAlignment="Left">
-                <Image Height="23" Width="23" Margin="-3" Stretch="None" Source="Resources/SizeOfElement.png"/>
-            </StatusBarItem>
+                <StatusBarItem HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="23" Width="23" HorizontalAlignment="Left">
+                    <Image Height="23" Width="23" Margin="-3" Stretch="None" Source="Resources/SizeOfElement.png"/>
+                </StatusBarItem>
 
-            <StatusBarItem x:Name="StatusBarSizeOfImage" Content="" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"/>
-            <Separator HorizontalAlignment="Left" Height="23" />
-            <StatusBarItem Content="" HorizontalContentAlignment="Center" Height="23" Width="500" HorizontalAlignment="Left"/>
-            <Separator HorizontalAlignment="Left" Height="23" />
-            <StatusBarItem x:Name="SliderLabel" Content="" Height="23" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Right"/>
+                <StatusBarItem x:Name="StatusBarSizeOfImage" Content="" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"/>
+                <Separator HorizontalAlignment="Left" Height="23" />
+                <StatusBarItem Content="" HorizontalContentAlignment="Center" Height="23" Width="500" HorizontalAlignment="Left"/>
+                <Separator HorizontalAlignment="Left" Height="23" />
+                <StatusBarItem x:Name="SliderLabel" Content="" Height="23" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Right"/>
 
-            <StatusBarItem Height="23" Width="200" HorizontalAlignment="Left" HorizontalContentAlignment="Left">
-                <Slider x:Name="ImageScale" Orientation="Horizontal" Height="23" Margin="-3" Width="200" Maximum="800" Minimum="10" LargeChange="100" SmallChange="100" Value="100" TickPlacement="BottomRight" ValueChanged="ImageScale_ValueChanged" IsSnapToTickEnabled="True" Ticks="10,25,50,100,200,300,400,500,600,700,800"/>
-            </StatusBarItem>
+                <StatusBarItem Height="23" Width="200" HorizontalAlignment="Left" HorizontalContentAlignment="Left">
+                    <Slider x:Name="ImageScale" Orientation="Horizontal" Height="23" Margin="-3" Width="200" Maximum="800" Minimum="10" LargeChange="100" SmallChange="100" Value="100" TickPlacement="BottomRight" ValueChanged="ImageScale_ValueChanged" IsSnapToTickEnabled="True" Ticks="10,25,50,100,200,300,400,500,600,700,800"/>
+                </StatusBarItem>
 
-        </StatusBar>
-        <Rectangle Fill="#FF363941" Stroke="#FF363941" Margin="0,0,-0.4,0" Height="55" VerticalAlignment="Top"/>
-        <Rectangle Fill="#FF363941" Stroke="#FF363941" Margin="0,55,200,0" Height="55" VerticalAlignment="Top"/>
-
+            </StatusBar>
+            <Rectangle Stroke="#FF363941" Margin="0,0,-0.4,0" Height="55" VerticalAlignment="Top">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#FF363941" Offset="0"/>
+                        <GradientStop Color="#FF363941" Offset="1"/>
+                        <GradientStop Color="#FF24272C" Offset="0.4"/>
+                        <GradientStop Color="#FF24272C" Offset="0.6"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Margin="0,55,200,0" Height="55" VerticalAlignment="Top" Stroke="#00F0F2F3">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#FFF7F7F7"/>
+                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="#FFD1D1D1" Offset="0.4"/>
+                        <GradientStop Color="#FFD1D1D1" Offset="0.6"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle Fill="#FFF0F2F3" Stroke="#FFF0F2F3" HorizontalAlignment="Right" Width="200" Margin="0,55,0,0"/>
+            <Button x:Name="MenuButton" Style="{StaticResource NewHighlightColourForHead}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="55" Background="#00DDDDDD" BorderBrush="#00707070" Foreground="White" Click="MenuButton_Click">
+                <StackPanel Orientation="Vertical">
+                    <Image Source="Resources/Menu.png" Width="25" Height="25"/>
+                    <Label Content="Меню" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Height="25" Foreground="White"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+        <StackPanel x:Name="MenuPanel" x:FieldModifier="public" Width="300" HorizontalAlignment="Left"/>
     </Grid>
+
 </Window>

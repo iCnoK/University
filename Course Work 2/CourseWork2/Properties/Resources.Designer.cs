@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CourseWork2.Properties {
+namespace Menu.Properties {
     using System;
     
     

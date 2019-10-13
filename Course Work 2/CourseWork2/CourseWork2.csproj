@@ -59,6 +59,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="User Interfaces\Menu.xaml.cs">
+      <DependentUpon>Menu.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,6 +75,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="User Interfaces\Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -109,6 +116,22 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\star_wars_dart_vejder_art_105284_1920x1080.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\File.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\LeftArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CreateFile.png" />
+    <Resource Include="Resources\Exit.png" />
+    <Resource Include="Resources\Parameters.png" />
+    <Resource Include="Resources\Save.png" />
+    <Resource Include="Resources\SaveAs.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
