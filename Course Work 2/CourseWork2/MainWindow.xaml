@@ -5,23 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MainGUI"
         mc:Ignorable="d"
-        Title="Course Work" Height="450" Width="800" WindowStartupLocation="CenterScreen" MinWidth="300" MinHeight="300" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Background="White">
+        Title="AI PAINT" Height="720" Width="1280" WindowStartupLocation="CenterScreen" MinWidth="300" MinHeight="300" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Background="White">
+
     <Grid>
-        <ScrollViewer x:Name="WorkSpace"  Margin="5,100,200,23">
-            <Image x:Name="MainPictureBox" Margin="0" Source="C:\Users\Andrey\Desktop\BoardingPass_MyNameOnMars2020.png" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Top" StretchDirection="DownOnly" Stretch="None" MouseEnter="MainPictureBox_MouseEnter" MouseLeave="MainPictureBox_MouseLeave" MouseMove="MainPictureBox_MouseMove" SourceUpdated="MainPictureBox_SourceUpdated" />
+        <Rectangle Margin="0,110,200,0" Stroke="Black" Fill="#FFB7BAB8"/>
+
+        <ScrollViewer x:Name="ScrollViewer" Margin="0,110,200,23" RenderTransformOrigin = "0.5,0.5" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
+            <Image x:Name="WorkSpace" Source="Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg" HorizontalAlignment="Left" VerticalAlignment="Top" StretchDirection="DownOnly" Stretch="Fill" MouseEnter="MainPictureBox_MouseEnter" MouseLeave="MainPictureBox_MouseLeave" MouseMove="MainPictureBox_MouseMove" SourceUpdated="MainPictureBox_SourceUpdated" />
         </ScrollViewer>
         <StatusBar x:Name="StatusBar" Height="23" VerticalAlignment="Bottom" Margin="0,0,200,0">
-            <StatusBarItem HorizontalContentAlignment="Center" Height="23" Width="23" HorizontalAlignment="Left">
-                <Image Height="20" Width="20" Stretch="UniformToFill" HorizontalAlignment="Left" VerticalAlignment="Top" Source="Z:\GitHub Repositories\University\Course Work 2\CourseWork2\Icons\Arrows.png" ScrollViewer.VerticalScrollBarVisibility="Disabled"/>
+            <StatusBarItem HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="23" Width="23" HorizontalAlignment="Left">
+                <Image Margin="-3" Height="23" Width="23" Stretch="None" Source="Resources/Arrows.png"/>
             </StatusBarItem>
-            <StatusBarItem x:Name="MousePositionInMainPictureBox" Content="1234x1024" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"></StatusBarItem>
-            <Separator HorizontalAlignment="Left" Height="23" ></Separator>
-            <StatusBarItem HorizontalContentAlignment="Center" Height="23" Width="23" HorizontalAlignment="Left">
-                <Image Height="20" Width="20" Stretch="UniformToFill" Source="Z:\GitHub Repositories\University\Course Work 2\CourseWork2\Icons\SizeOfElement.png"></Image>
+
+            <StatusBarItem x:Name="MousePositionInMainPictureBox" Content="" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"/>
+            <Separator HorizontalAlignment="Left" Height="23" />
+
+            <StatusBarItem HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="23" Width="23" HorizontalAlignment="Left">
+                <Image Height="23" Width="23" Margin="-3" Stretch="None" Source="Resources/SizeOfElement.png"/>
             </StatusBarItem>
-            <StatusBarItem x:Name="StatusBarSizeOfImage" Content="" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"></StatusBarItem>
-            <Separator HorizontalAlignment="Left" Height="23" ></Separator>
+
+            <StatusBarItem x:Name="StatusBarSizeOfImage" Content="" HorizontalContentAlignment="Center" Height="23" Width="120" HorizontalAlignment="Left"/>
+            <Separator HorizontalAlignment="Left" Height="23" />
+            <StatusBarItem Content="" HorizontalContentAlignment="Center" Height="23" Width="500" HorizontalAlignment="Left"/>
+            <Separator HorizontalAlignment="Left" Height="23" />
+            <StatusBarItem x:Name="SliderLabel" Content="" Height="23" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Right"/>
+
+            <StatusBarItem Height="23" Width="200" HorizontalAlignment="Left" HorizontalContentAlignment="Left">
+                <Slider x:Name="ImageScale" Orientation="Horizontal" Height="23" Margin="-3" Width="200" Maximum="800" Minimum="10" LargeChange="100" SmallChange="100" Value="100" TickPlacement="BottomRight" ValueChanged="ImageScale_ValueChanged" IsSnapToTickEnabled="True" Ticks="10,25,50,100,200,300,400,500,600,700,800"/>
+            </StatusBarItem>
+
         </StatusBar>
+        <Rectangle Fill="#FF363941" Stroke="#FF363941" Margin="0,0,-0.4,0" Height="55" VerticalAlignment="Top"/>
+        <Rectangle Fill="#FF363941" Stroke="#FF363941" Margin="0,55,200,0" Height="55" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

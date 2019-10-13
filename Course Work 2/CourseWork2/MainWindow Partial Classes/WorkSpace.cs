@@ -14,23 +14,22 @@ namespace MainGUI
         private void MainPictureBox_MouseEnter(object sender, MouseEventArgs e)
         {
             
-            MousePositionInMainPictureBox.Visibility = Visibility.Visible;
+            //MousePositionInMainPictureBox.Visibility = Visibility.Visible;
         }
 
         private void MainPictureBox_MouseLeave(object sender, MouseEventArgs e)
         {
-            MousePositionInMainPictureBox.Visibility = Visibility.Hidden;
+            //MousePositionInMainPictureBox.Visibility = Visibility.Hidden;
         }
 
         private void MainPictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            
-            MousePositionInMainPictureBox.Content = $"{e.GetPosition(null).X} x {e.GetPosition(null).Y}\tпкс";
+            //MousePositionInMainPictureBox.Content = $"{Convert.ToInt32(e.GetPosition(null).X - 5)} x {Convert.ToInt32(e.GetPosition(null).Y - 100)} пкс";
         }
 
         private void MainPictureBox_SourceUpdated(object sender, DataTransferEventArgs e)
         {
-            StatusBarSizeOfImage.Content = $"{MainPictureBox.ActualWidth} x {MainPictureBox.ActualHeight}\tпкс";
+            StatusBarSizeOfImage.Content = $"{Convert.ToInt32(WorkSpace.Source.Width)} x {Convert.ToInt32(WorkSpace.Source.Height)} пкс";
         }
     }
 }
