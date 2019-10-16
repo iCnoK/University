@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MainGUI"
         mc:Ignorable="d"
-        Title="AI PAINT" Height="720" Width="1280" WindowStartupLocation="CenterScreen" MinWidth="300" MinHeight="300" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Background="White">
+        Title="PAINT 1488.0" Height="720" Width="1280" WindowStartupLocation="CenterScreen" MinWidth="300" MinHeight="300" Loaded="Window_Loaded" SizeChanged="Window_SizeChanged" Background="White">
     <Grid>
         <Grid x:Name="AllControlsGrid">
             <Grid.Effect>
                 <BlurEffect x:Name="MainWindowBlurEffect"/>
             </Grid.Effect>
-            
+
+            <!--<Frame x:Name="Main" x:FieldModifier="public"/>-->
+
             <Rectangle Margin="0,110,200,0" Stroke="#FF9C9C9C" >
                 <Rectangle.Fill>
                     <RadialGradientBrush>
@@ -22,7 +24,21 @@
             </Rectangle>
 
             <ScrollViewer x:Name="ScrollViewer" Margin="0,110,200,23" RenderTransformOrigin = "0.5,0.5" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" Foreground="Black">
-                <Image x:Name="WorkSpace" Height="100" Source="Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg" HorizontalAlignment="Center" VerticalAlignment="Center" StretchDirection="DownOnly" Stretch="Fill" MouseEnter="MainPictureBox_MouseEnter" MouseLeave="MainPictureBox_MouseLeave" MouseMove="MainPictureBox_MouseMove" SourceUpdated="MainPictureBox_SourceUpdated" />
+                <Grid>
+                    <Canvas x:Name="TESTCANVAS" Height="500" Width="500" Background="White">
+
+
+                    </Canvas>
+                    <Image x:Name="WorkSpace" Height="500" Source="Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center" StretchDirection="DownOnly" 
+                       Stretch="Fill" MouseEnter="MainPictureBox_MouseEnter" MouseLeave="MainPictureBox_MouseLeave" 
+                       MouseMove="MainPictureBox_MouseMove" SourceUpdated="MainPictureBox_SourceUpdated" AllowDrop="True"
+                           Visibility="Hidden">
+
+                    </Image>
+                </Grid>
+                
+                    
             </ScrollViewer>
             <StatusBar x:Name="StatusBar" Height="23" VerticalAlignment="Bottom" Margin="0,0,200,0">
                 <StatusBarItem HorizontalContentAlignment="Left" VerticalContentAlignment="Top" Height="23" Width="23" HorizontalAlignment="Left">
