@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Paint.ViewModel"
         xmlns:localView="clr-namespace:Paint.View"
+        
+        d:DataContext="{d:DesignInstance localView:SideMenu}"
         mc:Ignorable="d"
-        Title="MainWindow" Name="mainWindow" MinHeight="720" MinWidth="1280" Height="720" Width="1280" Background="White">
+        Title="MainWindow" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
+        Height="720" Width="1280" Background="White" WindowStartupLocation="CenterScreen">
     
     <Window.DataContext>
         <local:MainWindowViewModel/>
@@ -42,12 +45,14 @@
             </ToolBarPanel.Background>
 
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="MainMenuButton" Style="{StaticResource NewHighlightColourForHead}" HorizontalContentAlignment="Center"
+                <Button x:Name="MainMenuButton" Style="{StaticResource NewHighlightColourForHead}"
+                        HorizontalContentAlignment="Center"
                         HorizontalAlignment="Left" Height="50" Width="60" Background="#00DDDDDD"
                         BorderBrush="#00707070" Command="{Binding OpenMenu}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="/Utility/Resources/Menu.png" Width="25" Height="25"/>
-                        <Label Content="Меню" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"
+                        <Label Content="Меню" HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Top"
                                Height="25" Foreground="White"/>
                     </StackPanel>
                 </Button>
@@ -85,7 +90,9 @@
             </StackPanel>
         </ToolBarPanel>
 
-        <ScrollViewer Style="{StaticResource OverrideContentPosition}" CanContentScroll="False" Grid.Row="2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+        <ScrollViewer Style="{StaticResource OverrideContentPosition}" CanContentScroll="False"
+                      Grid.Row="2" HorizontalScrollBarVisibility="Visible"
+                      VerticalScrollBarVisibility="Visible">
             <ScrollViewer.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FF9C9C9C"/>
@@ -96,20 +103,18 @@
             <Image Source="/Utility/Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg"/>
         </ScrollViewer>
         
-        <ToolBarPanel x:Name="UtilityToolBar" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" Background="#FFF0F2F3" ClipToBounds="True" SnapsToDevicePixels="True">
+        <ToolBarPanel x:Name="UtilityToolBar" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
+                      Background="#FFF0F2F3" ClipToBounds="True" SnapsToDevicePixels="True">
             <ToolBarPanel.Effect>
                 <DropShadowEffect/>
             </ToolBarPanel.Effect>
 
         </ToolBarPanel>
-        <!--<ContentControl Grid.Row="0" Grid.RowSpan="3" Width="300" HorizontalAlignment="Left" Name="_ContentControl">
-            
-        </ContentControl>-->
+        
         <StackPanel Grid.Row="0" Grid.RowSpan="3" Width="300" Orientation="Horizontal"
                     HorizontalAlignment="Left">
-            <localView:SideMenu
-                Height="{Binding ElementName=mainWindow, Path=ActualHeight}" Visibility="{Binding ChangeVisibilityOfMenu}"/>
-           
+            <localView:SideMenu DataContext="{Binding Status}"/>
+            
         </StackPanel>
         
     </Grid>
