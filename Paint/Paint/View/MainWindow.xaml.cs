@@ -21,11 +21,12 @@ namespace Paint
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        //private readonly MainWindowViewModel mainWindowViewModel = new MainWindowViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
+            //DataContext = mainWindowViewModel;
         }
     }
 }

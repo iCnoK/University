@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paint.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,20 @@ namespace Paint.View
 {
     public partial class SideMenu : UserControl
     {
+        //private readonly SideMenuViewModel sideMenuViewModel = new SideMenuViewModel();
+
         public SideMenu()
         {
             InitializeComponent();
+            //DataContext = sideMenuViewModel;
         }
+
+        //public ICommand CloseMenu
+        //{
+        //    get { return (ICommand)GetValue(CloseMenuProperty); }
+        //    set { SetValue(CloseMenuProperty, value); }
+        //}
+        //public static readonly DependencyProperty CloseMenuProperty =
+        //    DependencyProperty.Register("CloseMenu", typeof(ICommand), typeof(SideMenu));
     }
 }

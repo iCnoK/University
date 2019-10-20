@@ -11,7 +11,7 @@
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -102,9 +102,13 @@
             </ToolBarPanel.Effect>
 
         </ToolBarPanel>
-        <StackPanel Grid.Row="0" Grid.RowSpan="3" x:Name="MenuPanel" x:FieldModifier="public" Width="300" HorizontalAlignment="Left">
-            <localView:SideMenu Height="{Binding ElementName=mainWindow, Path=ActualHeight}" Visibility="{Binding ChangeVisibilityOfMenu}"/>
-            <!--{Binding ChangeVisibilityOfMenu, Mode=TwoWay}"-->
+        <!--<ContentControl Grid.Row="0" Grid.RowSpan="3" Width="300" HorizontalAlignment="Left" Name="_ContentControl">
+            
+        </ContentControl>-->
+        <StackPanel Grid.Row="0" Grid.RowSpan="3" Width="300" Orientation="Horizontal"
+                    HorizontalAlignment="Left">
+            <localView:SideMenu
+                Height="{Binding ElementName=mainWindow, Path=ActualHeight}" Visibility="{Binding ChangeVisibilityOfMenu}"/>
            
         </StackPanel>
         

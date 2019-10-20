@@ -1,20 +1,28 @@
-﻿using Paint.View;
-using ReactiveUI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Paint.Utility;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Paint.ViewModel
 {
-    public class SideMenuViewModel : ReactiveObject
+    public class SideMenuViewModel : OnPropertyChangedClass
     {
-        public SideMenuViewModel()
-        {
+        //private Visibility _changeVisibilityOfMenu;
 
-        }
+        //public Visibility ChangeVisibilityOfMenu
+        //{
+        //    get
+        //    {
+        //        return this._changeVisibilityOfMenu;
+        //    }
+        //    set
+        //    {
+        //        _changeVisibilityOfMenu = value;
+        //        OnPropertyChanged("ChangeVisibilityOfMenu");
+        //    }
+        //}
+
+        //public SideMenuViewModel()
+        //{
+        //    ChangeVisibilityOfMenu = Visibility.Visible;
+        //}
     }
 }

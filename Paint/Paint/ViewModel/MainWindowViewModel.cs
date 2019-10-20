@@ -1,34 +1,28 @@
 ﻿using Paint.Utility;
-using Paint.View;
-using ReactiveUI;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using Prism.Commands;
+using Prism.Mvvm;
 using System.Windows;
 using System.Windows.Input;
 
 namespace Paint.ViewModel
 {
-    public class MainWindowViewModel : OnPropertyChangedClass
+    public class MainWindowViewModel : BindableBase
     {
         private Visibility _changeVisibilityOfMenu;
 
         private ICommand _openMenu;
-        //private ICommand _closeMenu;
+        private ICommand _closeMenu;
 
         public ICommand OpenMenu => _openMenu ?? (_openMenu = new RelayCommand(obj =>
         {
             ChangeVisibilityOfMenu = Visibility.Visible;
         }));
-        //public ICommand CloseMenu => _closeMenu ?? (_closeMenu = new RelayCommand(obj =>
-        //{
-        //    ChangeVisibilityOfMenu = Visibility.Hidden;
-        //}));
-        
+
+        public ICommand CloseMenu => _closeMenu ?? (_closeMenu = new RelayCommand<object>(obj =>
+        {
+            ChangeVisibilityOfMenu = Visibility.Collapsed;
+        }));
+
         public Visibility ChangeVisibilityOfMenu
         {
             get
@@ -44,39 +38,7 @@ namespace Paint.ViewModel
 
         public MainWindowViewModel()
         {
-            ChangeVisibilityOfMenu = Visibility.Hidden;
+            ChangeVisibilityOfMenu = Visibility.Collapsed;
         }
-
-
-
-
-        //public ICommand Command
-        //{
-        //    get 
-        //    {
-        //        return (ICommand)GetValue(CommandProperty);
-        //    }
-        //    set 
-        //    { 
-        //        SetValue(CommandProperty, value); 
-        //    }
-        //}
-        //private ICommand _closeMenu;
-        //public ICommand CloseMenu;
-        //{
-        //    get
-        //    {
-        //        return (ICommand)CloseMenu;
-        //    }
-        //    set
-        //    {
-        //        SetValue(CommandProperty, value);
-        //    }
-        //}
-        //public DependencyProperty CloseMenu =
-        //    DependencyProperty.Register("CloseMenu", typeof(ICommand), typeof(SideMenu));
-
-
-
     }
 }

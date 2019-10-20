@@ -7,23 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="300">
 
+    <!--<UserControl.Triggers>
+
+        <EventTrigger RoutedEvent="UserControl.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="300" AccelerationRatio="1" Duration="0:0:1" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>-->
+
     <!--<UserControl.DataContext>
-        <local:MainWindowViewModel/>
+        <local:SideMenuViewModel/>
     </UserControl.DataContext>-->
     
+    
     <Grid>
-        
         <Grid.Background>
             <RadialGradientBrush>
                 <GradientStop Color="#FFBDBDBD" Offset="0"/>
                 <GradientStop Color="#FFE6E6E6" Offset="1"/>
             </RadialGradientBrush>
         </Grid.Background>
-        <Button x:Name="BackButton" Style="{StaticResource NewHighlightColourForHeading}" Height="40" VerticalAlignment="Top" 
+        <Button Name="BackButton" Style="{StaticResource NewHighlightColourForHeading}" Height="40" VerticalAlignment="Top" 
                 HorizontalContentAlignment="Left" Background="#00DDDDDD" BorderBrush="#00707070"
                 HorizontalAlignment="Left" Width="300" ToolTip="Закрыть меню."
-                Command="{Binding CloseMenu,
-                RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}">
+            Command="{Binding CloseMenu}">
+            <!--Command="{Binding DataContext.CloseMenu, RelativeSource={RelativeSource AncestorType=Window}}">-->
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="5"/>
                 <Image Source="/Utility/Resources/LeftArrow.png" Width="30" Height="30" Stretch="Fill"/>
