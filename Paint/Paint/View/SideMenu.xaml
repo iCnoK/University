@@ -3,9 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Paint.View"
+             xmlns:local="clr-namespace:Paint.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="300">
+
+    <!--<UserControl.DataContext>
+        <local:MainWindowViewModel/>
+    </UserControl.DataContext>-->
+    
     <Grid>
         
         <Grid.Background>
@@ -15,8 +20,10 @@
             </RadialGradientBrush>
         </Grid.Background>
         <Button x:Name="BackButton" Style="{StaticResource NewHighlightColourForHeading}" Height="40" VerticalAlignment="Top" 
-                HorizontalContentAlignment="Left" Background="#00DDDDDD" BorderBrush="#00707070" Click="BackButton_Click"
-                HorizontalAlignment="Left" Width="300" ToolTip="Закрыть меню.">
+                HorizontalContentAlignment="Left" Background="#00DDDDDD" BorderBrush="#00707070"
+                HorizontalAlignment="Left" Width="300" ToolTip="Закрыть меню."
+                Command="{Binding CloseMenu,
+                RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="5"/>
                 <Image Source="/Utility/Resources/LeftArrow.png" Width="30" Height="30" Stretch="Fill"/>
@@ -27,7 +34,7 @@
         </Button>
         <Button x:Name="CreateButton" Style="{StaticResource NewHighlightColourForHeading}" Margin="0,56,0,0"
                 VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="40" Background="#00DDDDDD"
-                BorderBrush="#00707070" Click="CreateButton_Click" HorizontalAlignment="Left" Width="300"
+                BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
                 ToolTip="Создать новое изображение.">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="5"/>
@@ -38,7 +45,7 @@
         </Button>
         <Button x:Name="OpenButton" Style="{StaticResource NewHighlightColourForHeading}" Margin="0,101,0,0"
                 VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="40" Background="#00DDDDDD"
-                BorderBrush="#00707070" Click="OpenButton_Click" HorizontalAlignment="Left" Width="300"
+                BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
                 ToolTip="Открыть существующее изображение.">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="5"/>
@@ -49,7 +56,7 @@
         </Button>
         <Button x:Name="SaveButton" Style="{StaticResource NewHighlightColourForHeading}" Margin="0,146,0,0"
                 VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="40" Background="#00DDDDDD"
-                BorderBrush="#00707070" Click="SaveButton_Click" HorizontalAlignment="Left" Width="300"
+                BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
                 ToolTip="Сохранить изменения.">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="5"/>
@@ -60,7 +67,7 @@
         </Button>
         <Button x:Name="SaveAsButton" Style="{StaticResource NewHighlightColourForHeading}" Margin="0,191,0,0"
                 VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="40" Background="#00DDDDDD"
-                BorderBrush="#00707070" Click="SaveAsButton_Click" HorizontalAlignment="Left" Width="300"
+                BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
                 ToolTip="Сохранть изменения по заданному пути.">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="5"/>
@@ -77,9 +84,9 @@
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Button x:Name="ParametersButton" Style="{StaticResource NewHighlightColourForHeading}" Margin="0,0,0,55"
+        <Button x:Name="ParametersButton" Style="{StaticResource NewHighlightColourForHeading}" Margin="0,0,0,85"
                 VerticalAlignment="Bottom" HorizontalContentAlignment="Left" Height="40" BorderBrush="#00707070"
-                Background="#00DDDDDD" Click="ParametersButton_Click" HorizontalAlignment="Left" Width="300"
+                Background="#00DDDDDD" HorizontalAlignment="Left" Width="300"
                 ToolTip="Открыть параметры.">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="5"/>
@@ -88,9 +95,9 @@
                 <Label Content="Параметры"/>
             </StackPanel>
         </Button>
-        <Button x:Name="ExitButton" Style="{StaticResource NewHighlightColourForHeading}" Margin="0,0,0,10"
+        <Button x:Name="ExitButton" Style="{StaticResource NewHighlightColourForHeading}" Margin="0,0,0,40"
                 VerticalAlignment="Bottom" HorizontalContentAlignment="Left" Height="40" Background="#00DDDDDD"
-                BorderBrush="#00707070" Click="ExitButton_Click" HorizontalAlignment="Left" Width="300"
+                BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
                 ToolTip="Закрыть программу.">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="5"/>
@@ -107,7 +114,7 @@
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle HorizontalAlignment="Left" Margin="0,0,0,100" Stroke="#009C9C9C" Width="300" Height="3" VerticalAlignment="Bottom">
+        <Rectangle HorizontalAlignment="Left" Margin="0,0,0,130" Stroke="#009C9C9C" Width="300" Height="3" VerticalAlignment="Bottom">
             <Rectangle.Fill>
                 <RadialGradientBrush>
                     <GradientStop Color="#FF767676"/>

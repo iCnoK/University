@@ -3,10 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Paint.View"
+        xmlns:local="clr-namespace:Paint.ViewModel"
+        xmlns:localView="clr-namespace:Paint.View"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="720" MinWidth="1280" Height="720" Width="1280" Background="White">
-
+        Title="MainWindow" Name="mainWindow" MinHeight="720" MinWidth="1280" Height="720" Width="1280" Background="White">
+    
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -37,10 +42,13 @@
             </ToolBarPanel.Background>
 
             <StackPanel Orientation="Horizontal">
-                <Button Style="{StaticResource NewHighlightColourForHead}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="50" Width="60" Background="#00DDDDDD" BorderBrush="#00707070">
+                <Button x:Name="MainMenuButton" Style="{StaticResource NewHighlightColourForHead}" HorizontalContentAlignment="Center"
+                        HorizontalAlignment="Left" Height="50" Width="60" Background="#00DDDDDD"
+                        BorderBrush="#00707070" Command="{Binding OpenMenu}">
                     <StackPanel Orientation="Vertical">
                         <Image Source="/Utility/Resources/Menu.png" Width="25" Height="25"/>
-                        <Label Content="Меню" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Height="25" Foreground="White"/>
+                        <Label Content="Меню" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"
+                               Height="25" Foreground="White"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -77,7 +85,7 @@
             </StackPanel>
         </ToolBarPanel>
 
-        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" >
+        <ScrollViewer Style="{StaticResource OverrideContentPosition}" CanContentScroll="False" Grid.Row="2" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
             <ScrollViewer.Background>
                 <RadialGradientBrush>
                     <GradientStop Color="#FF9C9C9C"/>
@@ -85,34 +93,20 @@
                 </RadialGradientBrush>
             </ScrollViewer.Background>
 
+            <Image Source="/Utility/Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg"/>
         </ScrollViewer>
         
-        <ToolBarPanel Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" Background="#FFF0F2F3" ClipToBounds="True" SnapsToDevicePixels="True">
+        <ToolBarPanel x:Name="UtilityToolBar" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" Background="#FFF0F2F3" ClipToBounds="True" SnapsToDevicePixels="True">
             <ToolBarPanel.Effect>
                 <DropShadowEffect/>
             </ToolBarPanel.Effect>
 
         </ToolBarPanel>
-
-        <!--<StatusBar Grid.Row="3">
-            <StatusBar.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <LinearGradientBrush.RelativeTransform>
-                        <TransformGroup>
-                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                            <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="#FF363941" Offset="0"/>
-                    <GradientStop Color="#FF363941" Offset="1"/>
-                    <GradientStop Color="#FF24272C" Offset="0.4"/>
-                    <GradientStop Color="#FF24272C" Offset="0.6"/>
-                </LinearGradientBrush>
-            </StatusBar.Background>
-
-        </StatusBar>-->
+        <StackPanel Grid.Row="0" Grid.RowSpan="3" x:Name="MenuPanel" x:FieldModifier="public" Width="300" HorizontalAlignment="Left">
+            <localView:SideMenu Height="{Binding ElementName=mainWindow, Path=ActualHeight}" Visibility="{Binding ChangeVisibilityOfMenu}"/>
+            <!--{Binding ChangeVisibilityOfMenu, Mode=TwoWay}"-->
+           
+        </StackPanel>
         
     </Grid>
 </Window>
