@@ -8,7 +8,8 @@ namespace Paint.ViewModel
 {
     public class MainWindowViewModel : BindableBase
     {
-        public SideMenuViewModel Status { get; set; }
+        public SideMenuViewModel SideMenuStatus { get; set; }
+        public BrushesBarViewModel BrushesBarStatus { get; set; }
 
         //private Visibility _changeVisibilityOfMenu;
 
@@ -17,7 +18,7 @@ namespace Paint.ViewModel
 
         public ICommand OpenMenu => _openMenu ?? (_openMenu = new RelayCommand(obj =>
         {
-            Status.ChangeVisibilityOfMenu = Visibility.Visible;
+            SideMenuStatus.ChangeVisibilityOfMenu = Visibility.Visible;
         }));
 
         //public ICommand CloseMenu => _closeMenu ?? (_closeMenu = new RelayCommand<object>(obj =>
@@ -40,7 +41,8 @@ namespace Paint.ViewModel
 
         public MainWindowViewModel()
         {
-            Status = new SideMenuViewModel();
+            SideMenuStatus = new SideMenuViewModel();
+            BrushesBarStatus = new BrushesBarViewModel();
         }
     }
 }

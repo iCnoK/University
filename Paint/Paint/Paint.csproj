@@ -85,14 +85,33 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.6.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.6.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.6.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.6.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.6.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utility\Enums\SliderInfoModecs.cs" />
     <Compile Include="Utility\OnPropertyChangedClass.cs" />
     <Compile Include="Utility\RelayCommand.cs" />
+    <Compile Include="Utility\SliderValueHolder.cs" />
+    <Compile Include="Utility\XamlConverters.cs" />
+    <Compile Include="ViewModel\BrushesBarViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SideMenuViewModel.cs" />
     <Compile Include="View\SideMenu.xaml.cs">
@@ -167,6 +186,17 @@
     <Resource Include="Utility\Resources\SizeOfElement.png" />
     <Resource Include="Utility\Resources\star_wars_dart_vejder_art_105284_1920x1080.jpg" />
     <Resource Include="Utility\Resources\Test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utility\Resources\Brushes\Eraser_Brush.png" />
+    <Resource Include="Utility\Resources\Brushes\Fill_Brush.png" />
+    <Resource Include="Utility\Resources\Brushes\Fountainpen_Brush.png" />
+    <Resource Include="Utility\Resources\Brushes\Marker_Brush.png" />
+    <Resource Include="Utility\Resources\Brushes\Oilbrush_Brush.png" />
+    <Resource Include="Utility\Resources\Brushes\Pencil_Brush.png" />
+    <Resource Include="Utility\Resources\Brushes\Pixelpen_Brush.png" />
+    <Resource Include="Utility\Resources\Brushes\Spraycan_Brush.png" />
+    <Resource Include="Utility\Resources\Brushes\Watercolor_Brush.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

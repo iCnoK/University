@@ -5,18 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Paint.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="720" d:DesignWidth="300" Visibility="{Binding ChangeVisibilityOfMenu}">
+             d:DesignHeight="720" Opacity="0.8" d:DesignWidth="600"  Visibility="{Binding ChangeVisibilityOfMenu}"> <!--Width="{Binding Width}"-->
+    <UserControl.Effect>
+        <DropShadowEffect BlurRadius="50" Color="#FF575757" ShadowDepth="15" />
+    </UserControl.Effect>
 
     <!--<UserControl.Triggers>
 
         <EventTrigger RoutedEvent="UserControl.Loaded">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="300" AccelerationRatio="1" Duration="0:0:1" />
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:3" />
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
     </UserControl.Triggers>-->
+
+    <!--<UserControl.Resources>
+        <Storyboard x:Key="SmoothClosingAnimation">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackButton" From="1" To="0" Duration="0:0:1"/>
+        </Storyboard>
+    </UserControl.Resources>-->
+
 
     <UserControl.DataContext>
         <local:SideMenuViewModel/>
@@ -24,6 +34,24 @@
     
     
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="55"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="3"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <RadialGradientBrush>
                 <GradientStop Color="#FFBDBDBD" Offset="0"/>
@@ -31,72 +59,62 @@
             </RadialGradientBrush>
         </Grid.Background>
         <Button Name="BackButton" Style="{StaticResource NewHighlightColourForHeading}"
-                Height="40" VerticalAlignment="Top" 
+                Height="45" VerticalAlignment="Top" Grid.Row="0" 
                 HorizontalContentAlignment="Left" Background="#00DDDDDD" BorderBrush="#00707070"
-                HorizontalAlignment="Left" Width="300" ToolTip="Закрыть меню."
-            Command="{Binding CloseMenu}">
+                HorizontalAlignment="Left" Width="300" ToolTip="Закрыть меню"
+                Command="{Binding CloseMenu}">
             <!--Command="{Binding DataContext.CloseMenu, RelativeSource={RelativeSource AncestorType=Window}}">-->
             <StackPanel Orientation="Horizontal">
-                <Rectangle Width="5"/>
-                <Image Source="/Utility/Resources/LeftArrow.png" Width="30" Height="30" Stretch="Fill"/>
-                <Rectangle Width="5"/>
-                <Label Content="Назад"/>
+                <Image Source="/Utility/Resources/LeftArrow.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
+                <Label Content="Назад" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
             
         </Button>
         <Button x:Name="CreateButton" Style="{StaticResource NewHighlightColourForHeading}"
-                Margin="0,56,0,0"
-                VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="40"
+                Grid.Row="2"
+                VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="45"
                 Background="#00DDDDDD"
                 BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
-                ToolTip="Создать новое изображение.">
+                ToolTip="Создать новое изображение" Command="{Binding CreateNewPicture}">
             <StackPanel Orientation="Horizontal">
-                <Rectangle Width="5"/>
-                <Image Source="/Utility/Resources/File.png" Width="30" Height="30" Stretch="Fill"/>
-                <Rectangle Width="5"/>
-                <Label Content="Создать"/>
+                <Image Source="/Utility/Resources/File.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
+                <Label Content="Создать" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
         <Button x:Name="OpenButton" Style="{StaticResource NewHighlightColourForHeading}"
-                Margin="0,101,0,0"
-                VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="40"
+                Grid.Row="3"
+                VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="45"
                 Background="#00DDDDDD"
                 BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
-                ToolTip="Открыть существующее изображение.">
+                ToolTip="Открыть существующее изображение">
             <StackPanel Orientation="Horizontal">
-                <Rectangle Width="5"/>
-                <Image Source="/Utility/Resources/CreateFile.png" Width="30" Height="30" Stretch="Fill"/>
-                <Rectangle Width="5"/>
-                <Label Content="Открыть"/>
+                <Image Source="/Utility/Resources/CreateFile.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
+                <Label Content="Открыть" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
         <Button x:Name="SaveButton" Style="{StaticResource NewHighlightColourForHeading}"
-                Margin="0,146,0,0"
-                VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="40"
+                Grid.Row="4"
+                VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="45"
                 Background="#00DDDDDD"
                 BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
-                ToolTip="Сохранить изменения.">
+                ToolTip="Сохранить изменения">
             <StackPanel Orientation="Horizontal">
-                <Rectangle Width="5"/>
-                <Image Source="/Utility/Resources/Save.png" Width="30" Height="30" Stretch="Fill"/>
-                <Rectangle Width="5"/>
-                <Label Content="Сохранить"/>
+                <Image Source="/Utility/Resources/Save.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
+                <Label Content="Сохранить" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
         <Button x:Name="SaveAsButton" Style="{StaticResource NewHighlightColourForHeading}"
-                Margin="0,191,0,0"
-                VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="40"
+                Grid.Row="5"
+                VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="45"
                 Background="#00DDDDDD"
                 BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
-                ToolTip="Сохранть изменения по заданному пути.">
+                ToolTip="Сохранить изменения по заданному пути">
             <StackPanel Orientation="Horizontal">
-                <Rectangle Width="5"/>
-                <Image Source="/Utility/Resources/SaveAs.png" Width="30" Height="30" Stretch="Fill"/>
-                <Rectangle Width="5"/>
-                <Label Content="Сохранить как"/>
+                <Image Source="/Utility/Resources/SaveAs.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
+                <Label Content="Сохранить как" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
-        <Rectangle HorizontalAlignment="Left" Height="3" Margin="0,46,0,0" Stroke="#009C9C9C"
+        <Rectangle HorizontalAlignment="Left" Height="3" Grid.Row="1" Stroke="#009C9C9C"
                    VerticalAlignment="Top" Width="300">
             <Rectangle.Fill>
                 <RadialGradientBrush>
@@ -106,33 +124,32 @@
             </Rectangle.Fill>
         </Rectangle>
         <Button x:Name="ParametersButton" Style="{StaticResource NewHighlightColourForHeading}"
-                Margin="0,0,0,55"
-                VerticalAlignment="Bottom" HorizontalContentAlignment="Left" Height="40"
+                Grid.Row="9"
+                VerticalAlignment="Bottom" HorizontalContentAlignment="Left" Height="45"
                 BorderBrush="#00707070"
                 Background="#00DDDDDD" HorizontalAlignment="Left" Width="300"
-                ToolTip="Открыть параметры.">
+                ToolTip="Открыть параметры"
+                Command="{Binding OpenParameters}">
             <StackPanel Orientation="Horizontal">
-                <Rectangle Width="5"/>
-                <Image Source="/Utility/Resources/Parameters.png" Width="30" Height="25"
+                <Image Source="/Utility/Resources/Parameters.png" Margin="5,0,0,0" Width="30" Height="30"
                        Stretch="Uniform"/>
-                <Rectangle Width="5"/>
-                <Label Content="Параметры"/>
+                <Label Content="Параметры" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
         <Button x:Name="ExitButton" Style="{StaticResource NewHighlightColourForHeading}"
-                Margin="0,0,0,10"
-                VerticalAlignment="Bottom" HorizontalContentAlignment="Left" Height="40"
+                Grid.Row="10" Margin="0,0,0,10"
+                VerticalAlignment="Bottom" HorizontalContentAlignment="Left" Height="45"
                 Background="#00DDDDDD"
                 BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
-                ToolTip="Закрыть программу." Command="{Binding CloseApplication}">
+                ToolTip="Закрыть программу" Command="{Binding CloseApplication}">
             <StackPanel Orientation="Horizontal">
-                <Rectangle Width="5"/>
-                <Image Source="/Utility/Resources/Exit.png" Width="30" Height="30" Stretch="Fill"/>
-                <Rectangle Width="5"/>
-                <Label Content="Выход"/>
+                <!--<Rectangle Width="5"/>-->
+                <Image Source="/Utility/Resources/Exit.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
+                <!--<Rectangle Width="5"/>-->
+                <Label Content="Выход" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
-        <Rectangle HorizontalAlignment="Left" Height="3" Margin="0,236,0,0" Stroke="#009C9C9C"
+        <Rectangle HorizontalAlignment="Left" Height="3" Grid.Row="6" Stroke="#009C9C9C"
                    VerticalAlignment="Top" Width="300">
             <Rectangle.Fill>
                 <RadialGradientBrush>
@@ -141,8 +158,17 @@
                 </RadialGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Rectangle HorizontalAlignment="Left" Margin="0,0,0,100" Stroke="#009C9C9C" Width="300"
-                   Height="3" VerticalAlignment="Bottom">
+        <Rectangle HorizontalAlignment="Left"  Stroke="#009C9C9C" Width="300"
+                   Height="3" VerticalAlignment="Bottom" Grid.Row="8">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF767676"/>
+                    <GradientStop Offset="1" Color="#006A6A6A"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle HorizontalAlignment="Left"  Stroke="#009C9C9C" Width="3"
+                    Grid.Column="1" Grid.RowSpan="11">
             <Rectangle.Fill>
                 <RadialGradientBrush>
                     <GradientStop Color="#FF767676"/>

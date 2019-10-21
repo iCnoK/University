@@ -20,6 +20,20 @@ namespace Paint.View
     {
         //private readonly SideMenuViewModel sideMenuViewModel = new SideMenuViewModel();
 
+
+        //public delegate void CreateCommandUsedHandler(string sampleParam);
+
+        //public event CreateCommandUsedHandler CreateCommandUsed;
+
+        //public void RaiseCreateCommandUsed
+        //{
+        //    if (CreateCommandUsed != null)
+        //    {
+
+        //    }
+
+        //}
+
         public SideMenu()
         {
             InitializeComponent();

@@ -39,10 +39,10 @@ namespace Paint.Utility.Enums
         /// Ластик
         /// </summary>
         ERASER,
-        /// <summary>
-        /// Пастель
-        /// </summary>
-        PASTEL,
+        ///// <summary>
+        ///// Пастель
+        ///// </summary>
+        //PASTEL,
         /// <summary>
         /// Баллончик с краской
         /// </summary>
