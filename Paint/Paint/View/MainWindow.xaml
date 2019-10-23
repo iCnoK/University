@@ -22,16 +22,21 @@
     <Window.Resources>
         <converters:VisibilityToIntConverter x:Key="VisToInt"/>
         <converters:VisibilityToBool x:Key="VisToBool"/>
+        <converters:WidthToBool x:Key="WToBool"/>
+        <converters:WidthToInt x:Key="WToInt"/>
     </Window.Resources>
 
+    <!--{Binding ElementName=sideMenu, Path=Visibility, Converter={StaticResource VisToBool}}-->
+    <!--{Binding ElementName=sideMenu, Path=Visibility, Converter={StaticResource VisToInt}-->
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid IsEnabled="{Binding ElementName=sideMenu, Path=Visibility, Converter={StaticResource VisToBool}}" Grid.ColumnSpan="2">
+        <Grid IsEnabled="{Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToBool}}" Grid.ColumnSpan="2">
             <Grid.Effect>
-                <BlurEffect Radius="{Binding ElementName=sideMenu, Path=Visibility, Converter={StaticResource VisToInt}}"/>
+                <BlurEffect Radius="{Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToInt}}"/>
             </Grid.Effect>
 
             <Grid.RowDefinitions>

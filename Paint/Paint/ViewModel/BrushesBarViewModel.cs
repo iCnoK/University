@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Paint.ViewModel
 {
@@ -29,6 +30,8 @@ namespace Paint.ViewModel
         private int _opacitySliderValue;
         private int _widthSliderMinimum;
         private int _widthSliderMaximum;
+
+        private Color _currentSelectedColor;
         #endregion
 
         #region PropertiesRealization
@@ -126,10 +129,23 @@ namespace Paint.ViewModel
                 RaisePropertyChanged("WidthSliderMaximum");
             }
         }
+
+        public Color CurrentSelectedColor
+        {
+            get => _currentSelectedColor;
+            set
+            {
+                _currentSelectedColor = value;
+                RaisePropertyChanged("CurrentSelectedColor");
+            }
+        }
         #endregion
 
         #region Commands
         private ICommand _setBrush;
+
+        private ICommand _setDefaultColor;
+        private ICommand _setCustomColor;
         #endregion
 
         #region CommandsRealization
@@ -157,6 +173,19 @@ namespace Paint.ViewModel
                         UnblockSliders();
                     }
                 }
+            }));
+        public ICommand SetDefaultColor => _setDefaultColor ?? (_setDefaultColor = 
+            new RelayCommand(obj =>
+            {
+                if (obj != null)
+                {
+                    CurrentSelectedColor = (Color)ColorConverter.ConvertFromString(obj.ToString());
+                }
+            }));
+        public ICommand SetCustomColor => _setCustomColor ?? (_setCustomColor =
+            new RelayCommand(obj =>
+            {
+
             }));
         #endregion
 

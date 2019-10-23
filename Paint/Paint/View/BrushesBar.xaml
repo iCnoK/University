@@ -8,6 +8,7 @@
              xmlns:enums="clr-namespace:Paint.Utility.Enums"
              xmlns:local="clr-namespace:Paint.View"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             
              mc:Ignorable="d"
              Loaded="UserControl_Loaded"
              d:DesignHeight="720" d:DesignWidth="212" Visibility="{Binding ChangeVisibilityOfBar}">
@@ -46,7 +47,37 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
+        <Style TargetType="{x:Type Button}" x:Key="DefaultColorButton">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Command" Value="{Binding Path=SetDefaultColor}"/>
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}, Path=Background}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Button.IsMouseOver" Value="True"/>
+                                    <Condition Property="Button.IsFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black"/>
+                            </MultiTrigger>
+                            <Trigger Property="Button.IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Blue"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style TargetType="{x:Type Button}" x:Key="CustomColorButton">
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Template">
@@ -74,7 +105,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <converters:BrushTypeToString x:Key="BrushToStr"/>
     </UserControl.Resources>
 
@@ -224,62 +255,62 @@
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Center">
                         <Button Name="_00" Width="30" Background="White"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Белый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="LightGray"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Светло-серый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="DarkGray"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Темно-серый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="Black"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Черный"/>
                         <Button Width="30" Margin="1,0,0,0" Background="DarkRed"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Темно-красный"/>
                         <Button Width="30" Margin="1,0,0,0" Background="Red"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Красный"/>
                     </StackPanel>
                     <StackPanel Margin="0,1,0,0" Orientation="Horizontal" Height="30" HorizontalAlignment="Center">
                         <Button Width="30" Background="Orange"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Оранжевый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="Gold"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Золотой"/>
                         <Button Width="30" Margin="1,0,0,0" Background="LightYellow"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Светло-желтый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="Yellow"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Желтый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="LightGreen"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Светло-зеленый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="Green"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Зеленый"/>
                     </StackPanel>
                     <StackPanel Margin="0,1,0,0" Orientation="Horizontal" Height="30" HorizontalAlignment="Center">
                         <Button Width="30" Background="LightBlue"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Светло-синий"/>
                         <Button Width="30" Margin="1,0,0,0" Background="Turquoise"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Бирюзовый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="Indigo"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Индиго"/>
                         <Button Width="30" Margin="1,0,0,0" Background="DeepPink"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Глубокий розовый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="Pink"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Розовый"/>
                         <Button Width="30" Margin="1,0,0,0" Background="Brown"
-                            Style="{StaticResource CustomColorButton}"
+                            Style="{StaticResource DefaultColorButton}"
                             ToolTip="Коричневый"/>
                     </StackPanel>
 

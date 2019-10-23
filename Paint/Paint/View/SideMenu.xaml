@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Paint.ViewModel"
-             mc:Ignorable="d" Name="TEST"
-             d:DesignHeight="720" Opacity="0.8" d:DesignWidth="600" Width="{Binding Width}"
+             mc:Ignorable="d" x:Name="TEST"
+             d:DesignHeight="720" Opacity="0.8" d:DesignWidth="300" Width="{Binding Width}"
              Visibility="{Binding Path=ChangeVisibilityOfMenu, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}"> <!--Width="{Binding Width}"-->
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="Binding.TargetUpdated">
@@ -95,11 +95,11 @@
                 HorizontalContentAlignment="Left" Background="#00DDDDDD" BorderBrush="#00707070"
                 HorizontalAlignment="Left" Width="300" ToolTip="Закрыть меню"
                 Command="{Binding CloseMenu}">
-            <!--<Button.Triggers>
+            <Button.Triggers>
                 <EventTrigger RoutedEvent="Button.Click">
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="TEST" Storyboard.TargetProperty="Width" Duration="0:0:1" From="300" To="0">
+                            <DoubleAnimation Storyboard.TargetName="TEST" Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="300" To="0">
                                 <DoubleAnimation.EasingFunction>
                                     <PowerEase EasingMode="EaseOut" Power="6"/>
                                 </DoubleAnimation.EasingFunction>
@@ -107,7 +107,7 @@
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
-            </Button.Triggers>-->
+            </Button.Triggers>
             
             
             <!--Command="{Binding DataContext.CloseMenu, RelativeSource={RelativeSource AncestorType=Window}}">-->
@@ -127,6 +127,19 @@
                 <Image Source="/Utility/Resources/File.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
                 <Label Content="Создать" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
+            <!--<Button.Triggers>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="OpenButton" Storyboard.TargetProperty="Width" Duration="0:0:1" From="300" To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <PowerEase EasingMode="EaseOut" Power="6"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Button.Triggers>-->
         </Button>
         <Button x:Name="OpenButton" Style="{StaticResource NewHighlightColourForHeading}"
                 Grid.Row="3"

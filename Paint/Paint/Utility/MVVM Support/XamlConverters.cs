@@ -54,6 +54,48 @@ namespace Paint.Utility
         }
     }
 
+    public class WidthToBool : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (System.Convert.ToInt32(value) >= 100 && System.Convert.ToInt32(value) <= 300)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((bool)value == false)
+            {
+                return 300;
+            }
+            return 0;
+        }
+    }
+
+    public class WidthToInt : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (System.Convert.ToInt32(value) >= 100 && System.Convert.ToInt32(value) <= 300)
+            {
+                return 5;
+            }
+            return 0;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((int)value == 5)
+            {
+                return 300;
+            }
+            return 0;
+        }
+    }
+
     public class BrushTypeToString : IValueConverter
     {
         const string _marker = "Маркер";
