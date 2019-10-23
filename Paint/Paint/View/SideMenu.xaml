@@ -4,8 +4,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Paint.ViewModel"
-             mc:Ignorable="d" 
-             d:DesignHeight="720" Opacity="0.8" d:DesignWidth="600"  Visibility="{Binding ChangeVisibilityOfMenu}"> <!--Width="{Binding Width}"-->
+             mc:Ignorable="d" Name="TEST"
+             d:DesignHeight="720" Opacity="0.8" d:DesignWidth="600" Width="{Binding Width}"
+             Visibility="{Binding Path=ChangeVisibilityOfMenu, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}"> <!--Width="{Binding Width}"-->
+    <UserControl.Triggers>
+        <EventTrigger RoutedEvent="Binding.TargetUpdated">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:1" From="0" To="300">
+                        <DoubleAnimation.EasingFunction>
+                            <PowerEase EasingMode="EaseOut" Power="6"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </UserControl.Triggers>
+
+    <!--<UserControl.Resources>
+        <Storyboard x:Key="OpenAn" x:Name="OPENAN">
+            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:1" From="0" To="300">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase EasingMode="EaseOut" Power="6"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Key="CloseAn" x:Name="CLOSEAN">
+            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:1" From="300" To="0">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase EasingMode="EaseOut" Power="6"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>-->
+    
     <UserControl.Effect>
         <DropShadowEffect BlurRadius="50" Color="#FF575757" ShadowDepth="15" />
     </UserControl.Effect>
@@ -63,6 +95,21 @@
                 HorizontalContentAlignment="Left" Background="#00DDDDDD" BorderBrush="#00707070"
                 HorizontalAlignment="Left" Width="300" ToolTip="Закрыть меню"
                 Command="{Binding CloseMenu}">
+            <!--<Button.Triggers>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="TEST" Storyboard.TargetProperty="Width" Duration="0:0:1" From="300" To="0">
+                                <DoubleAnimation.EasingFunction>
+                                    <PowerEase EasingMode="EaseOut" Power="6"/>
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Button.Triggers>-->
+            
+            
             <!--Command="{Binding DataContext.CloseMenu, RelativeSource={RelativeSource AncestorType=Window}}">-->
             <StackPanel Orientation="Horizontal">
                 <Image Source="/Utility/Resources/LeftArrow.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
@@ -86,7 +133,7 @@
                 VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="45"
                 Background="#00DDDDDD"
                 BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
-                ToolTip="Открыть существующее изображение">
+                ToolTip="Открыть существующее изображение" Command="{Binding OpenNewPicture}">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/Utility/Resources/CreateFile.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
                 <Label Content="Открыть" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -97,7 +144,7 @@
                 VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="45"
                 Background="#00DDDDDD"
                 BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
-                ToolTip="Сохранить изменения">
+                ToolTip="Сохранить изменения" Command="{Binding SavePicture}">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/Utility/Resources/Save.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
                 <Label Content="Сохранить" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -108,22 +155,13 @@
                 VerticalAlignment="Top" HorizontalContentAlignment="Left" Height="45"
                 Background="#00DDDDDD"
                 BorderBrush="#00707070" HorizontalAlignment="Left" Width="300"
-                ToolTip="Сохранить изменения по заданному пути">
+                ToolTip="Сохранить изменения по заданному пути" Command="{Binding SaveAsPicture}">
             <StackPanel Orientation="Horizontal">
                 <Image Source="/Utility/Resources/SaveAs.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
                 <Label Content="Сохранить как" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
-        <Rectangle HorizontalAlignment="Left" Height="3" Grid.Row="1" Stroke="#009C9C9C"
-                   VerticalAlignment="Top" Width="300">
-            <Rectangle.Fill>
-                <RadialGradientBrush>
-                    <GradientStop Color="#FF767676"/>
-                    <GradientStop Offset="1" Color="#006A6A6A"/>
-                </RadialGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Button x:Name="ParametersButton" Style="{StaticResource NewHighlightColourForHeading}"
+        <Button Visibility="Collapsed" x:Name="ParametersButton" Style="{StaticResource NewHighlightColourForHeading}"
                 Grid.Row="9"
                 VerticalAlignment="Bottom" HorizontalContentAlignment="Left" Height="45"
                 BorderBrush="#00707070"
@@ -149,6 +187,15 @@
                 <Label Content="Выход" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </StackPanel>
         </Button>
+        <Rectangle HorizontalAlignment="Left" Height="3" Grid.Row="1" Stroke="#009C9C9C"
+                   VerticalAlignment="Top" Width="300">
+            <Rectangle.Fill>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FF767676"/>
+                    <GradientStop Offset="1" Color="#006A6A6A"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
         <Rectangle HorizontalAlignment="Left" Height="3" Grid.Row="6" Stroke="#009C9C9C"
                    VerticalAlignment="Top" Width="300">
             <Rectangle.Fill>

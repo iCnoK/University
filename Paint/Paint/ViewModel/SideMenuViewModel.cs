@@ -14,8 +14,10 @@ namespace Paint.ViewModel
         private ICommand _closeMenu;
         private ICommand _closeApplication;
         private ICommand _createNewPicture;
-
         private ICommand _openParameters;
+        private ICommand _openNewPicture;
+        private ICommand _savePicture;
+        private ICommand _saveAsPicture;
 
         public ICommand CloseMenu => _closeMenu ?? (_closeMenu = new RelayCommand(obj =>
         {
@@ -27,18 +29,34 @@ namespace Paint.ViewModel
             {
                 Application.Current.Shutdown();
             }));
+        public ICommand OpenParameters => _openParameters ?? (_openParameters =
+            new RelayCommand(onj =>
+            {
+                Width = 600;
+            }));
         public ICommand CreateNewPicture => _createNewPicture ?? (_createNewPicture =
             new RelayCommand(obj =>
             {
                 Width = 300;
                 //TODO => здесь должен быть создатель пустого изображения
             }));
-
-
-        public ICommand OpenParameters => _openParameters ?? (_openParameters =
-            new RelayCommand(onj =>
+        public ICommand OpenNewPicture => _openNewPicture ?? (_openNewPicture =
+            new RelayCommand(obj =>
             {
-                Width = 600;
+                Width = 300;
+                //
+            }));
+        public ICommand SavePicture => _savePicture ?? (_savePicture =
+            new RelayCommand(obj =>
+            {
+                Width = 300;
+                //
+            }));
+        public ICommand SaveAsPicture => _saveAsPicture ?? (_saveAsPicture =
+            new RelayCommand(obj =>
+            {
+                Width = 300;
+                //
             }));
 
 

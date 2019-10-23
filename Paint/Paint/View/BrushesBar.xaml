@@ -8,7 +8,8 @@
              xmlns:enums="clr-namespace:Paint.Utility.Enums"
              xmlns:local="clr-namespace:Paint.View"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             Loaded="UserControl_Loaded"
              d:DesignHeight="720" d:DesignWidth="212" Visibility="{Binding ChangeVisibilityOfBar}">
 
     <UserControl.Resources>
@@ -33,6 +34,7 @@
                             <Trigger Property="Button.IsFocused" Value="True">
                                 <Setter Property="Background" Value="AliceBlue"/>
                                 <Setter TargetName="border" Property="BorderBrush" Value="Blue"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
                             </Trigger>
                             <Trigger Property="Button.IsFocused" Value="False">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -44,23 +46,35 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <!--<Style x:Key="LabelAnimation" TargetType="{x:Type Label}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="TextChanged">
-                    <i:InvokeCommandAction  Command="{Binding ClacNdsTextChangedCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            --><!--<Style.Triggers>
-                --><!--<Trigger Property="Label."--><!--
-                <EventTrigger >
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:3"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>--><!--
-        </Style>-->
+        
+        <Style TargetType="{x:Type Button}" x:Key="CustomColorButton">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border x:Name="border" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Button.IsMouseOver" Value="True"/>
+                                    <Condition Property="Button.IsFocused" Value="False"/>
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="border" Property="BorderBrush" Value="Black"/>
+                            </MultiTrigger>
+                            <Trigger Property="Button.IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Blue"/>
+                                <Setter TargetName="border" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
         <converters:BrushTypeToString x:Key="BrushToStr"/>
     </UserControl.Resources>
 
@@ -75,79 +89,89 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="250"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="270"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Content="{Binding Path=BrushType, Converter={StaticResource BrushToStr}}" VerticalContentAlignment="Center" x:Name="TypeOfBrushLabel"
-               Foreground="Blue" FontSize="15" FontWeight="DemiBold">
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger EventName="TextChanged">
-                    
-                    <i:InvokeCommandAction  Command="{Binding ClacNdsTextChangedCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
-        </Label>
+        <TextBlock Width="204" Grid.Row="0" Text="{Binding Path=BrushType, Converter={StaticResource BrushToStr}, NotifyOnTargetUpdated=True}"
+               Foreground="Blue" FontSize="15" FontWeight="DemiBold" VerticalAlignment="Center">
+            <TextBlock.Triggers>
+                <EventTrigger RoutedEvent="Binding.TargetUpdated">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="0:0:1" From="0" To="1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </TextBlock.Triggers>
+        </TextBlock>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="1"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="81"/>
+                <!--<RowDefinition Height="1"/>
+                <RowDefinition Height="40"/>-->
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            
-            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
-                        CommandParameter="{x:Static enums:BrushType.MARKER}"
-                        ToolTip="Маркер" Style="{StaticResource ProgressiveButtonStyle}">
-                    <Image Source="/Utility/Resources/Brushes/Marker_Brush.png"/>
-                </Button>
-                <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
-                        CommandParameter="{x:Static enums:BrushType.FOUNTAINPEN}"
-                        ToolTip="Перьевая ручка" Style="{StaticResource ProgressiveButtonStyle}">
-                    <Image Source="/Utility/Resources/Brushes/Fountainpen_Brush.png"/>
-                </Button>
-                <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
-                        CommandParameter="{x:Static enums:BrushType.OILBRUSH}"
-                        ToolTip="Кисть для масляных красок" Style="{StaticResource ProgressiveButtonStyle}">
-                    <Image Source="/Utility/Resources/Brushes/Oilbrush_Brush.png"/>
-                </Button>
-                <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
-                        CommandParameter="{x:Static enums:BrushType.WATERCOLOR}"
-                        ToolTip="Акварель" Style="{StaticResource ProgressiveButtonStyle}">
-                    <Image Source="/Utility/Resources/Brushes/Watercolor_Brush.png"/>
-                </Button>
-                <Button Width="40" Command="{Binding SetBrush}"
-                        CommandParameter="{x:Static enums:BrushType.PIXELPEN}"
-                        ToolTip="Пиксельное перо" Style="{StaticResource ProgressiveButtonStyle}">
-                    <Image Source="/Utility/Resources/Brushes/Pixelpen_Brush.png"/>
-                </Button>
-            </StackPanel>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
-                        CommandParameter="{x:Static enums:BrushType.PENCIL}"
-                        ToolTip="Карандаш" Style="{StaticResource ProgressiveButtonStyle}">
-                    <Image Source="/Utility/Resources/Brushes/Pencil_Brush.png"/>
-                </Button>
-                <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
-                        CommandParameter="{x:Static enums:BrushType.ERASER}"
-                        ToolTip="Ластик" Style="{StaticResource ProgressiveButtonStyle}">
-                    <Image Source="/Utility/Resources/Brushes/Eraser_Brush.png"/>
-                </Button>
+            <Grid FocusManager.IsFocusScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="1"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Name="MarkerButton" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                            CommandParameter="{x:Static enums:BrushType.MARKER}"
+                            ToolTip="Маркер" Style="{StaticResource ProgressiveButtonStyle}">
+                        <Image Source="/Utility/Resources/Brushes/Marker_Brush.png"/>
+                    </Button>
+                    <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                            CommandParameter="{x:Static enums:BrushType.FOUNTAINPEN}"
+                            ToolTip="Перьевая ручка" Style="{StaticResource ProgressiveButtonStyle}">
+                        <Image Source="/Utility/Resources/Brushes/Fountainpen_Brush.png"/>
+                    </Button>
+                    <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                            CommandParameter="{x:Static enums:BrushType.OILBRUSH}"
+                            ToolTip="Кисть для масляных красок" Style="{StaticResource ProgressiveButtonStyle}">
+                        <Image Source="/Utility/Resources/Brushes/Oilbrush_Brush.png"/>
+                    </Button>
+                    <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                            CommandParameter="{x:Static enums:BrushType.WATERCOLOR}"
+                            ToolTip="Акварель" Style="{StaticResource ProgressiveButtonStyle}">
+                        <Image Source="/Utility/Resources/Brushes/Watercolor_Brush.png"/>
+                    </Button>
+                    <Button Width="40" Command="{Binding SetBrush}"
+                            CommandParameter="{x:Static enums:BrushType.PIXELPEN}"
+                            ToolTip="Пиксельное перо" Style="{StaticResource ProgressiveButtonStyle}">
+                        <Image Source="/Utility/Resources/Brushes/Pixelpen_Brush.png"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                            CommandParameter="{x:Static enums:BrushType.PENCIL}"
+                            ToolTip="Карандаш" Style="{StaticResource ProgressiveButtonStyle}">
+                        <Image Source="/Utility/Resources/Brushes/Pencil_Brush.png"/>
+                    </Button>
+                    <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                            CommandParameter="{x:Static enums:BrushType.ERASER}"
+                            ToolTip="Ластик" Style="{StaticResource ProgressiveButtonStyle}">
+                        <Image Source="/Utility/Resources/Brushes/Eraser_Brush.png"/>
+                    </Button>
 
-                <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
-                        CommandParameter="{x:Static enums:BrushType.SPRAYCAN}"
-                        ToolTip="Баллончик с краской" Style="{StaticResource ProgressiveButtonStyle}">
-                    <Image Source="/Utility/Resources/Brushes/Spraycan_Brush.png"/>
-                </Button>
-                <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
-                        CommandParameter="{x:Static enums:BrushType.FILL}"
-                        ToolTip="Заполнить" Style="{StaticResource ProgressiveButtonStyle}">
-                    <Image Source="/Utility/Resources/Brushes/Fill_Brush.png"/>
-                </Button>
-                <Rectangle Width="40"/>
-            </StackPanel>
-            <StackPanel Grid.Row="3" Orientation="Vertical" HorizontalAlignment="Center">
+                    <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                            CommandParameter="{x:Static enums:BrushType.SPRAYCAN}"
+                            ToolTip="Баллончик с краской" Style="{StaticResource ProgressiveButtonStyle}">
+                        <Image Source="/Utility/Resources/Brushes/Spraycan_Brush.png"/>
+                    </Button>
+                    <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                            CommandParameter="{x:Static enums:BrushType.FILL}"
+                            ToolTip="Заполнить" Style="{StaticResource ProgressiveButtonStyle}">
+                        <Image Source="/Utility/Resources/Brushes/Fill_Brush.png"/>
+                    </Button>
+                    <Rectangle Width="40"/>
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
                 <StackPanel Margin="0,30,0,0" Orientation="Horizontal" HorizontalAlignment="Center"
                             Visibility="{Binding ElementName=WidthSlider, Path=Visibility}">
                     <Label Content="Толщина" Width="130"  Margin="0,0,4,0"/>
@@ -175,7 +199,156 @@
             </StackPanel>
         </Grid>
 
-        <xctk:ColorPicker Grid.Row="2" AvailableColorsSortingMode="HueSaturationBrightness"/>
+        <Grid Grid.Row="3" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="225"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <!--7квадратов в 1 строке по 1 цвету в каждом-->
+            <!--палитра-->
+            <Grid Grid.Row="0" FocusManager.IsFocusScope="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="92"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Rectangle Grid.Row="0" Grid.RowSpan="4" Width="204"
+                       Fill="Transparent" Stroke="LightSlateGray"/>
+                <Label Grid.Row="0" Height="25" VerticalAlignment="Top" 
+                   Content="   Стандартная палитра" VerticalContentAlignment="Center"
+                   FontSize="11" Foreground="#FF454545"/>
+                <Label Grid.Row="2" Height="25" VerticalAlignment="Top" 
+                   Content="   Изменяемая палитра" VerticalContentAlignment="Center"
+                   FontSize="11" Foreground="#FF454545"/>
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Center">
+                        <Button Name="_00" Width="30" Background="White"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Белый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="LightGray"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Светло-серый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="DarkGray"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Темно-серый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="Black"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Черный"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="DarkRed"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Темно-красный"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="Red"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Красный"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,1,0,0" Orientation="Horizontal" Height="30" HorizontalAlignment="Center">
+                        <Button Width="30" Background="Orange"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Оранжевый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="Gold"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Золотой"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="LightYellow"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Светло-желтый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="Yellow"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Желтый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="LightGreen"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Светло-зеленый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="Green"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Зеленый"/>
+                    </StackPanel>
+                    <StackPanel Margin="0,1,0,0" Orientation="Horizontal" Height="30" HorizontalAlignment="Center">
+                        <Button Width="30" Background="LightBlue"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Светло-синий"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="Turquoise"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Бирюзовый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="Indigo"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Индиго"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="DeepPink"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Глубокий розовый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="Pink"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Розовый"/>
+                        <Button Width="30" Margin="1,0,0,0" Background="Brown"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="Коричневый"/>
+                    </StackPanel>
 
+                </StackPanel>
+                <StackPanel Grid.Row="3" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Height="30"
+                            HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <!--забиндить бэкграунд на вьюмодель-->
+                        <Button Name="__00" Width="30" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__00, Path=Background}"/>
+                        <Button Name="__01" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__01, Path=Background}"/>
+                        <Button Name="__02" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__02, Path=Background}"/>
+                        <Button Name="__03" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__03, Path=Background}"/>
+                        <Button Name="__04" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__04, Path=Background}"/>
+                        <Button Name="__05" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__05, Path=Background}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Height="30" Margin="0,1,0,0"
+                            HorizontalAlignment="Center" VerticalAlignment="Top">
+                        <!--забиндить бэкграунд на вьюмодель-->
+                        <Button Name="__10" Width="30" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__10, Path=Background}"/>
+                        <Button Name="__11" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__11, Path=Background}"/>
+                        <Button Name="__12" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__12, Path=Background}"/>
+                        <Button Name="__13" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__13, Path=Background}"/>
+                        <Button Name="__14" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__14, Path=Background}"/>
+                        <Button Name="__15" Width="30" Margin="1,0,0,0" Background="Transparent"
+                            Style="{StaticResource CustomColorButton}"
+                            ToolTip="{Binding ElementName=__15, Path=Background}"/>
+                    </StackPanel>
+                </StackPanel>
+                
+                
+
+            </Grid>
+            
+
+            <Button Grid.Row="2" Height="30" Width="204" Background="Transparent" BorderBrush="LightSlateGray"
+                    Style="{StaticResource ProgressiveButtonStyleReview}"
+                    ToolTip="Для выбора цвета выберите ячейку в *Изменяемой палитре* и нажмите на кнопку *Добавить цвет* ">
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="30" Width="30"
+                           Source="/Utility/Resources/Plus.png"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Label Content="Добавить цвет" Margin="5,0,0,0" BorderBrush="Transparent"/>
+                </StackPanel>
+            </Button>
+            <!--<xctk:ColorPicker Grid.Row="2" AvailableColorsSortingMode="HueSaturationBrightness"/>-->
+
+        </Grid>
+        
     </Grid>
 </UserControl>

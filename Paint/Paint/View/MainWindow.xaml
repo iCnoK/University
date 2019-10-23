@@ -7,10 +7,10 @@
         xmlns:converters="clr-namespace:Paint.Utility"
         xmlns:localView="clr-namespace:Paint.View"
         
-        d:DataContext="{d:DesignInstance localView:SideMenu, localView:BrushesBar}"
+        
         
         mc:Ignorable="d"
-        Title="MainWindow" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
+        Title="Paint v1.4.88" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
         Height="720" Width="1280" Background="White" WindowStartupLocation="CenterScreen">
 
     <!--d:DataContext="{d:DesignInstance localView:SideMenu, localView:BrushesBar}"-->
@@ -79,7 +79,7 @@
 
             <ToolBarPanel Grid.Row="1" Height="50" >
                 <ToolBarPanel.Effect>
-                    <DropShadowEffect/>
+                    <DropShadowEffect BlurRadius="20" Color="#FF575757" ShadowDepth="1"/>
                 </ToolBarPanel.Effect>
                 <ToolBarPanel.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -118,7 +118,12 @@
                     </RadialGradientBrush>
                 </ScrollViewer.Background>
 
-                <Image Source="/Utility/Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg"/>
+                <Image Source="/Utility/Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg"
+                       Width="880" Height="320">
+                    <Image.Effect>
+                        <DropShadowEffect BlurRadius="50" Color="#FF575757" ShadowDepth="15"/>
+                    </Image.Effect>
+                </Image>
             </ScrollViewer>
 
             <localView:BrushesBar DataContext="{Binding BrushesBarStatus}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"/>

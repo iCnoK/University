@@ -107,10 +107,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Utility\Enums\SliderInfoModecs.cs" />
-    <Compile Include="Utility\OnPropertyChangedClass.cs" />
-    <Compile Include="Utility\RelayCommand.cs" />
+    <Compile Include="Utility\FileSystem.cs" />
+    <Compile Include="Utility\MVVM Support\OnPropertyChangedClass.cs" />
+    <Compile Include="Utility\MVVM Support\RelayCommand.cs" />
+    <Compile Include="Utility\ProgramSettings.cs" />
     <Compile Include="Utility\SliderValueHolder.cs" />
-    <Compile Include="Utility\XamlConverters.cs" />
+    <Compile Include="Utility\MVVM Support\XamlConverters.cs" />
     <Compile Include="ViewModel\BrushesBarViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SideMenuViewModel.cs" />
@@ -197,6 +199,9 @@
     <Resource Include="Utility\Resources\Brushes\Pixelpen_Brush.png" />
     <Resource Include="Utility\Resources\Brushes\Spraycan_Brush.png" />
     <Resource Include="Utility\Resources\Brushes\Watercolor_Brush.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utility\Resources\Plus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
