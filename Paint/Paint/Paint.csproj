@@ -115,6 +115,7 @@
     <Compile Include="Utility\SliderValueHolder.cs" />
     <Compile Include="Utility\MVVM Support\XamlConverters.cs" />
     <Compile Include="ViewModel\BrushesBarViewModel.cs" />
+    <Compile Include="ViewModel\ColorPickerViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SideMenuViewModel.cs" />
     <Compile Include="View\ColorPicker.xaml.cs">

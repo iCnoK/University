@@ -10,16 +10,22 @@ namespace Paint.ViewModel
     {
         public SideMenuViewModel SideMenuStatus { get; set; }
         public BrushesBarViewModel BrushesBarStatus { get; set; }
+        //public ColorPickerViewModel ColorPickerStatus { get; set; }
 
         //private Visibility _changeVisibilityOfMenu;
 
         private ICommand _openMenu;
+        //private ICommand _openColorPicker;
         //private ICommand _closeMenu;
 
         public ICommand OpenMenu => _openMenu ?? (_openMenu = new RelayCommand(obj =>
         {
             SideMenuStatus.ChangeVisibilityOfMenu = Visibility.Visible;
         }));
+        //public ICommand OpenColorPicker => _openColorPicker ?? (_openColorPicker = new RelayCommand(obj =>
+        //{
+        //    ColorPickerStatus.ChangeVisibilityOfPicker = Visibility.Visible;
+        //}));
 
         //public ICommand CloseMenu => _closeMenu ?? (_closeMenu = new RelayCommand<object>(obj =>
         //{
@@ -43,6 +49,7 @@ namespace Paint.ViewModel
         {
             SideMenuStatus = new SideMenuViewModel();
             BrushesBarStatus = new BrushesBarViewModel();
+            //ColorPickerStatus = new ColorPickerViewModel();
         }
     }
 }

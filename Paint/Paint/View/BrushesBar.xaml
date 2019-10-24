@@ -7,6 +7,7 @@
              xmlns:converters="clr-namespace:Paint.Utility"
              xmlns:enums="clr-namespace:Paint.Utility.Enums"
              xmlns:local="clr-namespace:Paint.View"
+             xmlns:ViewModels="clr-namespace:Paint.ViewModel"
              
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
@@ -118,6 +119,10 @@
         <converters:BrushTypeToString x:Key="BrushToStr"/>
     </UserControl.Resources>
 
+    <UserControl.DataContext>
+        <ViewModels:BrushesBarViewModel/>
+    </UserControl.DataContext>
+    
     <Grid>
         <Grid.Background>
             <RadialGradientBrush>
@@ -428,7 +433,8 @@
             <!--ToolTip="Для выбора цвета выберите ячейку в *Изменяемой палитре* и нажмите на кнопку *Добавить цвет*"-->
             <StackPanel IsEnabled="{Binding Path=ButtonsIsEnabled}"  Grid.Row="2" Orientation="Horizontal">
                 <Button Grid.Row="2" Height="30" Width="170" Background="Transparent" BorderBrush="LightSlateGray"
-                    Style="{StaticResource ProgressiveButtonStyleReview}" HorizontalAlignment="Left" Margin="4,0,0,0">
+                    Style="{StaticResource ProgressiveButtonStyleReview}" HorizontalAlignment="Left" Margin="4,0,0,0"
+                          ><!--Command="{Binding OpenColorPicker}"-->
                     <StackPanel Orientation="Horizontal">
                         <Image Height="30" Width="30"
                            Source="/Utility/Resources/Plus.png"

@@ -13,7 +13,7 @@
         Title="Paint v1.4.88" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
         Height="720" Width="1280" Background="White" WindowStartupLocation="CenterScreen">
 
-    <!--d:DataContext="{d:DesignInstance localView:SideMenu, localView:BrushesBar}"-->
+    <!--d:DataContext="{d:DesignInstance localView:SideMenu, localView:BrushesBar, localView:ColorPicker}"-->
 
     <Window.DataContext>
         <local:MainWindowViewModel/>
@@ -140,8 +140,10 @@
                 </ToolBarPanel.Effect>
 
             </ToolBarPanel>-->
-
             
+            <!--<localView:ColorPicker DataContext="{Binding ColorPickerStatus}" Grid.Row="2" Width="240" Height="347"
+                                   VerticalAlignment="Bottom" HorizontalAlignment="Right"/>-->
+
 
         </Grid>
 
