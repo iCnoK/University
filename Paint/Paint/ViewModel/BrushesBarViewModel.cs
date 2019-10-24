@@ -3,6 +3,7 @@ using Paint.Utility.Enums;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace Paint.ViewModel
         #region Misc
         private Slider sliderValueHolder = new Slider();
         public BrushType LastChangedBrush { get; private set; }
+        private ObservableCollection<Color> customColors { get; set; } = new ObservableCollection<Color>();
         #endregion
 
         #region Properties
@@ -31,7 +33,11 @@ namespace Paint.ViewModel
         private int _widthSliderMinimum;
         private int _widthSliderMaximum;
 
+        private int? _customColorsSelectedIndex;
+
         private Color _currentSelectedColor;
+
+        private bool _buttonsIsEnabled;
         #endregion
 
         #region PropertiesRealization
@@ -139,6 +145,16 @@ namespace Paint.ViewModel
                 RaisePropertyChanged("CurrentSelectedColor");
             }
         }
+
+        public bool ButtonsIsEnabled
+        {
+            get => _buttonsIsEnabled;
+            set
+            {
+                _buttonsIsEnabled = value;
+                RaisePropertyChanged("ButtonsIsEnabled");
+            }
+        }
         #endregion
 
         #region Commands
@@ -146,6 +162,9 @@ namespace Paint.ViewModel
 
         private ICommand _setDefaultColor;
         private ICommand _setCustomColor;
+
+        private ICommand _addColorIntoCollection;
+        private ICommand _removeColorFromCollection;
         #endregion
 
         #region CommandsRealization
@@ -180,20 +199,33 @@ namespace Paint.ViewModel
                 if (obj != null)
                 {
                     CurrentSelectedColor = (Color)ColorConverter.ConvertFromString(obj.ToString());
+                    _customColorsSelectedIndex = null;
+                    ButtonsIsEnabled = false;
                 }
             }));
         public ICommand SetCustomColor => _setCustomColor ?? (_setCustomColor =
             new RelayCommand(obj =>
             {
-
+                if (obj != null)
+                {
+                    _customColorsSelectedIndex = Convert.ToInt32(obj.ToString());
+                    ButtonsIsEnabled = true;
+                }
             }));
         #endregion
 
         public BrushesBarViewModel()
         {
             SetBrush.Execute(BrushType.MARKER);
+            for (int i = 0; i < 12; i++)
+            {
+                customColors.Add(new Color());
+                customColors[i] = Colors.Transparent;
+            }
+            ButtonsIsEnabled = false;
         }
 
+        #region SliderManage
         private void BlockSlider()
         {
             OpacityVisibility = Visibility.Collapsed;
@@ -210,5 +242,6 @@ namespace Paint.ViewModel
             OpacityVisibility = Visibility.Visible;
             WidthVisibility = Visibility.Visible;
         }
+        #endregion
     }
 }

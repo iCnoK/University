@@ -28,6 +28,20 @@ namespace Paint.View
 
 
 
+        //public bool ColorButtonsEnable
+        //{
+        //    get { return (bool)GetValue(ColorButtonsEnableProperty); }
+        //    set { SetValue(ColorButtonsEnableProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for ColorButtonsEnable.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty ColorButtonsEnableProperty =
+        //    DependencyProperty.Register("ColorButtonsEnable", typeof(bool), typeof(SideMenu), new PropertyMetadata(0));
+
+
+
+
+
         //public BrushType BrushType
         //{
         //    get { return (BrushType)GetValue(BrushTypeProperty); }

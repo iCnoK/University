@@ -106,6 +106,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utility\CustomColorsHolder.cs" />
     <Compile Include="Utility\Enums\SliderInfoModecs.cs" />
     <Compile Include="Utility\FileSystem.cs" />
     <Compile Include="Utility\MVVM Support\OnPropertyChangedClass.cs" />
@@ -116,10 +117,17 @@
     <Compile Include="ViewModel\BrushesBarViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\SideMenuViewModel.cs" />
+    <Compile Include="View\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SideMenu.xaml.cs">
       <DependentUpon>SideMenu.xaml</DependentUpon>
     </Compile>
     <Page Include="View\BrushesBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ColorPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,6 +210,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Utility\Resources\Plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utility\Resources\Pipette.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

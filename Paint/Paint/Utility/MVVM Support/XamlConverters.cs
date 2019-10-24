@@ -12,47 +12,68 @@ using System.Windows.Data;
 
 namespace Paint.Utility
 {
-    public class VisibilityToIntConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if ((Visibility)value == Visibility.Visible)
-            {
-                return 5;
-            }
-            return 0;
-        }
+    //public class VisibilityToIntConverter : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        if ((Visibility)value == Visibility.Visible)
+    //        {
+    //            return 5;
+    //        }
+    //        return 0;
+    //    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if ((int)value == 5)
-            {
-                return Visibility.Visible;
-            }
-            return Visibility.Collapsed;
-        }
-    }
+    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        if ((int)value == 5)
+    //        {
+    //            return Visibility.Visible;
+    //        }
+    //        return Visibility.Collapsed;
+    //    }
+    //}
 
-    public class VisibilityToBool : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if ((Visibility)value == Visibility.Visible)
-            {
-                return false;
-            }
-            return true;
-        }
+    //public class VisibilityToBool : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        if ((Visibility)value == Visibility.Visible)
+    //        {
+    //            return false;
+    //        }
+    //        return true;
+    //    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if ((bool)value == false)
-            {
-                return Visibility.Visible;
-            }
-            return Visibility.Collapsed;
-        }
-    }
+    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        if ((bool)value == false)
+    //        {
+    //            return Visibility.Visible;
+    //        }
+    //        return Visibility.Collapsed;
+    //    }
+    //}
+
+    //public class BoolNegation : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        if ((bool)value)
+    //        {
+    //            return false;
+    //        }
+    //        return true;
+    //    }
+
+    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        if ((bool)value)
+    //        {
+    //            return false;
+    //        }
+    //        return true;
+    //    }
+    //}
 
     public class WidthToBool : IValueConverter
     {
@@ -68,6 +89,27 @@ namespace Paint.Utility
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value == false)
+            {
+                return 300;
+            }
+            return 0;
+        }
+    }
+
+    public class WidthToBoolReverse : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (System.Convert.ToInt32(value) >= 200 && System.Convert.ToInt32(value) <= 300)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((bool)value == true)
             {
                 return 300;
             }

@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Paint.ViewModel"
-             mc:Ignorable="d" x:Name="TEST"
+             xmlns:converters="clr-namespace:Paint.Utility"
+             mc:Ignorable="d" x:Name="sideMenu"
              d:DesignHeight="720" Opacity="0.8" d:DesignWidth="300" Width="{Binding Width}"
              Visibility="{Binding Path=ChangeVisibilityOfMenu, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}"> <!--Width="{Binding Width}"-->
     <UserControl.Triggers>
@@ -21,51 +22,19 @@
         </EventTrigger>
     </UserControl.Triggers>
 
-    <!--<UserControl.Resources>
-        <Storyboard x:Key="OpenAn" x:Name="OPENAN">
-            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:1" From="0" To="300">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase EasingMode="EaseOut" Power="6"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-        <Storyboard x:Key="CloseAn" x:Name="CLOSEAN">
-            <DoubleAnimation Storyboard.TargetProperty="Width" Duration="0:0:1" From="300" To="0">
-                <DoubleAnimation.EasingFunction>
-                    <PowerEase EasingMode="EaseOut" Power="6"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
-    </UserControl.Resources>-->
-    
+    <UserControl.Resources>
+        <converters:WidthToBoolReverse x:Key="widthToBool" x:Name="WToB"/>
+    </UserControl.Resources>
+
     <UserControl.Effect>
         <DropShadowEffect BlurRadius="50" Color="#FF575757" ShadowDepth="15" />
     </UserControl.Effect>
 
-    <!--<UserControl.Triggers>
-
-        <EventTrigger RoutedEvent="UserControl.Loaded">
-            <BeginStoryboard>
-                <Storyboard>
-                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:3" />
-                </Storyboard>
-            </BeginStoryboard>
-        </EventTrigger>
-    </UserControl.Triggers>-->
-
-    <!--<UserControl.Resources>
-        <Storyboard x:Key="SmoothClosingAnimation">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackButton" From="1" To="0" Duration="0:0:1"/>
-        </Storyboard>
-    </UserControl.Resources>-->
-
-
     <UserControl.DataContext>
         <local:SideMenuViewModel/>
     </UserControl.DataContext>
-    
-    
-    <Grid>
+
+    <Grid IsEnabled="{Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource widthToBool}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
             <RowDefinition Height="3"/>
@@ -99,7 +68,7 @@
                 <EventTrigger RoutedEvent="Button.Click">
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="TEST" Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="300" To="0">
+                            <DoubleAnimation Storyboard.TargetName="sideMenu" Storyboard.TargetProperty="Width" Duration="0:0:0.2" From="300" To="0">
                                 <DoubleAnimation.EasingFunction>
                                     <PowerEase EasingMode="EaseOut" Power="6"/>
                                 </DoubleAnimation.EasingFunction>
