@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Paint.ViewModel
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : OnPropertyChangedClass
     {
         public SideMenuViewModel SideMenuStatus { get; set; }
         public BrushesBarViewModel BrushesBarStatus { get; set; }

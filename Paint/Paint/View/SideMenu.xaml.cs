@@ -40,6 +40,12 @@ namespace Paint.View
             //DataContext = sideMenuViewModel;
         }
 
+        private void Storyboard_Completed(object sender, EventArgs e)
+        {
+            SideMenuViewModel viewModel = this.DataContext as SideMenuViewModel;
+            viewModel.CloseMenu.Execute(null);
+        }
+
         //public ICommand CloseMenu
         //{
         //    get { return (ICommand)GetValue(CloseMenuProperty); }

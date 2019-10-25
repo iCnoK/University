@@ -75,11 +75,15 @@ namespace Paint.Utility
     //    }
     //}
 
+    
+    
     public class WidthToBool : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (System.Convert.ToInt32(value) >= 100 && System.Convert.ToInt32(value) <= 300)
+            //int test = System.Convert.ToInt32(value);
+            //if (test >= 100 && test <= 300)
+            if (System.Convert.ToInt32(value) == 300)
             {
                 return false;
             }
@@ -100,7 +104,9 @@ namespace Paint.Utility
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (System.Convert.ToInt32(value) >= 200 && System.Convert.ToInt32(value) <= 300)
+            //int test = System.Convert.ToInt32(value);
+            //if (test >= 200 && test <= 300)
+            if (System.Convert.ToInt32(value) == 300)
             {
                 return true;
             }
@@ -121,7 +127,9 @@ namespace Paint.Utility
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (System.Convert.ToInt32(value) >= 100 && System.Convert.ToInt32(value) <= 300)
+            //int test = System.Convert.ToInt32(value);
+            //if (test >= 100 && test <= 300)
+            if (System.Convert.ToInt32(value) == 300)
             {
                 return 5;
             }

@@ -12,7 +12,7 @@
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              Loaded="UserControl_Loaded"
-             d:DesignHeight="720" d:DesignWidth="212" Visibility="{Binding ChangeVisibilityOfBar}">
+             d:DesignHeight="720" d:DesignWidth="240" Visibility="{Binding ChangeVisibilityOfBar}">
 
     <UserControl.Resources>
         <Style x:Key="ProgressiveButtonStyle" TargetType="{x:Type Button}">
@@ -261,11 +261,11 @@
                 <Rectangle Grid.Row="0" Grid.RowSpan="4" Width="204"
                        Fill="Transparent" Stroke="LightSlateGray"/>
                 <Label Grid.Row="0" Height="25" VerticalAlignment="Top" 
-                   Content="   Стандартная палитра" VerticalContentAlignment="Center"
-                   FontSize="11" Foreground="#FF454545"/>
+                   Content="       Стандартная палитра" VerticalContentAlignment="Center"
+                   FontSize="11" Foreground="#FF454545" FontWeight="Bold"/>
                 <Label Grid.Row="2" Height="25" VerticalAlignment="Top" 
-                   Content="   Изменяемая палитра" VerticalContentAlignment="Center"
-                   FontSize="11" Foreground="#FF454545"
+                   Content="       Изменяемая палитра" VerticalContentAlignment="Center"
+                   FontSize="11" Foreground="#FF454545" FontWeight="Bold"
                    ToolTip="Для выбора цвета выберите ячейку в *Изменяемой палитре* и нажмите на кнопку *Добавить цвет*"/>
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Center">
@@ -433,7 +433,7 @@
             <!--ToolTip="Для выбора цвета выберите ячейку в *Изменяемой палитре* и нажмите на кнопку *Добавить цвет*"-->
             <StackPanel IsEnabled="{Binding Path=ButtonsIsEnabled}"  Grid.Row="2" Orientation="Horizontal">
                 <Button Grid.Row="2" Height="30" Width="170" Background="Transparent" BorderBrush="LightSlateGray"
-                    Style="{StaticResource ProgressiveButtonStyleReview}" HorizontalAlignment="Left" Margin="4,0,0,0"
+                    Style="{StaticResource ProgressiveButtonStyleReview}" HorizontalAlignment="Left" Margin="18,0,0,0"
                           ><!--Command="{Binding OpenColorPicker}"-->
                     <StackPanel Orientation="Horizontal">
                         <Image Height="30" Width="30"

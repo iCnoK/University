@@ -22,7 +22,7 @@ namespace Paint.ViewModel
         public ICommand CloseMenu => _closeMenu ?? (_closeMenu = new RelayCommand(obj =>
         {
             //Width = 300;
-            //ChangeVisibilityOfMenu = Visibility.Collapsed;
+            ChangeVisibilityOfMenu = Visibility.Collapsed;
         }));
         public ICommand CloseApplication => _closeApplication ?? (_closeApplication =
             new RelayCommand(obj =>

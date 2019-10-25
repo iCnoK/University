@@ -7,8 +7,6 @@
         xmlns:converters="clr-namespace:Paint.Utility"
         xmlns:localView="clr-namespace:Paint.View"
         
-        
-        
         mc:Ignorable="d"
         Title="Paint v1.4.88" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
         Height="720" Width="1280" Background="White" WindowStartupLocation="CenterScreen">
@@ -28,7 +26,10 @@
 
     <!--{Binding ElementName=sideMenu, Path=Visibility, Converter={StaticResource VisToBool}}-->
     <!--{Binding ElementName=sideMenu, Path=Visibility, Converter={StaticResource VisToInt}-->
-    
+
+    <!--{Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToBool}}
+    {Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToInt}}-->
+
     <Grid>
         <!--<Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -45,8 +46,8 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1060*"/>
-                <ColumnDefinition Width="212"/>
+                <ColumnDefinition Width="1032*"/>
+                <ColumnDefinition Width="240"/>
             </Grid.ColumnDefinitions>
 
             <ToolBarPanel Grid.Row="0" Grid.ColumnSpan="2" Height="50" VerticalAlignment="Top" >
