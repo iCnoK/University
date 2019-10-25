@@ -12,6 +12,9 @@
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              Loaded="UserControl_Loaded"
+             
+             d:DataContext="{d:DesignInstance local:ColorPicker}"
+             
              d:DesignHeight="720" d:DesignWidth="240" Visibility="{Binding ChangeVisibilityOfBar}">
 
     <UserControl.Resources>
@@ -434,7 +437,7 @@
             <StackPanel IsEnabled="{Binding Path=ButtonsIsEnabled}"  Grid.Row="2" Orientation="Horizontal">
                 <Button Grid.Row="2" Height="30" Width="170" Background="Transparent" BorderBrush="LightSlateGray"
                     Style="{StaticResource ProgressiveButtonStyleReview}" HorizontalAlignment="Left" Margin="18,0,0,0"
-                          ><!--Command="{Binding OpenColorPicker}"-->
+                          Command="{Binding Path=OpenColorPicker}"><!--Command="{Binding OpenColorPicker}"-->
                     <StackPanel Orientation="Horizontal">
                         <Image Height="30" Width="30"
                            Source="/Utility/Resources/Plus.png"
@@ -454,6 +457,8 @@
             
 
         </Grid>
-        
+
+        <local:ColorPicker DataContext="{Binding ColorPickerStatus}" Grid.RowSpan="4" VerticalAlignment="Bottom"/>
+
     </Grid>
 </UserControl>

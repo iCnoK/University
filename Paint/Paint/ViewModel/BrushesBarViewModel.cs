@@ -15,6 +15,8 @@ namespace Paint.ViewModel
 {
     public class BrushesBarViewModel : BindableBase
     {
+        public ColorPickerViewModel ColorPickerStatus { get; set; }
+
         #region Misc
         private Slider sliderValueHolder = new Slider();
         public BrushType LastChangedBrush { get; private set; }
@@ -210,12 +212,14 @@ namespace Paint.ViewModel
                 {
                     _customColorsSelectedIndex = Convert.ToInt32(obj.ToString());
                     ButtonsIsEnabled = true;
+
                 }
             }));
         #endregion
 
         public BrushesBarViewModel()
         {
+            ColorPickerStatus = new ColorPickerViewModel();
             SetBrush.Execute(BrushType.MARKER);
             for (int i = 0; i < 12; i++)
             {
