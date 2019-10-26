@@ -87,11 +87,13 @@
             <Setter Property="Command" Value="{Binding Path=SetCustomColor}"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate>
+                    <ControlTemplate TargetType="{x:Type Button}">
                         <Border x:Name="border" Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="1">
-                            <ContentPresenter/>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <MultiTrigger>
@@ -343,6 +345,7 @@
                         <Button Name="__00" Width="30" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
                             ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            
                             <Button.CommandParameter>
                                 <s:Int32>0</s:Int32>
                             </Button.CommandParameter>
@@ -458,7 +461,7 @@
 
         </Grid>
 
-        <local:ColorPicker DataContext="{Binding ColorPickerStatus}" Grid.RowSpan="4" VerticalAlignment="Bottom"/>
+        <local:ColorPicker Visibility="Collapsed" DataContext="{Binding ColorPickerStatus}" Grid.RowSpan="4" VerticalAlignment="Bottom"/>
 
     </Grid>
 </UserControl>

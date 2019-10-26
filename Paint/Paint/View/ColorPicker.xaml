@@ -27,13 +27,14 @@
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
 
-        <wpfTool:ColorCanvas Grid.Row="0" BorderBrush="Transparent"
+        <wpfTool:ColorCanvas x:Name="colorCanvas" Grid.Row="0" BorderBrush="Transparent"
                              SelectedColor="{Binding Path=SelectedColor}"/>
 
         <Button Grid.Row="1" Content="Подтвердить выбор цвета" 
                 Height="40" Width="220" Margin="0,10,0,0"  HorizontalAlignment="Center"
                 VerticalAlignment="Top" Style="{StaticResource ProgressiveButtonStyleReview}"
-                Command="{Binding Path=CloseColorPicker}"/>
+                Command="{Binding Path=CloseColorPicker}"
+                Click="Button_Click"/>
 
     </Grid>
 </UserControl>

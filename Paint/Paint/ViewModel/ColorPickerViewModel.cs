@@ -13,13 +13,24 @@ namespace Paint.ViewModel
 {
     public class ColorPickerViewModel : BindableBase
     {
+        #region Events
+        public event System.EventHandler ColorPickerClosed;
+        #endregion
+
+        #region Events Realization
+        protected virtual void OnColorChanged()
+        {
+            ColorPickerClosed?.Invoke(this, EventArgs.Empty);
+        }
+        #endregion
+
         #region Properties
         private Visibility _changeVisibilityOfPicker;
 
         private Color _selectedColor;
         #endregion
 
-        #region PropertiesRealization
+        #region Properties Realization
         public Visibility ChangeVisibilityOfPicker
         {
             get
@@ -38,8 +49,12 @@ namespace Paint.ViewModel
             get => _selectedColor;
             set
             {
-                _selectedColor = value;
-                RaisePropertyChanged("SelectedColor");
+                if (_selectedColor != value)
+                {
+                    _selectedColor = value;
+                    RaisePropertyChanged("SelectedColor");
+                    //OnColorChanged();
+                }
             }
         }
         #endregion
@@ -48,11 +63,12 @@ namespace Paint.ViewModel
         private ICommand _closeColorPicker;
         #endregion
 
-        #region CommandsRealization
+        #region Commands Realization
         public ICommand CloseColorPicker => _closeColorPicker ?? (_closeColorPicker =
             new RelayCommand(obj =>
             {
                 ChangeVisibilityOfPicker = Visibility.Collapsed;
+                OnColorChanged();
             }));
         #endregion
 

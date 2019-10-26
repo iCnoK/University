@@ -9,7 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
+using System.Drawing;
+//using System.Windows.Media;
 
 namespace Paint.ViewModel
 {
@@ -20,7 +21,23 @@ namespace Paint.ViewModel
         #region Misc
         private Slider sliderValueHolder = new Slider();
         public BrushType LastChangedBrush { get; private set; }
-        private ObservableCollection<Color> customColors { get; set; } = new ObservableCollection<Color>();
+        public ObservableCollection<Color> customColors { get; set; } = new ObservableCollection<Color>();
+        #endregion
+
+        #region Events
+        public event System.EventHandler BrushChanged;
+        public event System.EventHandler ColorChanged;
+        #endregion
+
+        #region Events Realization
+        protected virtual void OnBrushChanged()
+        {
+            BrushChanged?.Invoke(this, EventArgs.Empty);
+        }
+        protected virtual void OnColorChanged()
+        {
+            ColorChanged?.Invoke(this, EventArgs.Empty);
+        }
         #endregion
 
         #region Properties
@@ -38,11 +55,12 @@ namespace Paint.ViewModel
         private int? _customColorsSelectedIndex;
 
         private Color _currentSelectedColor;
+        //private Color _setCustomColorIntoCell;
 
         private bool _buttonsIsEnabled;
         #endregion
 
-        #region PropertiesRealization
+        #region Properties Realization
         public Visibility ChangeVisibilityOfBar
         {
             get
@@ -88,8 +106,12 @@ namespace Paint.ViewModel
             }
             set
             {
-                _brushType = value;
-                RaisePropertyChanged("BrushType");
+                if (_brushType != value)
+                {
+                    _brushType = value;
+                    RaisePropertyChanged("BrushType");
+                    OnBrushChanged();
+                }
             }
         }
 
@@ -143,9 +165,38 @@ namespace Paint.ViewModel
             get => _currentSelectedColor;
             set
             {
-                _currentSelectedColor = value;
-                RaisePropertyChanged("CurrentSelectedColor");
+                if (_currentSelectedColor != value)
+                {
+                    _currentSelectedColor = value;
+                    RaisePropertyChanged("CurrentSelectedColor");
+                    OnColorChanged();
+                }
             }
+        }
+        public System.Windows.Media.SolidColorBrush SetCustomColorIntoCell
+        {
+            get
+            {
+                if (_customColorsSelectedIndex != null)
+                {
+                    return new System.Windows.Media.SolidColorBrush(
+                        CustomColorConverter.ConvertFromSDCToSWMC(
+                        customColors[(int)_customColorsSelectedIndex]));
+                }
+                return new System.Windows.Media.SolidColorBrush(
+                    System.Windows.Media.Colors.Black);
+            }
+            //set
+            //{
+            //    if (_customColorsSelectedIndex != null)
+            //    {
+
+
+
+            //        customColors[(int)_customColorsSelectedIndex] = value;
+            //        RaisePropertyChanged("SetCustomColorIntoCell");
+            //    }
+            //}
         }
 
         public bool ButtonsIsEnabled
@@ -165,11 +216,13 @@ namespace Paint.ViewModel
         private ICommand _setDefaultColor;
         private ICommand _setCustomColor;
 
+        private ICommand _openColorPicker;
+
         private ICommand _addColorIntoCollection;
         private ICommand _removeColorFromCollection;
         #endregion
 
-        #region CommandsRealization
+        #region Commands Realization
         public ICommand SetBrush => _setBrush ?? (_setBrush =
             new RelayCommand(obj =>
             {
@@ -200,7 +253,9 @@ namespace Paint.ViewModel
             {
                 if (obj != null)
                 {
-                    CurrentSelectedColor = (Color)ColorConverter.ConvertFromString(obj.ToString());
+                    ColorConverter converter = new ColorConverter();
+                    
+                    CurrentSelectedColor = (Color)converter.ConvertFromString(obj.ToString());
                     _customColorsSelectedIndex = null;
                     ButtonsIsEnabled = false;
                 }
@@ -215,6 +270,11 @@ namespace Paint.ViewModel
 
                 }
             }));
+        public ICommand OpenColorPicker => _openColorPicker ?? (_openColorPicker =
+            new RelayCommand(obj =>
+            {
+                ColorPickerStatus.ChangeVisibilityOfPicker = Visibility.Visible;
+            }));
         #endregion
 
         public BrushesBarViewModel()
@@ -224,9 +284,17 @@ namespace Paint.ViewModel
             for (int i = 0; i < 12; i++)
             {
                 customColors.Add(new Color());
-                customColors[i] = Colors.Transparent;
+                customColors[i] = Color.Transparent;
             }
             ButtonsIsEnabled = false;
+            ColorPickerStatus.ColorPickerClosed += ColorPickerClosedEventHandler;
+        }
+
+        private void ColorPickerClosedEventHandler(object sender, EventArgs e)
+        {
+            CurrentSelectedColor = ColorPickerStatus.SelectedColor;
+            //customColors[(int)_customColorsSelectedIndex] = ColorPickerStatus.SelectedColor;
+            //SetCustomColorIntoCell = ColorPickerStatus.SelectedColor;
         }
 
         #region SliderManage
@@ -247,5 +315,7 @@ namespace Paint.ViewModel
             WidthVisibility = Visibility.Visible;
         }
         #endregion
+
+        
     }
 }

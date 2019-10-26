@@ -76,7 +76,7 @@ namespace Paint.Utility
     //}
 
     
-    
+    [ValueConversion(typeof(int), typeof(bool))]
     public class WidthToBool : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -100,6 +100,7 @@ namespace Paint.Utility
         }
     }
 
+    [ValueConversion(typeof(int), typeof(bool))]
     public class WidthToBoolReverse : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -123,6 +124,7 @@ namespace Paint.Utility
         }
     }
 
+    [ValueConversion(typeof(int), typeof(int))]
     public class WidthToInt : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -146,6 +148,7 @@ namespace Paint.Utility
         }
     }
 
+    [ValueConversion(typeof(BrushType), typeof(string))]
     public class BrushTypeToString : IValueConverter
     {
         const string _marker = "Маркер";

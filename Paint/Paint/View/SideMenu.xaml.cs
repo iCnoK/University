@@ -18,26 +18,9 @@ namespace Paint.View
 {
     public partial class SideMenu : UserControl
     {
-        //private readonly SideMenuViewModel sideMenuViewModel = new SideMenuViewModel();
-
-
-        //public delegate void CreateCommandUsedHandler(string sampleParam);
-
-        //public event CreateCommandUsedHandler CreateCommandUsed;
-
-        //public void RaiseCreateCommandUsed
-        //{
-        //    if (CreateCommandUsed != null)
-        //    {
-
-        //    }
-
-        //}
-
         public SideMenu()
         {
             InitializeComponent();
-            //DataContext = sideMenuViewModel;
         }
 
         private void Storyboard_Completed(object sender, EventArgs e)
@@ -45,13 +28,5 @@ namespace Paint.View
             SideMenuViewModel viewModel = this.DataContext as SideMenuViewModel;
             viewModel.CloseMenu.Execute(null);
         }
-
-        //public ICommand CloseMenu
-        //{
-        //    get { return (ICommand)GetValue(CloseMenuProperty); }
-        //    set { SetValue(CloseMenuProperty, value); }
-        //}
-        //public static readonly DependencyProperty CloseMenuProperty =
-        //    DependencyProperty.Register("CloseMenu", typeof(ICommand), typeof(SideMenu));
     }
 }
