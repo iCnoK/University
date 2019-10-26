@@ -21,7 +21,8 @@ namespace Paint.ViewModel
         #region Misc
         private Slider sliderValueHolder = new Slider();
         public BrushType LastChangedBrush { get; private set; }
-        public ObservableCollection<Color> customColors { get; set; } = new ObservableCollection<Color>();
+        public ObservableCollection<System.Windows.Media.SolidColorBrush> customSolidBrushes { get; set; } = 
+            new ObservableCollection<System.Windows.Media.SolidColorBrush>();
         #endregion
 
         #region Events
@@ -173,31 +174,6 @@ namespace Paint.ViewModel
                 }
             }
         }
-        public System.Windows.Media.SolidColorBrush SetCustomColorIntoCell
-        {
-            get
-            {
-                if (_customColorsSelectedIndex != null)
-                {
-                    return new System.Windows.Media.SolidColorBrush(
-                        CustomColorConverter.ConvertFromSDCToSWMC(
-                        customColors[(int)_customColorsSelectedIndex]));
-                }
-                return new System.Windows.Media.SolidColorBrush(
-                    System.Windows.Media.Colors.Black);
-            }
-            //set
-            //{
-            //    if (_customColorsSelectedIndex != null)
-            //    {
-
-
-
-            //        customColors[(int)_customColorsSelectedIndex] = value;
-            //        RaisePropertyChanged("SetCustomColorIntoCell");
-            //    }
-            //}
-        }
 
         public bool ButtonsIsEnabled
         {
@@ -283,8 +259,8 @@ namespace Paint.ViewModel
             SetBrush.Execute(BrushType.MARKER);
             for (int i = 0; i < 12; i++)
             {
-                customColors.Add(new Color());
-                customColors[i] = Color.Transparent;
+                customSolidBrushes.Add(new System.Windows.Media.SolidColorBrush(
+                    System.Windows.Media.Colors.Transparent));
             }
             ButtonsIsEnabled = false;
             ColorPickerStatus.ColorPickerClosed += ColorPickerClosedEventHandler;
@@ -293,8 +269,9 @@ namespace Paint.ViewModel
         private void ColorPickerClosedEventHandler(object sender, EventArgs e)
         {
             CurrentSelectedColor = ColorPickerStatus.SelectedColor;
-            //customColors[(int)_customColorsSelectedIndex] = ColorPickerStatus.SelectedColor;
-            //SetCustomColorIntoCell = ColorPickerStatus.SelectedColor;
+
+            customSolidBrushes[(int)_customColorsSelectedIndex].Color = 
+                CustomColorConverter.ConvertFromSDCToSWMC(ColorPickerStatus.SelectedColor);
         }
 
         #region SliderManage

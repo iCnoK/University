@@ -31,10 +31,6 @@
     {Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToInt}}-->
 
     <Grid>
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>-->
         <Grid IsEnabled="{Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToBool}}" Grid.ColumnSpan="2">
             <Grid.Effect>
                 <BlurEffect Radius="{Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToInt}}"/>
@@ -141,14 +137,7 @@
                 </ToolBarPanel.Effect>
 
             </ToolBarPanel>-->
-            
-            <!--<localView:ColorPicker DataContext="{Binding ColorPickerStatus}" Grid.Row="2" Width="240" Height="347"
-                                   VerticalAlignment="Bottom" HorizontalAlignment="Right"/>-->
-
-
         </Grid>
-
-        <!--<localView:ColorPicker />-->
 
         <localView:SideMenu x:Name="sideMenu" DataContext="{Binding SideMenuStatus}" Grid.Column="0"
                             HorizontalAlignment="Left"/>

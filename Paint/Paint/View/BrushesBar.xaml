@@ -8,13 +8,10 @@
              xmlns:enums="clr-namespace:Paint.Utility.Enums"
              xmlns:local="clr-namespace:Paint.View"
              xmlns:ViewModels="clr-namespace:Paint.ViewModel"
-             
              xmlns:s="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              Loaded="UserControl_Loaded"
-             
              d:DataContext="{d:DesignInstance local:ColorPicker}"
-             
              d:DesignHeight="720" d:DesignWidth="240" Visibility="{Binding ChangeVisibilityOfBar}">
 
     <UserControl.Resources>
@@ -91,9 +88,7 @@
                         <Border x:Name="border" Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="1">
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" RecognizesAccessKey="True" />
+                            <ContentPresenter />
                         </Border>
                         <ControlTemplate.Triggers>
                             <MultiTrigger>
@@ -113,14 +108,6 @@
             </Setter>
         </Style>
 
-        <!--<Style TargetType="StackPanel" x:Key="FocuseHandler">
-            <Style.Triggers>
-                <Trigger Property="IsFocused" Value="True">
-                    
-                </Trigger>
-            </Style.Triggers>
-        </Style>-->
-        <!--<converters:BoolNegation x:Key="NegBool"/>-->
         <converters:BrushTypeToString x:Key="BrushToStr"/>
     </UserControl.Resources>
 
@@ -159,8 +146,6 @@
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="81"/>
-                <!--<RowDefinition Height="1"/>
-                <RowDefinition Height="40"/>-->
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid FocusManager.IsFocusScope="True">
@@ -254,8 +239,6 @@
                 <RowDefinition Height="225"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            <!--7квадратов в 1 строке по 1 цвету в каждом-->
-            <!--палитра-->
             <Grid Grid.Row="0" FocusManager.IsFocusScope="True">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
@@ -272,6 +255,7 @@
                    Content="       Изменяемая палитра" VerticalContentAlignment="Center"
                    FontSize="11" Foreground="#FF454545" FontWeight="Bold"
                    ToolTip="Для выбора цвета выберите ячейку в *Изменяемой палитре* и нажмите на кнопку *Добавить цвет*"/>
+                
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Height="30" HorizontalAlignment="Center">
                         <Button Name="_00" Width="30" Background="White"
@@ -337,110 +321,177 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Orientation="Vertical">
-                    
-                    
+
                     <StackPanel Orientation="Horizontal" Height="30"
                             HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <!--забиндить бэкграунд на вьюмодель-->
                         <Button Name="__00" Width="30" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
-                            
+                            ToolTip="{Binding ElementName=_0, Path=Fill}">
+                            <Rectangle Name="_0" Fill="{Binding Path=customSolidBrushes[0]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>0</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_1, Path=Fill}">
+                            <Rectangle Name="_1" Fill="{Binding Path=customSolidBrushes[1]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>1</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_2, Path=Fill}">
+                            <Rectangle Name="_2" Fill="{Binding Path=customSolidBrushes[2]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>2</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_3, Path=Fill}">
+                            <Rectangle Name="_3" Fill="{Binding Path=customSolidBrushes[3]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>3</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_4, Path=Fill}">
+                            <Rectangle Name="_4" Fill="{Binding Path=customSolidBrushes[4]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>4</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_5, Path=Fill}">
+                            <Rectangle Name="_5" Fill="{Binding Path=customSolidBrushes[5]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>5</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="30" Margin="0,1,0,0"
                             HorizontalAlignment="Center" VerticalAlignment="Top">
-                        <!--забиндить бэкграунд на вьюмодель-->
                         <Button Width="30" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_6, Path=Fill}">
+                            <Rectangle Name="_6" Fill="{Binding Path=customSolidBrushes[6]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>6</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_7, Path=Fill}">
+                            <Rectangle Name="_7" Fill="{Binding Path=customSolidBrushes[7]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>7</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_8, Path=Fill}">
+                            <Rectangle Name="_8" Fill="{Binding Path=customSolidBrushes[8]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>8</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_9, Path=Fill}">
+                            <Rectangle Name="_9" Fill="{Binding Path=customSolidBrushes[9]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>9</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_10, Path=Fill}">
+                            <Rectangle Name="_10" Fill="{Binding Path=customSolidBrushes[10]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>10</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                         <Button Width="30" Margin="1,0,0,0" Background="Transparent"
                             Style="{StaticResource CustomColorButton}"
-                            ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Background}">
+                            ToolTip="{Binding ElementName=_11, Path=Fill}">
+                            <Rectangle Name="_11" Fill="{Binding Path=customSolidBrushes[11]}"/>
                             <Button.CommandParameter>
                                 <s:Int32>11</s:Int32>
                             </Button.CommandParameter>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding Path=OpenColorPicker}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                         </Button>
                     </StackPanel>
                 </StackPanel>
                 
             </Grid>
             
-            <!--ToolTip="Для выбора цвета выберите ячейку в *Изменяемой палитре* и нажмите на кнопку *Добавить цвет*"-->
             <StackPanel IsEnabled="{Binding Path=ButtonsIsEnabled}"  Grid.Row="2" Orientation="Horizontal">
                 <Button Grid.Row="2" Height="30" Width="170" Background="Transparent" BorderBrush="LightSlateGray"
                     Style="{StaticResource ProgressiveButtonStyleReview}" HorizontalAlignment="Left" Margin="18,0,0,0"
-                          Command="{Binding Path=OpenColorPicker}"><!--Command="{Binding OpenColorPicker}"-->
+                          Command="{Binding Path=OpenColorPicker}">
                     <StackPanel Orientation="Horizontal">
                         <Image Height="30" Width="30"
                            Source="/Utility/Resources/Plus.png"
@@ -455,13 +506,10 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Button>
             </StackPanel>
-            <!--IsEnabled="{Binding ElementName=TEST, Path=IsFocused}"-->
-            <!--<xctk:ColorPicker Grid.Row="2" AvailableColorsSortingMode="HueSaturationBrightness"/>-->
-            
 
         </Grid>
 
-        <local:ColorPicker Visibility="Collapsed" DataContext="{Binding ColorPickerStatus}" Grid.RowSpan="4" VerticalAlignment="Bottom"/>
+        <local:ColorPicker DataContext="{Binding ColorPickerStatus}" Grid.RowSpan="4" VerticalAlignment="Bottom"/>
 
     </Grid>
 </UserControl>
