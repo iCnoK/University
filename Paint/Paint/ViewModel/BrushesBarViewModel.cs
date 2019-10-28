@@ -193,9 +193,6 @@ namespace Paint.ViewModel
         private ICommand _setCustomColor;
 
         private ICommand _openColorPicker;
-
-        private ICommand _addColorIntoCollection;
-        private ICommand _removeColorFromCollection;
         #endregion
 
         #region Commands Realization
