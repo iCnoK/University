@@ -2,13 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Paint.Utility
 {
@@ -192,4 +196,29 @@ namespace Paint.Utility
             throw new NotImplementedException();
         }
     }
+
+    //public class BitmapToImageSource : IValueConverter
+    //{
+    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        using (MemoryStream memory = new MemoryStream())
+    //        {
+    //            Bitmap bitmap = (Bitmap)value;
+    //            bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+    //            memory.Position = 0;
+    //            BitmapImage bitmapimage = new BitmapImage();
+    //            bitmapimage.BeginInit();
+    //            bitmapimage.StreamSource = memory;
+    //            bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
+    //            bitmapimage.EndInit();
+
+    //            return bitmapimage;
+    //        }
+    //    }
+
+    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    //    {
+    //        return value;
+    //    }
+    //}
 }

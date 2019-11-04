@@ -3,10 +3,45 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:local="clr-namespace:Paint.View"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:utility="clr-namespace:Paint.Utility"
+             xmlns:viewModel="clr-namespace:Paint.ViewModel"
+             xmlns:MVVMSupport="clr-namespace:Paint.Utility.MVVM_Support"
+             
+             mc:Ignorable="d" Name="painterControl"
+             d:DesignHeight="450" d:DesignWidth="800"
+    Height="{Binding ImageHeight}" Width="{Binding ImageWidth}">
+
+    
+    
+    <UserControl.DataContext>
+        <viewModel:PainterViewModel/>
+    </UserControl.DataContext>
+    
     <Grid>
-        
+        <Grid.Background>
+            <SolidColorBrush Color="White"/>
+        </Grid.Background>
+
+        <!--<Label Content="{Binding Path=XPos}" Foreground="Black" Width="100" HorizontalAlignment="Left"/>-->
+        <!--<Label Content="{Binding Path=YPos}" Foreground="Black" Margin="100,0,0,0" Width="100" HorizontalAlignment="Left"/>-->
+
+        <Canvas x:Name="imageCtrl" Height="{Binding ImageHeight, Mode=TwoWay}"
+               Width="{Binding ImageWidth, Mode=TwoWay}">
+            <Canvas.Background>
+                <ImageBrush ImageSource="{Binding Image}" Stretch="Uniform"/>
+            </Canvas.Background>
+            <i:Interaction.Behaviors>
+                <MVVMSupport:MouseBehaviour MouseX="{Binding Path=XPos, Mode=OneWayToSource}"
+                                            MouseY="{Binding Path=YPos, Mode=OneWayToSource}"/>
+            </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDown">
+                    <i:InvokeCommandAction Command="{Binding Path=Draw}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Canvas>
+
     </Grid>
 </UserControl>

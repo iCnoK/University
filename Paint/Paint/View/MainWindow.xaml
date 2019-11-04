@@ -120,20 +120,8 @@
                     </RadialGradientBrush>
                 </ScrollViewer.Background>
 
-
-                <!--<InkCanvas Height="500" Width="500" Cursor="Cross" EditingMode="Ink" >
-                    <InkCanvas.Effect>
-                        <DropShadowEffect BlurRadius="50" Color="#FF575757" ShadowDepth="15"/>
-                    </InkCanvas.Effect>
-                    
-                </InkCanvas>-->
+                <localView:Painter DataContext="{Binding PainterStatus}"/>
                 
-                <!--<Image Source="/Utility/Resources/star_wars_dart_vejder_art_105284_1920x1080.jpg"
-                       >
-                    <Image.Effect>
-                        <DropShadowEffect BlurRadius="50" Color="#FF575757" ShadowDepth="15"/>
-                    </Image.Effect>
-                </Image>-->
             </ScrollViewer>
 
             <localView:BrushesBar DataContext="{Binding BrushesBarStatus}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"/>
