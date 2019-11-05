@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Paint.Utility;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows;
@@ -23,9 +24,31 @@ namespace Paint.Model.PainterControl
 
         public int Width => Image.PixelWidth;
 
+        private ImageChangesHolder ImageChangesHolder { get; set; } = new ImageChangesHolder();
+        
         public PainterModel()
         {
             Initialize(500, 500);
+        }
+
+        /// <summary>
+        /// Сохранить состояние картинки
+        /// </summary>
+        public void HoldCurrentImage()
+        {
+            ImageChangesHolder.Push(Image);
+        }
+
+        /// <summary>
+        /// Вернуть предыдущее состояние картинки
+        /// </summary>
+        public void ReturnPreviousState()
+        {
+            var state = ImageChangesHolder.Pop();
+            if (state != null)
+            {
+                Image = state;
+            }
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using Paint.Utility;
 using Paint.Utility.Enums;
 using Prism.Mvvm;
+using System;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -9,6 +10,10 @@ namespace Paint.ViewModel
 {
     public class PainterViewModel : BindableBase
     {
+        //public delegate void MyEventHandler(bool result);
+        //public event MyEventHandler TestForTEST = delegate { };
+
+
         private PainterModel PainterModel { get; set; } = new PainterModel();
 
         private PainterModelMode PainterModelMode
@@ -94,14 +99,51 @@ namespace Paint.ViewModel
         #endregion
 
         #region Commands
-        private ICommand _draw;
+        private ICommand _mouseDown;
+        private ICommand _mouseUp;
         #endregion
 
+
+
+        private int _test;
+
+        public int TEST
+        {
+            get => _test;
+            set
+            {
+                _test = value;
+                RaisePropertyChanged("TEST");
+            }
+        }
+
+        //private bool _btest;
+
+        //public bool BTEST
+        //{
+        //    get => _btest;
+        //    set
+        //    {
+        //        _btest = value;
+        //        if (_btest)
+        //        {
+        //            TestForTEST(_btest);
+        //        }
+        //        RaisePropertyChanged("BTEST");
+        //    }
+        //}
+        
+
         #region Commands Realization
-        public ICommand Draw => _draw ?? (_draw =
+        public ICommand MouseDown => _mouseDown ?? (_mouseDown =
             new RelayCommand(obj =>
             {
-                
+                TEST++;
+            }));
+        public ICommand MouseUp => _mouseUp ?? (_mouseUp =
+            new RelayCommand(obj =>
+            {
+                TEST+=10;
             }));
         #endregion
 
@@ -112,7 +154,7 @@ namespace Paint.ViewModel
             ImageWidth = PainterModel.Image.PixelWidth;
 
             Image = PainterModel.Image;
-
+            TEST = 0;
             PainterModel.ImageChanged += PainterModel_ImageChanged;
         }
 

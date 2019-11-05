@@ -10,8 +10,8 @@
              xmlns:MVVMSupport="clr-namespace:Paint.Utility.MVVM_Support"
              
              mc:Ignorable="d" Name="painterControl"
-             d:DesignHeight="450" d:DesignWidth="800"
-    Height="{Binding ImageHeight}" Width="{Binding ImageWidth}">
+             d:DesignHeight="450" d:DesignWidth="800" Cursor="Cross"
+             Height="{Binding ImageHeight}" Width="{Binding ImageWidth}">
 
     
     
@@ -37,10 +37,14 @@
                                             MouseY="{Binding Path=YPos, Mode=OneWayToSource}"/>
             </i:Interaction.Behaviors>
             <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDown">
-                    <i:InvokeCommandAction Command="{Binding Path=Draw}"/>
+                <i:EventTrigger EventName="MouseLeftButtonDown">
+                    <i:InvokeCommandAction Command="{Binding Path=MouseDown}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction Command="{Binding Path=MouseUp}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+            <Label Content="{Binding TEST}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         </Canvas>
 
     </Grid>

@@ -130,11 +130,10 @@
     </ApplicationDefinition>
     <Compile Include="Model\Class1.cs" />
     <Compile Include="Model\PainterControl\PainterModel.cs" />
+    <Compile Include="Utility\ImageChangesHolder.cs" />
     <Compile Include="Utility\CustomColorConverter.cs" />
-    <Compile Include="Utility\CustomColorsHolder.cs" />
     <Compile Include="Utility\Enums\PainterModelMode.cs" />
     <Compile Include="Utility\Enums\SliderInfoModecs.cs" />
-    <Compile Include="Utility\FileSystem.cs" />
     <Compile Include="Utility\MVVM Support\MouseBehaviour.cs" />
     <Compile Include="Utility\MVVM Support\OnPropertyChangedClass.cs" />
     <Compile Include="Utility\MVVM Support\RelayCommand.cs" />
