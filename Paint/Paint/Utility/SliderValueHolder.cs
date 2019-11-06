@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Paint.Utility
 {
-    class SliderInfo
+    public class SliderInfo
     {
         public BrushType BrushType { get; private set; }
         public int Minimum { get; private set; }
@@ -38,58 +38,113 @@ namespace Paint.Utility
         }
     }
 
-    class Slider
+    public class Slider
     {
-        public SliderInfo this[BrushType type]
+        //public SliderInfo this[BrushType type]
+        //{
+        //    get
+        //    {
+        //        foreach (var item in sliderInfos)
+        //        {
+        //            if (item.BrushType == type)
+        //            {
+        //                return item;
+        //            }
+        //        }
+        //        throw new Exception();
+        //    }
+        //}
+
+        private int this[BrushType brush]
         {
             get
             {
-                foreach (var item in sliderInfos)
+                switch (brush)
                 {
-                    if (item.BrushType == type)
-                    {
-                        return item;
-                    }
+                    case BrushType.MARKER: return 0;
+                    case BrushType.FOUNTAINPEN: return 1;
+                    case BrushType.OILBRUSH: return 2;
+                    case BrushType.WATERCOLOR: return 3;
+                    case BrushType.PIXELPEN: return 4;
+                    case BrushType.PENCIL: return 5;
+                    case BrushType.ERASER: return 6;
+                    case BrushType.SPRAYCAN: return 7;
+                    case BrushType.FILL: return 8;
                 }
-                throw new Exception();
+                return 0;
             }
         }
-        public int this[BrushType type, SliderInfoMode mode]
+
+        public MaxMin GetMaxMin(BrushType brush)
         {
-            get
-            {
-                SliderInfo info = new SliderInfo();
-                foreach (var item in sliderInfos)
-                {
-                    if (item.BrushType == type)
-                    {
-                        info = item;
-                        break;
-                    }
-                }
-                if (mode == SliderInfoMode.OPACITY)
-                {
-                    return info.OpacityValue;
-                }
-                return info.WidthValue;
-            }
-            set
-            {
-                for (int i = 0; i < sliderInfos.Count; i++)
-                {
-                    if (sliderInfos[i].BrushType == type)
-                    {
-                        if (mode == SliderInfoMode.OPACITY)
-                        {
-                            sliderInfos[i].OpacityValue = value;
-                            break;
-                        }
-                        sliderInfos[i].WidthValue = value;
-                        break;
-                    }
-                }
-            }
+            var temp = sliderInfos[this[brush]];
+            return new MaxMin(temp.Minimum, temp.Maximum);
         }
+
+        public int GetOpacity(BrushType brush)
+        {
+            return sliderInfos[this[brush]].OpacityValue;
+        }
+
+        public void SetOpacity(BrushType brush, int opacity)
+        {
+            if (opacity < 0 || opacity > 100)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            sliderInfos[this[brush]].OpacityValue = opacity;
+        }
+
+        public int GetWidth(BrushType brush)
+        {
+            return sliderInfos[this[brush]].WidthValue;
+        }
+
+        public void SetWidth(BrushType brush, int width)
+        {
+            if (width < 0 || width > 300)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            sliderInfos[this[brush]].WidthValue = width;
+        }
+
+        //public int this[BrushType type, SliderMode mode]
+        //{
+        //    get
+        //    {
+        //        SliderInfo info = new SliderInfo();
+        //        foreach (var item in sliderInfos)
+        //        {
+        //            if (item.BrushType == type)
+        //            {
+        //                info = item;
+        //                break;
+        //            }
+        //        }
+        //        if (mode == SliderMode.OPACITY)
+        //        {
+        //            return info.OpacityValue;
+        //        }
+        //        return info.WidthValue;
+        //    }
+        //    set
+        //    {
+        //        for (int i = 0; i < sliderInfos.Count; i++)
+        //        {
+        //            if (sliderInfos[i].BrushType == type)
+        //            {
+        //                if (mode == SliderMode.OPACITY)
+        //                {
+        //                    sliderInfos[i].OpacityValue = value;
+        //                    break;
+        //                }
+        //                sliderInfos[i].WidthValue = value;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
 
         private List<SliderInfo> sliderInfos { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace Paint.Utility.Enums
 {
-    public enum SliderInfoMode
+    public enum SliderMode
     {
         /// <summary>
         /// Непрозрачность

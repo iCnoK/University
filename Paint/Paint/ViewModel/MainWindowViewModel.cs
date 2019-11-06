@@ -8,6 +8,8 @@ namespace Paint.ViewModel
 {
     public class MainWindowViewModel : OnPropertyChangedClass
     {
+        private DataManager DataManager = new DataManager();
+
         public SideMenuViewModel SideMenuStatus { get; set; }
         public BrushesBarViewModel BrushesBarStatus { get; set; }
         public PainterViewModel PainterStatus { get; set; }
@@ -22,8 +24,8 @@ namespace Paint.ViewModel
         public MainWindowViewModel()
         {
             SideMenuStatus = new SideMenuViewModel();
-            BrushesBarStatus = new BrushesBarViewModel();
-            PainterStatus = new PainterViewModel();
+            BrushesBarStatus = new BrushesBarViewModel(DataManager);
+            PainterStatus = new PainterViewModel(DataManager);
 
             SideMenuStatus.OpenFileChanged += OpenFileChangedEventHandler;
             SideMenuStatus.SaveFileChanged += SaveFileChangedEventHandler;

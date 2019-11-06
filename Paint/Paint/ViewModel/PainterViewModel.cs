@@ -3,6 +3,8 @@ using Paint.Utility;
 using Paint.Utility.Enums;
 using Prism.Mvvm;
 using System;
+using System.Drawing;
+using System.Timers;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -10,11 +12,11 @@ namespace Paint.ViewModel
 {
     public class PainterViewModel : BindableBase
     {
-        //public delegate void MyEventHandler(bool result);
-        //public event MyEventHandler TestForTEST = delegate { };
-
+        private DataManager DataManager { get; set; }
 
         private PainterModel PainterModel { get; set; } = new PainterModel();
+
+        private Timer Timer = new Timer(5);
 
         private PainterModelMode PainterModelMode
         {
@@ -28,21 +30,16 @@ namespace Paint.ViewModel
             }
         }
 
+        private Point PreviosPoint { get; set; }
+
+        private Point GetPoint => new Point(XPos, YPos);
+
+        //public SliderInfo SliderInfo { get; set; }
+
         public string OpenFileDirectory { get; set; } = null;
-        //public int CreateImageHeight { get; set; } = 100;
-        //public int CreateImageWidth { get; set; } = 100;
 
         #region Properties
         private int _imageHeight;
-        private int _imageWidth;
-
-        private int _xPos;
-        private int _yPos;
-
-        private ImageSource _image;
-        #endregion
-
-        #region Properties Realization
         public int ImageHeight
         {
             get => _imageHeight;
@@ -52,6 +49,7 @@ namespace Paint.ViewModel
                 RaisePropertyChanged("ImageHeight");
             }
         }
+        private int _imageWidth;
         public int ImageWidth
         {
             get => _imageWidth;
@@ -61,6 +59,7 @@ namespace Paint.ViewModel
                 RaisePropertyChanged("ImageWidth");
             }
         }
+        private int _xPos;
         public int XPos
         {
             get => _xPos;
@@ -74,6 +73,7 @@ namespace Paint.ViewModel
                 RaisePropertyChanged("XPos");
             }
         }
+        private int _yPos;
         public int YPos
         {
             get => _yPos;
@@ -87,6 +87,7 @@ namespace Paint.ViewModel
                 RaisePropertyChanged("YPos");
             }
         }
+        private ImageSource _image;
         public ImageSource Image
         {
             get => _image;
@@ -98,15 +99,7 @@ namespace Paint.ViewModel
         }
         #endregion
 
-        #region Commands
-        private ICommand _mouseDown;
-        private ICommand _mouseUp;
-        #endregion
-
-
-
         private int _test;
-
         public int TEST
         {
             get => _test;
@@ -117,45 +110,46 @@ namespace Paint.ViewModel
             }
         }
 
-        //private bool _btest;
-
-        //public bool BTEST
-        //{
-        //    get => _btest;
-        //    set
-        //    {
-        //        _btest = value;
-        //        if (_btest)
-        //        {
-        //            TestForTEST(_btest);
-        //        }
-        //        RaisePropertyChanged("BTEST");
-        //    }
-        //}
-        
-
-        #region Commands Realization
+        #region Commands
+        private ICommand _mouseDown;
         public ICommand MouseDown => _mouseDown ?? (_mouseDown =
             new RelayCommand(obj =>
             {
-                TEST++;
+                Timer.Start();
             }));
+        private ICommand _mouseUp;
         public ICommand MouseUp => _mouseUp ?? (_mouseUp =
             new RelayCommand(obj =>
             {
-                TEST+=10;
+                Timer.Stop();
             }));
         #endregion
 
-        public PainterViewModel()
+        public PainterViewModel() { }
+
+        public PainterViewModel(DataManager dataManager)
         {
+            DataManager = dataManager;
+
             PainterModel.Initialize(500, 500);
             ImageHeight = PainterModel.Image.PixelHeight;
             ImageWidth = PainterModel.Image.PixelWidth;
 
             Image = PainterModel.Image;
-            TEST = 0;
+            PreviosPoint = new Point(0, 0);
+
             PainterModel.ImageChanged += PainterModel_ImageChanged;
+            Timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (GetPoint == PreviosPoint)
+            {
+                return;
+            }
+            PreviosPoint = GetPoint;
+            TEST++;
         }
 
         private void PainterModel_ImageChanged(object sender, System.EventArgs e)
@@ -176,5 +170,7 @@ namespace Paint.ViewModel
                 PainterModel.Initialize(OpenFileDirectory);
             }
         }
+
+
     }
 }
