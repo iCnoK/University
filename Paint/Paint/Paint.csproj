@@ -128,9 +128,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\Class1.cs" />
     <Compile Include="Model\PainterControl\PainterModel.cs" />
+    <Compile Include="Model\ProgramModel.cs" />
+    <Compile Include="Utility\BitmapLayer.cs" />
+    <Compile Include="Utility\Brushes\MarkerBrush.cs" />
     <Compile Include="Utility\DataManager.cs" />
+    <Compile Include="Utility\Enums\BrushExitDirection.cs" />
     <Compile Include="Utility\ImageChangesHolder.cs" />
     <Compile Include="Utility\CustomColorConverter.cs" />
     <Compile Include="Utility\Enums\PainterModelMode.cs" />
@@ -215,9 +218,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Utility\Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Utility\Resources\Arrows.png" />
     <Resource Include="Utility\Resources\CreateFile.png" />

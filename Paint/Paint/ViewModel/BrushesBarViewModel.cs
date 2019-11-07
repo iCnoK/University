@@ -9,8 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Drawing;
-//using System.Windows.Media;
+using System.Windows.Media;
 
 namespace Paint.ViewModel
 {
@@ -18,11 +17,17 @@ namespace Paint.ViewModel
     {
         public ColorPickerViewModel ColorPickerStatus { get; set; }
 
+        #region Misc
         private DataManager DataManager { get; set; }
 
-
-        #region Misc
-        public BrushType LastChangedBrush { get; private set; }
+        public BrushType LastChangedBrush
+        {
+            get => DataManager.BrushType;
+            private set
+            {
+                DataManager.BrushType = value;
+            }
+        }
         
         public ObservableCollection<System.Windows.Media.SolidColorBrush> customSolidBrushes { get; set; } = 
             new ObservableCollection<System.Windows.Media.SolidColorBrush>();
@@ -117,7 +122,6 @@ namespace Paint.ViewModel
                 _widthSliderValue = value;
                 RaisePropertyChanged("WidthSliderValue");
                 DataManager.SetCurrentWidthSliderValue(LastChangedBrush, value);
-                //sliderValueHolder[LastChangedBrush, SliderMode.WIDTH] = value;
             }
         }
 
@@ -133,7 +137,6 @@ namespace Paint.ViewModel
                 _opacitySliderValue = value;
                 RaisePropertyChanged("OpacitySliderValue");
                 DataManager.SetCurrentOpacitySliderValue(LastChangedBrush, value);
-                //sliderValueHolder[LastChangedBrush, SliderMode.OPACITY] = value;
             }
         }
 
@@ -167,7 +170,7 @@ namespace Paint.ViewModel
             {
                 if (_currentSelectedColor != value)
                 {
-                    _currentSelectedColor = value;
+                    DataManager.CurrentColor = _currentSelectedColor = value;
                     RaisePropertyChanged("CurrentSelectedColor");
                     OnColorChanged();
                 }
@@ -201,10 +204,6 @@ namespace Paint.ViewModel
                     WidthSliderMinimum = temp.Min;
                     WidthSliderValue = DataManager.GetCurrentWidthSliderValue(LastChangedBrush);
                     OpacitySliderValue = DataManager.GetCurrentOpacitySliderValue(LastChangedBrush);
-                    //WidthSliderMaximum = sliderValueHolder[(BrushType)obj].Maximum;
-                    //WidthSliderMinimum = sliderValueHolder[(BrushType)obj].Minimum;
-                    //WidthSliderValue = sliderValueHolder[(BrushType)obj].WidthValue;
-                    //OpacitySliderValue = sliderValueHolder[(BrushType)obj].OpacityValue;
                     if (LastChangedBrush == BrushType.FILL)
                     {
                         BlockAllSliders();
@@ -226,9 +225,7 @@ namespace Paint.ViewModel
             {
                 if (obj != null)
                 {
-                    ColorConverter converter = new ColorConverter();
-                    
-                    CurrentSelectedColor = (Color)converter.ConvertFromString(obj.ToString());
+                    CurrentSelectedColor = (Color)ColorConverter.ConvertFromString(obj.ToString());
                     _customColorsSelectedIndex = null;
                     ButtonsIsEnabled = false;
                 }
@@ -242,7 +239,6 @@ namespace Paint.ViewModel
                 {
                     _customColorsSelectedIndex = Convert.ToInt32(obj.ToString());
                     ButtonsIsEnabled = true;
-
                 }
             }));
 
@@ -274,8 +270,8 @@ namespace Paint.ViewModel
         {
             CurrentSelectedColor = ColorPickerStatus.SelectedColor;
 
-            customSolidBrushes[(int)_customColorsSelectedIndex].Color = 
-                CustomColorConverter.ConvertFromSDCToSWMC(ColorPickerStatus.SelectedColor);
+            customSolidBrushes[(int)_customColorsSelectedIndex].Color = ColorPickerStatus.SelectedColor;
+                //CustomColorConverter.ConvertFromSDCToSWMC(ColorPickerStatus.SelectedColor);
         }
 
         #region SliderManage

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Paint.Utility
 {
@@ -27,18 +28,20 @@ namespace Paint.Utility
         }
     }
     /// <summary>
-    /// Класс для хранения и управления данными приложения
+    /// Класс для хранения и управления основными данными приложения
     /// </summary>
     public class DataManager
     {
         private Slider BrushSlider { get; set; }
 
-        //public ImageChangesHolder ImagesHistory { get; private set; }
+        public Color CurrentColor { get; set; }
+
+        public BrushType BrushType { get; set; }
 
         public DataManager()
         {
             BrushSlider = new Slider();
-            //ImagesHistory = new ImageChangesHolder();
+            CurrentColor = Colors.White;
         }
 
         #region Brush Slider Methods
@@ -50,6 +53,16 @@ namespace Paint.Utility
         public int GetCurrentOpacitySliderValue(BrushType brush)
         {
             return BrushSlider.GetOpacity(brush);
+        }
+
+        public int GetCurrentOpacitySliderValueByte(BrushType brush)
+        {
+            //int percentOpacity = BrushSlider.GetOpacity(brush);
+            //double temp = 2.55 * percentOpacity;
+            //double need = 255 - temp;
+            //int result = 255 - (int)(255 - 2.55 * percentOpacity);
+            return 255 - (int)(255 - 2.55 * BrushSlider.GetOpacity(brush));
+            //return 255 * (BrushSlider.GetOpacity(brush) / 100);
         }
 
         public int GetCurrentWidthSliderValue(BrushType brush)
@@ -67,5 +80,17 @@ namespace Paint.Utility
             BrushSlider.SetWidth(brush, width);
         }
         #endregion
+
+        //#region Color Methods
+        //public Color GetColor()
+        //{
+        //    return CurrentColor;
+        //}
+
+        //public void SetColor(Color color)
+        //{
+        //    CurrentColor = color;
+        //}
+        //#endregion
     }
 }

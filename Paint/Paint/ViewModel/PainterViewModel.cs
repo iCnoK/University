@@ -3,8 +3,8 @@ using Paint.Utility;
 using Paint.Utility.Enums;
 using Prism.Mvvm;
 using System;
-using System.Drawing;
 using System.Timers;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -14,9 +14,11 @@ namespace Paint.ViewModel
     {
         private DataManager DataManager { get; set; }
 
-        private PainterModel PainterModel { get; set; } = new PainterModel();
+        //private PainterModel PainterModel { get; set; }
 
-        private Timer Timer = new Timer(5);
+        private BitmapLayer BitmapLayer;
+
+        private Timer Timer = new Timer(1);
 
         private PainterModelMode PainterModelMode
         {
@@ -33,8 +35,6 @@ namespace Paint.ViewModel
         private Point PreviosPoint { get; set; }
 
         private Point GetPoint => new Point(XPos, YPos);
-
-        //public SliderInfo SliderInfo { get; set; }
 
         public string OpenFileDirectory { get; set; } = null;
 
@@ -131,15 +131,23 @@ namespace Paint.ViewModel
         {
             DataManager = dataManager;
 
-            PainterModel.Initialize(500, 500);
-            ImageHeight = PainterModel.Image.PixelHeight;
-            ImageWidth = PainterModel.Image.PixelWidth;
+            BitmapLayer = new BitmapLayer(500, 500);
+            ImageHeight = BitmapLayer.MainLayerBitmap.PixelHeight;
+            ImageWidth = BitmapLayer.MainLayerBitmap.PixelWidth;
 
-            Image = PainterModel.Image;
+            Image = BitmapLayer.MainLayerBitmap;
+
             PreviosPoint = new Point(0, 0);
 
-            PainterModel.ImageChanged += PainterModel_ImageChanged;
+            BitmapLayer.ImageChanged += PainterModel_ImageChanged;
             Timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
+
+            //PainterModel = new PainterModel(dataManager);
+            //PainterModel.Initialize(500, 500);
+            //ImageHeight = PainterModel.Image.PixelHeight;
+            //ImageWidth = PainterModel.Image.PixelWidth;
+
+            //Image = PainterModel.Image;
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -149,28 +157,37 @@ namespace Paint.ViewModel
                 return;
             }
             PreviosPoint = GetPoint;
+            Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                    BitmapLayer.Draw(DataManager.BrushType, DataManager.CurrentColor, GetPoint,
+                    DataManager.GetCurrentWidthSliderValue(DataManager.BrushType),
+                    DataManager.GetCurrentOpacitySliderValueByte(DataManager.BrushType))));
+
             TEST++;
         }
 
         private void PainterModel_ImageChanged(object sender, System.EventArgs e)
         {
-            Image = PainterModel.Image;
-            ImageHeight = PainterModel.Height;
-            ImageWidth = PainterModel.Width;
+            Image = BitmapLayer.MainLayerBitmap;
+            ImageHeight = BitmapLayer.MainLayerBitmap.PixelHeight;
+            ImageWidth = BitmapLayer.MainLayerBitmap.PixelWidth;
+
+            //Image = PainterModel.Image;
+            //ImageHeight = PainterModel.Height;
+            //ImageWidth = PainterModel.Width;
         }
 
         public void Initialize()
         {
             if (PainterModelMode == PainterModelMode.NEW)
             {
-                PainterModel.Initialize(ImageHeight, ImageWidth);
+                BitmapLayer = new BitmapLayer(ImageHeight, ImageWidth);
+                //PainterModel.Initialize(ImageHeight, ImageWidth);
             }
             else if (PainterModelMode == PainterModelMode.SOURCE)
             {
-                PainterModel.Initialize(OpenFileDirectory);
+                BitmapLayer = new BitmapLayer(OpenFileDirectory);
+                //PainterModel.Initialize(OpenFileDirectory);
             }
         }
-
-
     }
 }

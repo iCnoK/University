@@ -1,18 +1,7 @@
 ﻿using Paint.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Media;
 
 namespace Paint.View
 {
@@ -29,14 +18,15 @@ namespace Paint.View
 
             if (colorCanvas.SelectedColor != null)
             {
-                System.Windows.Media.Color mediacolor = (System.Windows.Media.Color)colorCanvas.SelectedColor;
+                //System.Windows.Media.Color mediacolor = (System.Windows.Media.Color)colorCanvas.SelectedColor;
 
-                viewModel.SelectedColor = System.Drawing.Color.FromArgb(
-                    mediacolor.A, mediacolor.R, mediacolor.G, mediacolor.B);
+                //viewModel.SelectedColor = System.Drawing.Color.FromArgb(
+                //    mediacolor.A, mediacolor.R, mediacolor.G, mediacolor.B);
+                viewModel.SelectedColor = (Color)colorCanvas.SelectedColor;
             }
             else
             {
-                viewModel.SelectedColor = Color.Transparent;
+                viewModel.SelectedColor = Colors.Transparent;
             }
         }
     }

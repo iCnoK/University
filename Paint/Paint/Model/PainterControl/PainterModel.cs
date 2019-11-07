@@ -1,7 +1,9 @@
 ﻿using Paint.Utility;
+using Paint.Utility.Brushes;
+using Paint.Utility.Enums;
 using System;
-using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -18,6 +20,8 @@ namespace Paint.Model.PainterControl
             ImageChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        private DataManager DataManager { get; set; }
+
         public WriteableBitmap Image { get; private set; }
 
         public int Height => Image.PixelHeight;
@@ -26,9 +30,10 @@ namespace Paint.Model.PainterControl
 
         private ImageChangesHolder ImageChangesHolder { get; set; } = new ImageChangesHolder();
         
-        public PainterModel()
+        public PainterModel(DataManager dataManager)
         {
-            Initialize(500, 500);
+            DataManager = dataManager;
+            //Initialize(500, 500);
         }
 
         /// <summary>
@@ -76,9 +81,9 @@ namespace Paint.Model.PainterControl
         {
             if (height > 1 && width > 1)
             {
-                Image = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, null);
+                Image = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
 
-                Fill(System.Drawing.Color.White);
+                //Fill(System.Drawing.Color.White);
 
                 OnImageChanged();
             }
@@ -94,7 +99,7 @@ namespace Paint.Model.PainterControl
         /// <param name="color"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public void Fill(System.Drawing.Color color)
+        public void Fill(Color color)
         {
             int bytesPerPixel = (Image.Format.BitsPerPixel + 7) / 8;
             int stride = bytesPerPixel * Width;
@@ -113,19 +118,66 @@ namespace Paint.Model.PainterControl
             Image.WritePixels(rect, colors, stride, 0);
         }
 
+        public void DrawWithSelectedBrush(BrushType brush, Color color, Point coordinates)
+        {
+            switch (brush)
+            {
+                case BrushType.MARKER:
+                    {
+                        Image = MarkerBrush.Draw(Image, color, coordinates, DataManager.GetCurrentWidthSliderValue(brush),
+                            DataManager.GetCurrentOpacitySliderValueByte(brush));
+                        break;
+                    }
+                //case BrushType.FOUNTAINPEN:
+                //    {
+                //        break;
+                //    }
+                //case BrushType.OILBRUSH:
+                //    {
+                //        break;
+                //    }
+                //case BrushType.WATERCOLOR:
+                //    {
+                //        break;
+                //    }
+                //case BrushType.PIXELPEN:
+                //    {
+                //        break;
+                //    }
+                //case BrushType.PENCIL:
+                //    {
+                //        break;
+                //    }
+                //case BrushType.ERASER:
+                //    {
+                //        break;
+                //    }
+                //case BrushType.SPRAYCAN:
+                //    {
+                //        break;
+                //    }
+                //case BrushType.FILL:
+                //    {
+                //        break;
+                //    }
+            }
+        }
+
+
+
         /// <summary>
         /// Смешать указанные цвета
         /// </summary>
         /// <param name="color"></param>
         /// <param name="backColor"></param>
         /// <param name="amount"></param>
-        public static System.Drawing.Color Blend(System.Drawing.Color color, System.Drawing.Color backColor, double amount)
-        {
-            byte r = (byte)((color.R * amount) + backColor.R * (1 - amount));
-            byte g = (byte)((color.G * amount) + backColor.G * (1 - amount));
-            byte b = (byte)((color.B * amount) + backColor.B * (1 - amount));
-            return System.Drawing.Color.FromArgb(r, g, b);
-        }
+        //public static Color Blend(Color color, Color backColor, double amount)
+        //{
+        //    byte r = (byte)((color.R * amount) + backColor.R * (1 - amount));
+        //    byte g = (byte)((color.G * amount) + backColor.G * (1 - amount));
+        //    byte b = (byte)((color.B * amount) + backColor.B * (1 - amount));
+        //    return Color.FromArgb(r, g, b);
+        //}
 
         //public static ImageSource BitmapToImageSource(Bitmap bitmap)
         //{

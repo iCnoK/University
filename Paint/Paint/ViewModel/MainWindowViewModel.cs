@@ -31,8 +31,8 @@ namespace Paint.ViewModel
             SideMenuStatus.SaveFileChanged += SaveFileChangedEventHandler;
             SideMenuStatus.ImageSizeChanged += ImageSizeChangedEventHandler;
 
-            BrushesBarStatus.BrushChanged += BrushChangedEventHandler;
-            BrushesBarStatus.ColorChanged += ColorChangedEventHandler;
+            //BrushesBarStatus.BrushChanged += BrushChangedEventHandler;
+            //BrushesBarStatus.ColorChanged += ColorChangedEventHandler;
         }
 
         private void ImageSizeChangedEventHandler(object sender, System.EventArgs e)
@@ -56,14 +56,14 @@ namespace Paint.ViewModel
             PainterStatus.Initialize();
         }
 
-        private void ColorChangedEventHandler(object sender, System.EventArgs e)
-        {
-            //throw new System.NotImplementedException();
-        }
+        //private void ColorChangedEventHandler(object sender, System.EventArgs e)
+        //{
+        //    //throw new System.NotImplementedException();
+        //}
 
-        private void BrushChangedEventHandler(object sender, System.EventArgs e)
-        {
-            //throw new System.NotImplementedException();
-        }
+        //private void BrushChangedEventHandler(object sender, System.EventArgs e)
+        //{
+        //    //throw new System.NotImplementedException();
+        //}
     }
 }
