@@ -72,6 +72,8 @@ namespace Paint.Utility
 
         private byte[] Mask { get; set; }
 
+        private byte[][][] ThreeDemMask { get; set; }
+
         private int Stride { get; set; }
 
         private MaskParameters? PreviosParameters { get; set; } = null;
@@ -178,19 +180,6 @@ namespace Paint.Utility
 
         private void DrawWithMarker(Color color, Point coordinates, int diameter, int opacity)
         {
-            int bytesPerPixel = (MainLayerBitmap.Format.BitsPerPixel + 7) / 8;
-            //int stride = bytesPerPixel * diameter;
-
-            //byte[] colors = new byte[stride * diameter];
-
-            //for (int pixel = 0; pixel < colors.Length; pixel += bytesPerPixel)
-            //{
-            //    colors[pixel] = color.B;        // blue
-            //    colors[pixel + 1] = color.G;    // green
-            //    colors[pixel + 2] = color.R;    // red
-            //    colors[pixel + 3] = (byte)opacity;    // alpha
-            //}
-
             Int32Rect rect = new Int32Rect((int)coordinates.X - diameter / 2, (int)coordinates.Y - diameter / 2, diameter, diameter);
 
             MainLayerBitmap.WritePixels(rect, Mask, Stride, 0);
@@ -201,51 +190,152 @@ namespace Paint.Utility
             int bytesPerPixel = (MainLayerBitmap.Format.BitsPerPixel + 7) / 8;
             Stride = bytesPerPixel * diameter;
 
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(diameter, diameter);
+            //Directory.CreateDirectory("Brushes");
 
-            using (System.Drawing.Image i = bitmap)
+            Brush brush = new Brush();
+
+            BitmapImage bitmapImage = new BitmapImage(new Uri(@"C:\Users\Андрей\Desktop\icons8-круг-100.png"));
+            bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            WriteableBitmap bitmap = new WriteableBitmap(bitmapImage);
+
+            //brush.BrushLoader.AddBrush(bitmap, BrushType.MARKER);
+            //brush.BrushLoader.SaveBrushes();
+            
+            WriteableBitmap writeableBitmap = brush[BrushType.MARKER];
+            var temp = Brush.Resize(writeableBitmap, diameter, diameter);
+
+            byte[] test = new byte[4 * diameter * diameter];
+
+            temp.CopyPixels(test, 4 * diameter, 0);
+
+            Mask = test;
+
+        }
+
+        private void FillWithColor(ref byte[] array, Color color)
+        {
+            int bytesPerPixel = (MainLayerBitmap.Format.BitsPerPixel + 7) / 8;
+
+            for (int pixel = 0; pixel < array.Length; pixel += bytesPerPixel)
             {
-                using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(i))
-                {
-                    using (System.Drawing.Brush b = new System.Drawing.SolidBrush(CustomColorConverter.ConvertFromSWMCToSDC(color)))
-                    {
-                        g.FillEllipse(b, 0, 0, diameter, diameter);
-                    }
-                }
+                array[pixel] = color.B;        // blue
+                array[pixel + 1] = color.G;    // green
+                array[pixel + 2] = color.R;    // red
+                array[pixel + 3] = color.A;    // alpha
+            }
+        }
 
-                using (MemoryStream ms = new MemoryStream())
+        //private void Fill3DemMaskWithColor(Color color)
+        //{
+        //    for (int i = 0; i < ThreeDemMask.Length; i++)
+        //    {
+        //        for (int j = 0; j < ThreeDemMask[i].Length; j++)
+        //        {
+        //            for (int k = 0; k < ThreeDemMask[i][j].Length; k++)
+        //            {
+
+        //            }
+        //        }
+        //    }
+        //}
+
+        private byte[][][] GetThreeDimensionalArrayAndFill(int firstDem, int secondDem, int thirdDem, Color color)
+        {
+            byte[][][] result = new byte[firstDem][][];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = new byte[secondDem][];
+            }
+            for (int i = 0; i < result.Length; i++)
+            {
+                for (int j = 0; j < result[i].Length; j++)
                 {
-                    i.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    Mask = ms.ToArray();
+                    result[i][j] = new byte[thirdDem];
+                    result[i][j][0] = color.B;
+                    result[i][j][1] = color.G;
+                    result[i][j][2] = color.R;
+                    result[i][j][3] = color.A;
                 }
             }
-
-            
-
-
-            //for (int pixel = 0; pixel < Mask.Length; pixel += bytesPerPixel)
-            //{
-            //    //Mask[pixel] = color.B;        // blue
-            //    //Mask[pixel + 1] = color.G;    // green
-            //    //Mask[pixel + 2] = color.R;    // red
-            //    //Mask[pixel + 3] = (byte)opacity;    // alpha
-
-            //    if (diameter <= 3)
-            //    {
-            //        if (diameter == 3)
-            //        {
-                        
-            //            return;
-            //        }
-            //    }
-            //    else
-            //    {
-
-            //    }
-
-
-
-            //}
+            return result;
         }
+
+        //private byte[,] FlipArray(byte[,] array)
+        //{
+        //    int firstLength = array.GetLength(0);
+        //    int secondLength = array.GetLength(1);
+        //    byte[,] result = new byte[firstLength, secondLength];
+
+        //    for (int I = 0, i = firstLength - 1; I < firstLength; I++, i--)
+        //    {
+        //        for (int J = 0, j = secondLength - 1; J < secondLength; J++, j--)
+        //        {
+        //            result[I, J] = array[i, j];
+        //        }
+        //    }
+
+        //    return result;
+        //}
+
+        //private byte[] StickArrays(byte[,] leftPeace, byte[,] rightPeace)
+        //{
+        //    int arrayheight = leftPeace.GetLength(0);
+        //    int arrayWidth = leftPeace.GetLength(1) + rightPeace.GetLength(1);
+
+        //    int leftWidth = leftPeace.GetLength(1);
+        //    int rightWidth = rightPeace.GetLength(1);
+
+        //    byte[] result = new byte[arrayheight * arrayWidth];
+
+        //    for (int i = 0, firstDem = 0, secondDem = 0, iterator = 0; i < result.Length;
+        //        iterator++) 
+        //    {
+        //        while (true)
+        //        {
+        //            result[i] = leftPeace[iterator, firstDem];
+        //            if (firstDem + 1 >= leftWidth)
+        //            {
+        //                i++;
+        //                break;
+        //            }
+        //            i++;
+        //            firstDem++;
+        //        }
+        //        while (true)
+        //        {
+        //            result[i] = rightPeace[iterator, secondDem];
+        //            if (secondDem +1 >= rightWidth)
+        //            {
+        //                i++;
+        //                break;
+        //            }
+        //            i++;
+        //            secondDem++;
+        //        }
+        //        firstDem = secondDem = 0;
+        //    }
+        //    return result;
+        //}
     }
 }
+
+
+
+//System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(diameter, diameter);
+
+//using (System.Drawing.Image i = bitmap)
+//{
+//    using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(i))
+//    {
+//        using (System.Drawing.Brush b = new System.Drawing.SolidBrush(CustomColorConverter.ConvertFromSWMCToSDC(color)))
+//        {
+//            g.FillEllipse(b, 0, 0, diameter, diameter);
+//        }
+//    }
+
+//    using (MemoryStream ms = new MemoryStream())
+//    {
+//        i.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+//        Mask = ms.ToArray();
+//    }
+//}

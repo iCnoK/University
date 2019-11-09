@@ -107,6 +107,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WriteableBitmapEx.Wpf, Version=1.6.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WriteableBitmapEx.1.6.3\lib\net40\WriteableBitmapEx.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock, Version=3.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\Extended.Wpf.Toolkit.3.6.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
@@ -128,12 +131,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Brush.cs" />
     <Compile Include="Model\PainterControl\PainterModel.cs" />
     <Compile Include="Model\ProgramModel.cs" />
     <Compile Include="Utility\BitmapLayer.cs" />
     <Compile Include="Utility\Brushes\MarkerBrush.cs" />
     <Compile Include="Utility\DataManager.cs" />
     <Compile Include="Utility\Enums\BrushExitDirection.cs" />
+    <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\ImageChangesHolder.cs" />
     <Compile Include="Utility\CustomColorConverter.cs" />
     <Compile Include="Utility\Enums\PainterModelMode.cs" />

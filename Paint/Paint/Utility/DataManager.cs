@@ -9,7 +9,7 @@ using System.Windows.Media;
 namespace Paint.Utility
 {
     /// <summary>
-    /// Структура для хранения максимального и минимального значения
+    /// Структура для хранения максимального и минимального значений
     /// </summary>
     public class MaxMin
     {
