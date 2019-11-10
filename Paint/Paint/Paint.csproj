@@ -131,7 +131,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Brush.cs" />
+    <Compile Include="Utility\Brush.cs" />
     <Compile Include="Model\PainterControl\PainterModel.cs" />
     <Compile Include="Model\ProgramModel.cs" />
     <Compile Include="Utility\BitmapLayer.cs" />
@@ -223,7 +223,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="TempRecources\Marker.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Utility\Resources\Arrows.png" />
     <Resource Include="Utility\Resources\CreateFile.png" />
@@ -254,6 +256,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Utility\Resources\Pipette.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TempRecources\FOUNTAINPEN.png" />
+    <Resource Include="TempRecources\OILBRUSH.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

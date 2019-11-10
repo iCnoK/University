@@ -142,12 +142,22 @@ namespace Paint.ViewModel
             BitmapLayer.ImageChanged += PainterModel_ImageChanged;
             Timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
 
+            DataManager.ParametersChanged += DataManager_ParametersChanged;
+
+            DataManager_ParametersChanged(null, EventArgs.Empty);
             //PainterModel = new PainterModel(dataManager);
             //PainterModel.Initialize(500, 500);
             //ImageHeight = PainterModel.Image.PixelHeight;
             //ImageWidth = PainterModel.Image.PixelWidth;
 
             //Image = PainterModel.Image;
+        }
+
+        private void DataManager_ParametersChanged(object sender, EventArgs e)
+        {
+            BitmapLayer.UpdateMask(DataManager.BrushType, DataManager.CurrentColor, GetPoint,
+                DataManager.GetCurrentWidthSliderValue(DataManager.BrushType),
+                DataManager.GetCurrentOpacitySliderValueByte(DataManager.BrushType));
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)

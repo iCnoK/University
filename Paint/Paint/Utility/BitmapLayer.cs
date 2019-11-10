@@ -72,19 +72,15 @@ namespace Paint.Utility
 
         private byte[] Mask { get; set; }
 
-        private byte[][][] ThreeDemMask { get; set; }
+        private Brush Brush { get; set; }
+
+        //private byte[][][] ThreeDemMask { get; set; }
 
         private int Stride { get; set; }
 
-        private MaskParameters? PreviosParameters { get; set; } = null;
+        //private MaskParameters? PreviosParameters { get; set; } = null;
 
         public bool IsMainLayer { get; private set; }
-
-        //public int PixelHeight => MainLayerBitmap.PixelHeight;
-
-        //public int PixelWidth => MainLayerBitmap.PixelWidth;
-
-        //public BrushType BrushType { get; private set; }
 
         public BitmapLayer() : this(500, 500)
         {
@@ -98,6 +94,7 @@ namespace Paint.Utility
                 BitmapImage bitmapImage = new BitmapImage(new Uri(pathToFile));
                 bitmapImage.CreateOptions = BitmapCreateOptions.None;
                 MainLayerBitmap = new WriteableBitmap(bitmapImage);
+                Brush = new Brush();
                 OnImageChanged();
             }
             else
@@ -111,7 +108,7 @@ namespace Paint.Utility
             if (height > 1 && width > 1)
             {
                 MainLayerBitmap = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
-
+                Brush = new Brush();
                 OnImageChanged();
             }
             else
@@ -120,21 +117,13 @@ namespace Paint.Utility
             }
         }
 
+        public void UpdateMask(BrushType brush, Color color, Point coordinates, int diameter, int opacity)
+        {
+            GetNewMask(brush, color, diameter, opacity);
+        }
+
         public WriteableBitmap Draw(BrushType brush, Color color, Point coordinates, int diameter, int opacity)
         {
-            if (PreviosParameters != null && MaskParameters.IsChanged(
-                (MaskParameters)PreviosParameters, new MaskParameters(color, diameter, opacity, brush)))
-            {
-                //SomeFunctionToCreateMask
-                GetNewMask(color, diameter, opacity);
-            }
-            else
-            {
-                GetNewMask(color, diameter, opacity);
-                PreviosParameters = new MaskParameters(color, diameter, opacity, brush);
-            }
-            PreviosParameters = new MaskParameters(color, diameter, opacity, brush);
-
             switch (brush)
             {
                 case BrushType.MARKER:
@@ -185,31 +174,47 @@ namespace Paint.Utility
             MainLayerBitmap.WritePixels(rect, Mask, Stride, 0);
         }
 
-        private void GetNewMask(Color color, int diameter, int opacity)
+        private void GetNewMask(BrushType brush, Color color, int diameter, int opacity)
         {
             int bytesPerPixel = (MainLayerBitmap.Format.BitsPerPixel + 7) / 8;
             Stride = bytesPerPixel * diameter;
 
-            //Directory.CreateDirectory("Brushes");
+            WriteableBitmap maskBitmap = Brush[brush];
 
-            Brush brush = new Brush();
+            ChangeMaskColor(ref maskBitmap, color, opacity);
 
-            BitmapImage bitmapImage = new BitmapImage(new Uri(@"C:\Users\Андрей\Desktop\icons8-круг-100.png"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            WriteableBitmap bitmap = new WriteableBitmap(bitmapImage);
+            maskBitmap = Brush.Resize(maskBitmap, diameter, diameter);
 
-            //brush.BrushLoader.AddBrush(bitmap, BrushType.MARKER);
-            //brush.BrushLoader.SaveBrushes();
-            
-            WriteableBitmap writeableBitmap = brush[BrushType.MARKER];
-            var temp = Brush.Resize(writeableBitmap, diameter, diameter);
+            //Mask = maskBitmap.ToByteArray();
+
+            ////Brush brush = new Brush();
+
+            //WriteableBitmap writeableBitmap = brush[BrushType.MARKER];
+            //var temp = Brush.Resize(writeableBitmap, diameter, diameter);
 
             byte[] test = new byte[4 * diameter * diameter];
 
-            temp.CopyPixels(test, 4 * diameter, 0);
+            maskBitmap.CopyPixels(test, 4 * diameter, 0);
 
             Mask = test;
 
+        }
+
+        private void ChangeMaskColor(ref WriteableBitmap bitmap, Color newColor, int opacity)
+        {
+            Color defaultColor = Colors.Transparent;
+            newColor = Colors.Green;
+            newColor.A = (byte)opacity;
+            for (int x = 0; x < bitmap.PixelHeight; x++)
+            {
+                for (int y = 0; y < bitmap.PixelWidth; y++)
+                {
+                    if (bitmap.GetPixel(x,y) != defaultColor)
+                    {
+                        bitmap.SetPixel(x, y, newColor);
+                    }
+                }
+            }
         }
 
         private void FillWithColor(ref byte[] array, Color color)

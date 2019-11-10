@@ -13,6 +13,11 @@ namespace Paint.Utility
 {
     public abstract class FileManager
     {
+        protected void CreateDirectory(string path)
+        {
+            Directory.CreateDirectory(path);
+        }
+
         protected bool IsDirectoryExists(string path)
         {
             return Directory.Exists(path);
@@ -58,6 +63,10 @@ namespace Paint.Utility
                     Deserialize(fileNames[i]);
                 }
             }
+            else
+            {
+                CreateDirectory("Brushes");
+            }
         }
 
         private List<string> GetFileNamesOfBrushes()
@@ -100,9 +109,10 @@ namespace Paint.Utility
             {
                 byte[] bytedImage = new byte[XYSize * ColorArraySize * XYSize];
                 item.Value.CopyPixels(bytedImage, XYSize * ColorArraySize, 0);
-                stream = new FileStream($"Brushes\\brush{counter}.bin", FileMode.OpenOrCreate);
+                stream = new FileStream($"Brushes\\brush{counter++}.bin", FileMode.OpenOrCreate);
                 serializer.Serialize(stream, bytedImage);
                 serializer.Serialize(stream, item.Key);
+                stream.Close();
             }
             stream.Close();
         }

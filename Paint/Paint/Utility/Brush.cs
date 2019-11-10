@@ -11,7 +11,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace Paint
+namespace Paint.Utility
 {
     public class Brush
     {
@@ -37,6 +37,13 @@ namespace Paint
             BrushLoader = new BrushLoader();
 
             WriteableBitmaps = BrushLoader.WriteableBitmaps;
+
+            WriteableBitmap bitmap = this[BrushType.MARKER];
+
+            for (int i = 0; i < 9 - WriteableBitmaps.Count; i++)
+            {
+                WriteableBitmaps.Add(new KeyValuePair<BrushType, WriteableBitmap>(BrushType.MARKER, bitmap));
+            }
         }
     }
 }

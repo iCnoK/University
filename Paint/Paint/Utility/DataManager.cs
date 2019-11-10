@@ -32,11 +32,41 @@ namespace Paint.Utility
     /// </summary>
     public class DataManager
     {
-        private Slider BrushSlider { get; set; }
+        public event System.EventHandler ParametersChanged;
 
-        public Color CurrentColor { get; set; }
+        protected virtual void OnParametersChanged()
+        {
+            ParametersChanged?.Invoke(this, EventArgs.Empty);
+        }
 
-        public BrushType BrushType { get; set; }
+        private Slider _brushSlider;
+        private Slider BrushSlider
+        {
+            get => _brushSlider;
+            set => _brushSlider = value;
+        }
+
+        private Color _currentColor;
+        public Color CurrentColor
+        {
+            get => _currentColor;
+            set
+            {
+                _currentColor = value;
+                OnParametersChanged();
+            }
+        }
+
+        private BrushType _brushType;
+        public BrushType BrushType
+        {
+            get => _brushType;
+            set
+            {
+                _brushType = value;
+                OnParametersChanged();
+            }
+        }
 
         public DataManager()
         {
@@ -73,11 +103,13 @@ namespace Paint.Utility
         public void SetCurrentOpacitySliderValue(BrushType brush, int opacity)
         {
             BrushSlider.SetOpacity(brush, opacity);
+            OnParametersChanged();
         }
 
         public void SetCurrentWidthSliderValue(BrushType brush, int width)
         {
             BrushSlider.SetWidth(brush, width);
+            OnParametersChanged();
         }
         #endregion
 
