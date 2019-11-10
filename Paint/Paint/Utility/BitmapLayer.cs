@@ -72,13 +72,11 @@ namespace Paint.Utility
 
         private byte[] Mask { get; set; }
 
+        private WriteableBitmap MaskBitmap { get; set; }
+
         private Brush Brush { get; set; }
 
-        //private byte[][][] ThreeDemMask { get; set; }
-
         private int Stride { get; set; }
-
-        //private MaskParameters? PreviosParameters { get; set; } = null;
 
         public bool IsMainLayer { get; private set; }
 
@@ -128,16 +126,18 @@ namespace Paint.Utility
             {
                 case BrushType.MARKER:
                     {
-                        DrawWithMarker(color, coordinates, diameter, opacity);
+                        DrawWithMarker(color, coordinates, diameter);
                         return MainLayerBitmap;
                     }
                 case BrushType.FOUNTAINPEN:
                     {
-                        break;
+                        DrawWithMarker(color, coordinates, diameter);
+                        return MainLayerBitmap;
                     }
                 case BrushType.OILBRUSH:
                     {
-                        break;
+                        DrawWithMarker(color, coordinates, diameter);
+                        return MainLayerBitmap;
                     }
                 case BrushType.WATERCOLOR:
                     {
@@ -167,17 +167,90 @@ namespace Paint.Utility
             return null;
         }
 
-        private void DrawWithMarker(Color color, Point coordinates, int diameter, int opacity)
+        private void DrawWithMarker(Color color, Point coordinates, int diameter)
         {
             Int32Rect rect = new Int32Rect((int)coordinates.X - diameter / 2, (int)coordinates.Y - diameter / 2, diameter, diameter);
 
+            byte[] source = new byte[Stride * diameter];
+            MainLayerBitmap.CopyPixels(rect, source, Stride, 0);
+            WriteableBitmap bitmap = new WriteableBitmap(diameter, diameter, 96, 96, PixelFormats.Bgra32, null);
+            bitmap.WritePixels(new Int32Rect(0, 0, diameter, diameter), source, Stride, 0);
+
+            Mask = IntelligentArrayInsertion(bitmap);
+
             MainLayerBitmap.WritePixels(rect, Mask, Stride, 0);
         }
+
+        private byte[] IntelligentArrayInsertion(WriteableBitmap bitmap)
+        {
+            byte[] result = new byte[Stride * bitmap.PixelHeight];
+
+            Color controlColor = new Color();
+
+            for (int x = 0; x < bitmap.PixelHeight; x++)
+            {
+                for (int y = 0; y < bitmap.PixelWidth; y++)
+                {
+                    Color tested = MaskBitmap.GetPixel(x, y);
+                    if (tested != controlColor)
+                    {
+                        bitmap.SetPixel(x, y, tested);
+                    }
+                }
+            }
+
+            bitmap.CopyPixels(result, Stride, 0);
+            return result;
+        }
+
+
 
         private void GetNewMask(BrushType brush, Color color, int diameter, int opacity)
         {
             int bytesPerPixel = (MainLayerBitmap.Format.BitsPerPixel + 7) / 8;
             Stride = bytesPerPixel * diameter;
+
+            //Brush brush1 = new Brush();
+
+            //BitmapImage bitmapImage = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\ERASER.png"));
+            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            //var temp = new WriteableBitmap(bitmapImage);
+            //BitmapImage bitmapImage1 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\FOUNTAINPEN.png"));
+            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            //var temp1 = new WriteableBitmap(bitmapImage1);
+            //BitmapImage bitmapImage2 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\MARKER.png"));
+            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            //var temp2 = new WriteableBitmap(bitmapImage2);
+            //BitmapImage bitmapImage3 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\OILBRUSH.png"));
+            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            //var temp3 = new WriteableBitmap(bitmapImage3);
+            //BitmapImage bitmapImage4 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\PENCIL.png"));
+            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            //var temp4 = new WriteableBitmap(bitmapImage4);
+            //BitmapImage bitmapImage5 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\PIXELPEN.png"));
+            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            //var temp5 = new WriteableBitmap(bitmapImage5);
+            //BitmapImage bitmapImage6 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\SPRAYCAN.png"));
+            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            //var temp6 = new WriteableBitmap(bitmapImage6);
+            //BitmapImage bitmapImage7 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\WATERCOLOR.png"));
+            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            //var temp7 = new WriteableBitmap(bitmapImage7);
+
+
+            //brush1.BrushLoader.AddBrush(temp, BrushType.ERASER);
+            //brush1.BrushLoader.AddBrush(temp1, BrushType.FOUNTAINPEN);
+            //brush1.BrushLoader.AddBrush(temp2, BrushType.MARKER);
+            //brush1.BrushLoader.AddBrush(temp3, BrushType.OILBRUSH);
+            //brush1.BrushLoader.AddBrush(temp4, BrushType.PENCIL);
+            //brush1.BrushLoader.AddBrush(temp5, BrushType.PIXELPEN);
+            //brush1.BrushLoader.AddBrush(temp6, BrushType.SPRAYCAN);
+            //brush1.BrushLoader.AddBrush(temp7, BrushType.WATERCOLOR);
+            //brush1.BrushLoader.SaveBrushes();
+
+
+
+
 
             WriteableBitmap maskBitmap = Brush[brush];
 
@@ -192,24 +265,27 @@ namespace Paint.Utility
             //WriteableBitmap writeableBitmap = brush[BrushType.MARKER];
             //var temp = Brush.Resize(writeableBitmap, diameter, diameter);
 
-            byte[] test = new byte[4 * diameter * diameter];
+            byte[] array = new byte[Stride * diameter];
 
-            maskBitmap.CopyPixels(test, 4 * diameter, 0);
+            maskBitmap.CopyPixels(array, Stride, 0);
 
-            Mask = test;
+            Mask = array;
+
+            MaskBitmap = maskBitmap;
 
         }
 
         private void ChangeMaskColor(ref WriteableBitmap bitmap, Color newColor, int opacity)
         {
-            Color defaultColor = Colors.Transparent;
-            newColor = Colors.Green;
+            Color defaultColor = new Color();
             newColor.A = (byte)opacity;
+
             for (int x = 0; x < bitmap.PixelHeight; x++)
             {
                 for (int y = 0; y < bitmap.PixelWidth; y++)
                 {
-                    if (bitmap.GetPixel(x,y) != defaultColor)
+                    Color testColor = bitmap.GetPixel(x, y);
+                    if (testColor != defaultColor)
                     {
                         bitmap.SetPixel(x, y, newColor);
                     }

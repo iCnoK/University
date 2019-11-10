@@ -162,17 +162,86 @@ namespace Paint.ViewModel
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (GetPoint == PreviosPoint)
+            switch(DataManager.BrushType)
             {
-                return;
+                //case BrushType.MARKER:
+                //    {
+                //        if (CheckCoordinationsRepeat()) return;
+                //        break;
+                //    }
+                //case BrushType.FOUNTAINPEN:
+                //    {
+                //        if (CheckCoordinationsRepeat()) return;
+                //        break;
+                //    }
+                //case BrushType.OILBRUSH:
+                //    {
+                //        if (CheckCoordinationsRepeat()) return;
+                //        break;
+                //    }
+                case BrushType.WATERCOLOR:
+                    {
+                        Timer.Interval = 5;
+                        break;
+                    }
+                //case BrushType.PIXELPEN:
+                //    {
+                //        if (CheckCoordinationsRepeat()) return;
+                //        break;
+                //    }
+                //case BrushType.PENCIL:
+                //    {
+                //        if (CheckCoordinationsRepeat()) return;
+                //        break;
+                //    }
+                //case BrushType.ERASER:
+                //    {
+                //        if (CheckCoordinationsRepeat()) return;
+                //        break;
+                //    }
+                case BrushType.SPRAYCAN:
+                    {
+                        Timer.Interval = 5;
+                        break;
+                    }
+                case BrushType.FILL:
+                    {
+                        if (CheckCoordinationsRepeat()) return;
+                        break;
+                    }
+
+                default:
+                    {
+                        Timer.Interval = 1;
+                        if (CheckCoordinationsRepeat()) return;
+                        Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                            BitmapLayer.Draw(DataManager.BrushType, DataManager.CurrentColor, GetPoint,
+                            DataManager.GetCurrentWidthSliderValue(DataManager.BrushType),
+                            DataManager.GetCurrentOpacitySliderValueByte(DataManager.BrushType))));
+                        break;
+                    }
             }
-            PreviosPoint = GetPoint;
-            Application.Current.Dispatcher.Invoke(new System.Action(() =>
-                    BitmapLayer.Draw(DataManager.BrushType, DataManager.CurrentColor, GetPoint,
-                    DataManager.GetCurrentWidthSliderValue(DataManager.BrushType),
-                    DataManager.GetCurrentOpacitySliderValueByte(DataManager.BrushType))));
+
+
+
+            //if (GetPoint == PreviosPoint)
+            //{
+            //    return;
+            //}
+            //PreviosPoint = GetPoint;
+            
 
             TEST++;
+        }
+
+        private bool CheckCoordinationsRepeat()
+        {
+            if (GetPoint == PreviosPoint)
+            {
+                return true;
+            }
+            PreviosPoint = GetPoint;
+            return false;
         }
 
         private void PainterModel_ImageChanged(object sender, System.EventArgs e)

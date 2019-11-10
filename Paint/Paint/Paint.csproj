@@ -224,7 +224,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="TempRecources\Marker.png" />
+    <Resource Include="TempRecources\MARKER.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Utility\Resources\Arrows.png" />
@@ -260,6 +260,13 @@
   <ItemGroup>
     <Resource Include="TempRecources\FOUNTAINPEN.png" />
     <Resource Include="TempRecources\OILBRUSH.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TempRecources\ERASER.png" />
+    <Resource Include="TempRecources\PENCIL.png" />
+    <Resource Include="TempRecources\PIXELPEN.png" />
+    <Resource Include="TempRecources\SPRAYCAN.png" />
+    <Resource Include="TempRecources\WATERCOLOR.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
