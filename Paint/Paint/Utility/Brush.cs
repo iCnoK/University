@@ -21,7 +21,7 @@ namespace Paint.Utility
 
         public static WriteableBitmap Resize(WriteableBitmap bitmap, int newXSize, int newYSize)
         {
-            return bitmap.Resize(newXSize, newYSize, WriteableBitmapExtensions.Interpolation.Bilinear);
+            return bitmap.Resize(newXSize, newYSize, WriteableBitmapExtensions.Interpolation.NearestNeighbor);
         }
 
         public WriteableBitmap this[BrushType brush]

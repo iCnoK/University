@@ -173,12 +173,34 @@ namespace Paint.Utility
 
             byte[] source = new byte[Stride * diameter];
             MainLayerBitmap.CopyPixels(rect, source, Stride, 0);
-            WriteableBitmap bitmap = new WriteableBitmap(diameter, diameter, 96, 96, PixelFormats.Bgra32, null);
-            bitmap.WritePixels(new Int32Rect(0, 0, diameter, diameter), source, Stride, 0);
+            //WriteableBitmap bitmap = new WriteableBitmap(diameter, diameter, 96, 96, PixelFormats.Bgra32, null);
+            //bitmap.WritePixels(new Int32Rect(0, 0, diameter, diameter), source, Stride, 0);
 
-            Mask = IntelligentArrayInsertion(bitmap);
+            //Mask = IntelligentArrayInsertion(bitmap);
 
-            MainLayerBitmap.WritePixels(rect, Mask, Stride, 0);
+            byte[] buffer = IntelligentArrayInsertion_2(source);
+
+            MainLayerBitmap.WritePixels(rect, buffer, Stride, 0);
+        }
+
+        private byte[] IntelligentArrayInsertion_2(byte[] source)
+        {
+            Color controlColor = new Color();
+
+            for (int i = 0; i < source.Length; i += 4) 
+            {
+                if (Mask[i]     != controlColor.B ||
+                    Mask[i + 1] != controlColor.G ||
+                    Mask[i + 2] != controlColor.R ||
+                    Mask[i + 3] != controlColor.A)
+                {
+                    source[i] = Mask[i];
+                    source[i + 1] = Mask[i + 1];
+                    source[i + 2] = Mask[i + 2];
+                    source[i + 3] = Mask[i + 3];
+                }
+            }
+            return source;
         }
 
         private byte[] IntelligentArrayInsertion(WriteableBitmap bitmap)
@@ -209,48 +231,6 @@ namespace Paint.Utility
         {
             int bytesPerPixel = (MainLayerBitmap.Format.BitsPerPixel + 7) / 8;
             Stride = bytesPerPixel * diameter;
-
-            //Brush brush1 = new Brush();
-
-            //BitmapImage bitmapImage = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\ERASER.png"));
-            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            //var temp = new WriteableBitmap(bitmapImage);
-            //BitmapImage bitmapImage1 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\FOUNTAINPEN.png"));
-            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            //var temp1 = new WriteableBitmap(bitmapImage1);
-            //BitmapImage bitmapImage2 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\MARKER.png"));
-            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            //var temp2 = new WriteableBitmap(bitmapImage2);
-            //BitmapImage bitmapImage3 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\OILBRUSH.png"));
-            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            //var temp3 = new WriteableBitmap(bitmapImage3);
-            //BitmapImage bitmapImage4 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\PENCIL.png"));
-            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            //var temp4 = new WriteableBitmap(bitmapImage4);
-            //BitmapImage bitmapImage5 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\PIXELPEN.png"));
-            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            //var temp5 = new WriteableBitmap(bitmapImage5);
-            //BitmapImage bitmapImage6 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\SPRAYCAN.png"));
-            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            //var temp6 = new WriteableBitmap(bitmapImage6);
-            //BitmapImage bitmapImage7 = new BitmapImage(new Uri(@"P:\GitHub Repositories\iCnoK\University\Paint\Paint\TempRecources\WATERCOLOR.png"));
-            //bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            //var temp7 = new WriteableBitmap(bitmapImage7);
-
-
-            //brush1.BrushLoader.AddBrush(temp, BrushType.ERASER);
-            //brush1.BrushLoader.AddBrush(temp1, BrushType.FOUNTAINPEN);
-            //brush1.BrushLoader.AddBrush(temp2, BrushType.MARKER);
-            //brush1.BrushLoader.AddBrush(temp3, BrushType.OILBRUSH);
-            //brush1.BrushLoader.AddBrush(temp4, BrushType.PENCIL);
-            //brush1.BrushLoader.AddBrush(temp5, BrushType.PIXELPEN);
-            //brush1.BrushLoader.AddBrush(temp6, BrushType.SPRAYCAN);
-            //brush1.BrushLoader.AddBrush(temp7, BrushType.WATERCOLOR);
-            //brush1.BrushLoader.SaveBrushes();
-
-
-
-
 
             WriteableBitmap maskBitmap = Brush[brush];
 
@@ -304,6 +284,47 @@ namespace Paint.Utility
                 array[pixel + 2] = color.R;    // red
                 array[pixel + 3] = color.A;    // alpha
             }
+        }
+
+        private void CreateAndSerializeBrushes()
+        {
+            Brush brush1 = new Brush();
+
+            BitmapImage bitmapImage = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\ERASER.png"));
+            bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            var temp = new WriteableBitmap(bitmapImage);
+            BitmapImage bitmapImage1 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\FOUNTAINPEN.png"));
+            bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            var temp1 = new WriteableBitmap(bitmapImage1);
+            BitmapImage bitmapImage2 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\Marker1.png"));
+            bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            var temp2 = new WriteableBitmap(bitmapImage2);
+            BitmapImage bitmapImage3 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\OILBRUSH.png"));
+            bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            var temp3 = new WriteableBitmap(bitmapImage3);
+            BitmapImage bitmapImage4 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\PENCIL.png"));
+            bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            var temp4 = new WriteableBitmap(bitmapImage4);
+            BitmapImage bitmapImage5 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\PIXELPEN.png"));
+            bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            var temp5 = new WriteableBitmap(bitmapImage5);
+            BitmapImage bitmapImage6 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\SPRAYCAN.png"));
+            bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            var temp6 = new WriteableBitmap(bitmapImage6);
+            BitmapImage bitmapImage7 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\WATERCOLOR.png"));
+            bitmapImage.CreateOptions = BitmapCreateOptions.None;
+            var temp7 = new WriteableBitmap(bitmapImage7);
+
+
+            brush1.BrushLoader.AddBrush(temp, BrushType.ERASER);
+            brush1.BrushLoader.AddBrush(temp1, BrushType.FOUNTAINPEN);
+            brush1.BrushLoader.AddBrush(temp2, BrushType.MARKER);
+            brush1.BrushLoader.AddBrush(temp3, BrushType.OILBRUSH);
+            brush1.BrushLoader.AddBrush(temp4, BrushType.PENCIL);
+            brush1.BrushLoader.AddBrush(temp5, BrushType.PIXELPEN);
+            brush1.BrushLoader.AddBrush(temp6, BrushType.SPRAYCAN);
+            brush1.BrushLoader.AddBrush(temp7, BrushType.WATERCOLOR);
+            brush1.BrushLoader.SaveBrushes();
         }
 
         //private void Fill3DemMaskWithColor(Color color)

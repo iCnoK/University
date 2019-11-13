@@ -18,7 +18,7 @@ namespace Paint.ViewModel
 
         private BitmapLayer BitmapLayer;
 
-        private Timer Timer = new Timer(1);
+        private Timer Timer = new Timer(0.1);
 
         private PainterModelMode PainterModelMode
         {
@@ -181,7 +181,7 @@ namespace Paint.ViewModel
                 //    }
                 case BrushType.WATERCOLOR:
                     {
-                        Timer.Interval = 5;
+                        //Timer.Interval = 5;
                         break;
                     }
                 //case BrushType.PIXELPEN:
@@ -201,7 +201,7 @@ namespace Paint.ViewModel
                 //    }
                 case BrushType.SPRAYCAN:
                     {
-                        Timer.Interval = 5;
+                        //Timer.Interval = 5;
                         break;
                     }
                 case BrushType.FILL:
@@ -212,7 +212,7 @@ namespace Paint.ViewModel
 
                 default:
                     {
-                        Timer.Interval = 1;
+                        //Timer.Interval = 1;
                         if (CheckCoordinationsRepeat()) return;
                         Application.Current.Dispatcher.Invoke(new System.Action(() =>
                             BitmapLayer.Draw(DataManager.BrushType, DataManager.CurrentColor, GetPoint,
