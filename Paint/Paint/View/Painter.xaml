@@ -30,7 +30,7 @@
         <Canvas x:Name="imageCtrl" Height="{Binding ImageHeight, Mode=TwoWay}"
                Width="{Binding ImageWidth, Mode=TwoWay}">
             <Canvas.Background>
-                <ImageBrush ImageSource="{Binding Image}" Stretch="Uniform"/>
+                <ImageBrush ImageSource="{Binding Image}" Stretch="None"/>
             </Canvas.Background>
             <i:Interaction.Behaviors>
                 <MVVMSupport:MouseBehaviour MouseX="{Binding Path=XPos, Mode=OneWayToSource}"
@@ -45,6 +45,9 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <Label Content="{Binding TEST}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Ellipse Width="{Binding EllipseDiameter}" Height="{Binding EllipseDiameter}"
+                     Canvas.Left="{Binding Path=XEllipsePos}" Canvas.Top="{Binding Path=YEllipsePos}" 
+                     Fill="Transparent" Stroke="Black" />
         </Canvas>
 
     </Grid>

@@ -17,6 +17,10 @@
         <local:MainWindowViewModel/>
     </Window.DataContext>
 
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding Path=UndoChanges}" Modifiers="Ctrl" Key="Z"/>
+    </Window.InputBindings>
+
     <Window.Resources>
         <!--<converters:VisibilityToIntConverter x:Key="VisToInt"/>
         <converters:VisibilityToBool x:Key="VisToBool"/>-->

@@ -30,7 +30,7 @@ namespace Paint.Utility
     /// <summary>
     /// Класс для хранения и управления основными данными приложения
     /// </summary>
-    public class DataManager
+    public class BrushParameters
     {
         public event System.EventHandler ParametersChanged;
 
@@ -39,12 +39,7 @@ namespace Paint.Utility
             ParametersChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        private Slider _brushSlider;
-        private Slider BrushSlider
-        {
-            get => _brushSlider;
-            set => _brushSlider = value;
-        }
+        private Slider BrushSlider { get; set; }
 
         private Color _currentColor;
         public Color CurrentColor
@@ -68,7 +63,7 @@ namespace Paint.Utility
             }
         }
 
-        public DataManager()
+        public BrushParameters()
         {
             BrushSlider = new Slider();
             CurrentColor = Colors.White;
@@ -87,12 +82,7 @@ namespace Paint.Utility
 
         public int GetCurrentOpacitySliderValueByte(BrushType brush)
         {
-            //int percentOpacity = BrushSlider.GetOpacity(brush);
-            //double temp = 2.55 * percentOpacity;
-            //double need = 255 - temp;
-            //int result = 255 - (int)(255 - 2.55 * percentOpacity);
             return 255 - (int)(255 - 2.55 * BrushSlider.GetOpacity(brush));
-            //return 255 * (BrushSlider.GetOpacity(brush) / 100);
         }
 
         public int GetCurrentWidthSliderValue(BrushType brush)

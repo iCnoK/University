@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Paint.Model.SideMenuControl;
 using Paint.Utility;
 using Prism.Mvvm;
 using System;
@@ -168,7 +169,7 @@ namespace Paint.ViewModel
             new RelayCommand(obj =>
             {
                 CreateBarVisibility = Visibility.Collapsed;
-                OpenFileDialog fileDialog = InitOpenFileDialog();
+                OpenFileDialog fileDialog = SideMenuModel.InitOpenFileDialog();
                 fileDialog.ShowDialog();
 
                 if (fileDialog.FileName != string.Empty)
@@ -183,15 +184,22 @@ namespace Paint.ViewModel
             new RelayCommand(obj =>
             {
                 CreateBarVisibility = Visibility.Collapsed;
-                //Width = 300;
-                //
+                OnSaveFileChanged();
             }));
         public ICommand SaveAsPicture => _saveAsPicture ?? (_saveAsPicture =
             new RelayCommand(obj =>
             {
                 CreateBarVisibility = Visibility.Collapsed;
-                //Width = 300;
-                //
+
+                SaveFileDialog fileDialog = SideMenuModel.InitSaveFileDialog();
+                fileDialog.ShowDialog();
+
+                if (fileDialog.FileName != string.Empty)
+                {
+                    SaveFileDirectory = fileDialog.FileName;
+                    SaveFileName = fileDialog.SafeFileName;
+                    OnSaveFileChanged();
+                }
             }));
 
         public ICommand ChangeCreateBarVisibility => _changeCreateBarVisibility ?? (_changeCreateBarVisibility =
@@ -207,18 +215,7 @@ namespace Paint.ViewModel
             ChangeVisibilityOfMenu = Visibility.Collapsed;
             CreateBarVisibility = Visibility.Collapsed;
             Width = 300;
-        }
-
-        private OpenFileDialog InitOpenFileDialog()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.CheckFileExists = true;
-            openFileDialog.Filter = "bmp files (*.bmp)|*.bmp|jpg files (*.jpg)|*.jpg|All files (*.*)|*.*";
-            openFileDialog.FilterIndex = 3;
-            openFileDialog.RestoreDirectory = true;
-            openFileDialog.CheckFileExists = true;
-            openFileDialog.Multiselect = false;
-            return openFileDialog;
+            SaveFileDirectory = $"{Environment.CurrentDirectory}\\unknown.jpg";
         }
     }
 }

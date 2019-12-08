@@ -11,50 +11,6 @@ using System.Windows.Media.Imaging;
 
 namespace Paint.Utility
 {
-    struct MaskParameters
-    {
-        Color Color;
-
-        int Diameter;
-
-        int Opacity;
-
-        BrushType BrushType;
-
-        public MaskParameters(Color color, int diameter, int opacity, BrushType brushType)
-        {
-            Color = color;
-            Diameter = diameter;
-            Opacity = opacity;
-            BrushType = brushType;
-        }
-
-        public static bool IsChanged(MaskParameters previos, MaskParameters next)
-        {
-            if (previos.Color != next.Color)
-            {
-                return true;
-            }
-
-            if (previos.BrushType != next.BrushType)
-            {
-                return true;
-            }
-
-            if (previos.Diameter != next.Diameter)
-            {
-                return true;
-            }
-
-            if (previos.Opacity != next.Opacity)
-            {
-                return true;
-            }
-
-            return false;
-        }
-    }
-
     public class BitmapLayer
     {
         public event System.EventHandler ImageChanged;
@@ -64,11 +20,15 @@ namespace Paint.Utility
             ImageChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public WriteableBitmap MainLayerBitmap { get; private set; }
+        public WriteableBitmap Bitmap { get; private set; }
+
+        public int LayerHeight => Bitmap.PixelHeight - 600;
+
+        public int LayerWidth => Bitmap.PixelWidth - 600;
 
         private ImageChangesHolder ChangesHolder { get; set; }
 
-        private bool Changed { get; set; }
+        //private bool Changed { get; set; }
 
         private byte[] Mask { get; set; }
 
@@ -78,7 +38,7 @@ namespace Paint.Utility
 
         private int Stride { get; set; }
 
-        public bool IsMainLayer { get; private set; }
+        //public bool IsMainLayer { get; private set; }
 
         public BitmapLayer() : this(500, 500)
         {
@@ -87,12 +47,62 @@ namespace Paint.Utility
 
         public BitmapLayer(string pathToFile)
         {
+            Initialize(pathToFile);
+            Brush = new Brush();
+        }
+
+        public BitmapLayer(int height, int width)
+        {
+            Initialize(height, width);
+            Brush = new Brush();
+        }
+
+        /// <summary>
+        /// Сохранить состояние картинки
+        /// </summary>
+        public void HoldCurrentImage()
+        {
+            ChangesHolder.Push(Bitmap.Clone());
+        }
+
+        /// <summary>
+        /// Вернуть предыдущее состояние картинки
+        /// </summary>
+        public void ReturnPreviousState()
+        {
+            var state = ChangesHolder.Pop();
+            if (state != null)
+            {
+                Bitmap = state;
+                //OnImageChanged();
+            }
+            OnImageChanged();
+        }
+
+        /// <summary>
+        /// Инициализация для загрузки существующего изображения
+        /// </summary>
+        public void Initialize(string pathToFile)
+        {
             if (pathToFile != null)
             {
                 BitmapImage bitmapImage = new BitmapImage(new Uri(pathToFile));
                 bitmapImage.CreateOptions = BitmapCreateOptions.None;
-                MainLayerBitmap = new WriteableBitmap(bitmapImage);
-                Brush = new Brush();
+                var tempBitmap = new WriteableBitmap(bitmapImage);
+
+                WriteableBitmap resultBitmap = new WriteableBitmap(tempBitmap.PixelWidth + 600, tempBitmap.PixelHeight + 600,
+                    96, 96, PixelFormats.Bgra32, null);
+
+                byte[] temp = new byte[4 * tempBitmap.PixelWidth * tempBitmap.PixelHeight];
+                tempBitmap.CopyPixels(new Int32Rect(0, 0, tempBitmap.PixelWidth, tempBitmap.PixelHeight), temp,
+                    4 * tempBitmap.PixelWidth, 0);
+
+                resultBitmap.WritePixels(new Int32Rect(300, 300, tempBitmap.PixelWidth,
+                    tempBitmap.PixelHeight), temp, 4 * tempBitmap.PixelWidth, 0);
+
+                Bitmap = resultBitmap;
+
+                ChangesHolder = new ImageChangesHolder(Bitmap);
                 OnImageChanged();
             }
             else
@@ -101,12 +111,15 @@ namespace Paint.Utility
             }
         }
 
-        public BitmapLayer(int height, int width)
+        /// <summary>
+        /// Инициализация для создания пустой картинки с выбранными высотой и шириной
+        /// </summary>
+        public void Initialize(int height, int width)
         {
             if (height > 1 && width > 1)
             {
-                MainLayerBitmap = new WriteableBitmap(width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
-                Brush = new Brush();
+                Bitmap = new WriteableBitmap(width + 600, height + 600, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
+                ChangesHolder = new ImageChangesHolder(Bitmap);
                 OnImageChanged();
             }
             else
@@ -115,29 +128,47 @@ namespace Paint.Utility
             }
         }
 
-        public void UpdateMask(BrushType brush, Color color, Point coordinates, int diameter, int opacity)
+        /// <summary>
+        /// Обновить маску кисти с новыми параметрами
+        /// </summary>
+        /// <param name="brush"></param>
+        /// <param name="color"></param>
+        /// <param name="diameter"></param>
+        /// <param name="opacity"></param>
+        public void UpdateMask(BrushType brush, Color color, int diameter, int opacity)
         {
             GetNewMask(brush, color, diameter, opacity);
         }
 
-        public WriteableBitmap Draw(BrushType brush, Color color, Point coordinates, int diameter, int opacity)
+        /// <summary>
+        /// Нарисовать маску кисти на холсте
+        /// </summary>
+        /// <param name="brush"></param>
+        /// <param name="color"></param>
+        /// <param name="coordinates"></param>
+        /// <param name="diameter"></param>
+        /// <returns></returns>
+        public WriteableBitmap Draw(BrushType brush, Point coordinates, int diameter)
         {
             switch (brush)
             {
                 case BrushType.MARKER:
                     {
-                        DrawWithMarker(color, coordinates, diameter);
-                        return MainLayerBitmap;
+                        DrawWithMarker(coordinates, diameter);
+                        return Bitmap;
+                        //break;
                     }
                 case BrushType.FOUNTAINPEN:
                     {
-                        DrawWithMarker(color, coordinates, diameter);
-                        return MainLayerBitmap;
+                        //DrawWithMarker(coordinates, diameter);
+                        //return Bitmap;
+                        break;
                     }
                 case BrushType.OILBRUSH:
                     {
-                        DrawWithMarker(color, coordinates, diameter);
-                        return MainLayerBitmap;
+                        //DrawWithMarker(coordinates, diameter);
+                        //return Bitmap;
+                        break;
                     }
                 case BrushType.WATERCOLOR:
                     {
@@ -145,6 +176,7 @@ namespace Paint.Utility
                     }
                 case BrushType.PIXELPEN:
                     {
+                        //DrawWithMarker2_0(coordinates, diameter);
                         break;
                     }
                 case BrushType.PENCIL:
@@ -153,6 +185,7 @@ namespace Paint.Utility
                     }
                 case BrushType.ERASER:
                     {
+                        DrawWithEraser(coordinates, diameter);
                         break;
                     }
                 case BrushType.SPRAYCAN:
@@ -167,23 +200,157 @@ namespace Paint.Utility
             return null;
         }
 
-        private void DrawWithMarker(Color color, Point coordinates, int diameter)
+        //public WriteableBitmap DrawWithAcceleration(BrushType brush, Point previous, Point next, int diameter)
+        //{
+        //    switch (brush)
+        //    {
+        //        case BrushType.MARKER:
+        //            {
+        //                DrawWithMarker(previous, next, diameter);
+        //                //DrawWithMarker(coordinates, diameter);
+        //                return Bitmap;
+        //                //break;
+        //            }
+        //        case BrushType.FOUNTAINPEN:
+        //            {
+        //                break;
+        //            }
+        //        case BrushType.OILBRUSH:
+        //            {
+        //                break;
+        //            }
+        //        case BrushType.WATERCOLOR:
+        //            {
+        //                break;
+        //            }
+        //        case BrushType.PIXELPEN:
+        //            {
+        //                //DrawWithMarker2_0(coordinates, diameter);
+        //                break;
+        //            }
+        //        case BrushType.PENCIL:
+        //            {
+        //                break;
+        //            }
+        //        case BrushType.ERASER:
+        //            {
+        //                //DrawWithMarker(coordinates, diameter);
+        //                break;
+        //            }
+        //        case BrushType.SPRAYCAN:
+        //            {
+        //                break;
+        //            }
+        //        case BrushType.FILL:
+        //            {
+        //                break;
+        //            }
+        //    }
+        //    return null;
+        //}
+    
+
+        private void DrawWithMarker(Point coordinates, int diameter)
         {
-            Int32Rect rect = new Int32Rect((int)coordinates.X - diameter / 2, (int)coordinates.Y - diameter / 2, diameter, diameter);
+            Int32Rect rect = new Int32Rect(((int)coordinates.X + 300) - diameter / 2, ((int)coordinates.Y + 300) - diameter / 2, diameter, diameter);
 
             byte[] source = new byte[Stride * diameter];
-            MainLayerBitmap.CopyPixels(rect, source, Stride, 0);
-            //WriteableBitmap bitmap = new WriteableBitmap(diameter, diameter, 96, 96, PixelFormats.Bgra32, null);
-            //bitmap.WritePixels(new Int32Rect(0, 0, diameter, diameter), source, Stride, 0);
+            Bitmap.CopyPixels(rect, source, Stride, 0);
 
-            //Mask = IntelligentArrayInsertion(bitmap);
+            byte[] buffer = IntelligentArrayInsertion(source);
 
-            byte[] buffer = IntelligentArrayInsertion_2(source);
-
-            MainLayerBitmap.WritePixels(rect, buffer, Stride, 0);
+            Bitmap.WritePixels(rect, buffer, Stride, 0);
         }
 
-        private byte[] IntelligentArrayInsertion_2(byte[] source)
+        private void DrawWithEraser(Point coordinates, int diameter)
+        {
+            DrawWithMarker(coordinates, diameter);
+        }
+
+        //private void DrawWithMarker(Point previous, Point next, int diameter)
+        //{
+        //    Bitmap.DrawLine((int)previous.X, (int)previous.Y, (int)next.X, (int)next.Y);
+        //    //Int32Rect rect = new Int32Rect(((int)coordinates.X + 300) - diameter / 2, ((int)coordinates.Y + 300) - diameter / 2, diameter, diameter);
+
+        //    //byte[] source = new byte[Stride * diameter];
+        //    //Bitmap.CopyPixels(rect, source, Stride, 0);
+
+        //    //byte[] buffer = IntelligentArrayInsertion(source);
+
+        //    //Bitmap.WritePixels(rect, buffer, Stride, 0);
+        //}
+
+        private WriteableBitmap GetWorkspaceImage()
+        {
+            byte[] carvedImage = new byte[4 * LayerHeight * LayerWidth];
+            Int32Rect rect = new Int32Rect(300, 300, LayerWidth, LayerHeight);
+            Bitmap.CopyPixels(rect, carvedImage, 4 * LayerWidth, 0);
+
+            WriteableBitmap resultBitmap = new WriteableBitmap(LayerWidth, LayerHeight, 96, 96, PixelFormats.Bgra32, null);
+            resultBitmap.WritePixels(new Int32Rect(0, 0, LayerWidth, LayerHeight), carvedImage, 4 * LayerWidth, 0);
+            return resultBitmap;
+        }
+
+        //private WriteableBitmap DeleteTransparentFromBitmap(WriteableBitmap bitmap)
+        //{
+        //    WriteableBitmap bitmapCopy = bitmap.Clone();
+        //    for (int x = 0; x < bitmapCopy.PixelHeight; x++)
+        //    {
+        //        for (int y = 0; y < bitmapCopy.PixelWidth; y++)
+        //        {
+        //            Color testColor = bitmapCopy.GetPixel(x, y);
+        //            if (testColor == Colors.Transparent)
+        //            {
+        //                bitmapCopy.SetPixel(x, y, new Color());
+        //            }
+        //        }
+        //    }
+        //    return bitmapCopy;
+        //}
+
+        /// <summary>
+        /// Сохранить изображение с выбранным названием и форматом
+        /// </summary>
+        /// <param name="fileName">Только название, без формата</param>
+        /// <param name="imageFileFormat"></param>
+        public void SaveImageWithFormat(string fileName, ImageFileFormat imageFileFormat)
+        {
+            string fileExtension = imageFileFormat.ToString().ToLower();
+            fileName += $".{fileExtension}";
+            using (FileStream stream = new FileStream(fileName, FileMode.Create))
+            {
+                BitmapEncoder encoder = null;
+                switch (imageFileFormat)
+                {
+                    case ImageFileFormat.BMP:
+                        {
+                            encoder = new BmpBitmapEncoder();
+                            break;
+                        }
+                    case ImageFileFormat.JPEG:
+                        {
+                            encoder = new JpegBitmapEncoder();
+                            break;
+                        }
+                    case ImageFileFormat.PNG:
+                        {
+                            encoder = new PngBitmapEncoder();
+                            break;
+                        }
+                    case ImageFileFormat.TIFF:
+                        {
+                            encoder = new TiffBitmapEncoder();
+                            break;
+                        }
+                }
+                WriteableBitmap cuttedBitmap = GetWorkspaceImage().Clone();
+
+                encoder.Frames.Add(BitmapFrame.Create(GetWorkspaceImage().Clone()));
+                encoder.Save(stream);
+            }
+        }
+
+        private byte[] IntelligentArrayInsertion(byte[] source)
         {
             Color controlColor = new Color();
 
@@ -203,33 +370,15 @@ namespace Paint.Utility
             return source;
         }
 
-        private byte[] IntelligentArrayInsertion(WriteableBitmap bitmap)
-        {
-            byte[] result = new byte[Stride * bitmap.PixelHeight];
-
-            Color controlColor = new Color();
-
-            for (int x = 0; x < bitmap.PixelHeight; x++)
-            {
-                for (int y = 0; y < bitmap.PixelWidth; y++)
-                {
-                    Color tested = MaskBitmap.GetPixel(x, y);
-                    if (tested != controlColor)
-                    {
-                        bitmap.SetPixel(x, y, tested);
-                    }
-                }
-            }
-
-            bitmap.CopyPixels(result, Stride, 0);
-            return result;
-        }
-
-
-
         private void GetNewMask(BrushType brush, Color color, int diameter, int opacity)
         {
-            int bytesPerPixel = (MainLayerBitmap.Format.BitsPerPixel + 7) / 8;
+            if (brush == BrushType.ERASER)
+            {
+                color = Colors.Transparent;
+                opacity = 0;
+            }
+
+            int bytesPerPixel = (Bitmap.Format.BitsPerPixel + 7) / 8;
             Stride = bytesPerPixel * diameter;
 
             WriteableBitmap maskBitmap = Brush[brush];
@@ -252,7 +401,6 @@ namespace Paint.Utility
             Mask = array;
 
             MaskBitmap = maskBitmap;
-
         }
 
         private void ChangeMaskColor(ref WriteableBitmap bitmap, Color newColor, int opacity)
@@ -273,19 +421,34 @@ namespace Paint.Utility
             }
         }
 
-        private void FillWithColor(ref byte[] array, Color color)
+        public static ImageFileFormat GetImageFileFormat(string fileName)
         {
-            int bytesPerPixel = (MainLayerBitmap.Format.BitsPerPixel + 7) / 8;
+            string extension = Path.GetExtension(fileName);
 
-            for (int pixel = 0; pixel < array.Length; pixel += bytesPerPixel)
-            {
-                array[pixel] = color.B;        // blue
-                array[pixel + 1] = color.G;    // green
-                array[pixel + 2] = color.R;    // red
-                array[pixel + 3] = color.A;    // alpha
-            }
+            if (string.Equals(extension, ".tiff")) return ImageFileFormat.TIFF;
+            if (string.Equals(extension, ".png")) return ImageFileFormat.PNG;
+            if (string.Equals(extension, ".bmp")) return ImageFileFormat.BMP;
+            if (string.Equals(extension, ".jpg")) return ImageFileFormat.JPEG;
+            if (string.Equals(extension, ".jpeg")) return ImageFileFormat.JPEG;
+            return ImageFileFormat.UNKNOWN;
         }
 
+        //private void FillWithColor(ref byte[] array, Color color)
+        //{
+        //    int bytesPerPixel = (MainLayerBitmap.Format.BitsPerPixel + 7) / 8;
+
+        //    for (int pixel = 0; pixel < array.Length; pixel += bytesPerPixel)
+        //    {
+        //        array[pixel] = color.B;        // blue
+        //        array[pixel + 1] = color.G;    // green
+        //        array[pixel + 2] = color.R;    // red
+        //        array[pixel + 3] = color.A;    // alpha
+        //    }
+        //}
+
+        /// <summary>
+        /// мусор
+        /// </summary>
         private void CreateAndSerializeBrushes()
         {
             Brush brush1 = new Brush();
@@ -326,118 +489,5 @@ namespace Paint.Utility
             brush1.BrushLoader.AddBrush(temp7, BrushType.WATERCOLOR);
             brush1.BrushLoader.SaveBrushes();
         }
-
-        //private void Fill3DemMaskWithColor(Color color)
-        //{
-        //    for (int i = 0; i < ThreeDemMask.Length; i++)
-        //    {
-        //        for (int j = 0; j < ThreeDemMask[i].Length; j++)
-        //        {
-        //            for (int k = 0; k < ThreeDemMask[i][j].Length; k++)
-        //            {
-
-        //            }
-        //        }
-        //    }
-        //}
-
-        private byte[][][] GetThreeDimensionalArrayAndFill(int firstDem, int secondDem, int thirdDem, Color color)
-        {
-            byte[][][] result = new byte[firstDem][][];
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i] = new byte[secondDem][];
-            }
-            for (int i = 0; i < result.Length; i++)
-            {
-                for (int j = 0; j < result[i].Length; j++)
-                {
-                    result[i][j] = new byte[thirdDem];
-                    result[i][j][0] = color.B;
-                    result[i][j][1] = color.G;
-                    result[i][j][2] = color.R;
-                    result[i][j][3] = color.A;
-                }
-            }
-            return result;
-        }
-
-        //private byte[,] FlipArray(byte[,] array)
-        //{
-        //    int firstLength = array.GetLength(0);
-        //    int secondLength = array.GetLength(1);
-        //    byte[,] result = new byte[firstLength, secondLength];
-
-        //    for (int I = 0, i = firstLength - 1; I < firstLength; I++, i--)
-        //    {
-        //        for (int J = 0, j = secondLength - 1; J < secondLength; J++, j--)
-        //        {
-        //            result[I, J] = array[i, j];
-        //        }
-        //    }
-
-        //    return result;
-        //}
-
-        //private byte[] StickArrays(byte[,] leftPeace, byte[,] rightPeace)
-        //{
-        //    int arrayheight = leftPeace.GetLength(0);
-        //    int arrayWidth = leftPeace.GetLength(1) + rightPeace.GetLength(1);
-
-        //    int leftWidth = leftPeace.GetLength(1);
-        //    int rightWidth = rightPeace.GetLength(1);
-
-        //    byte[] result = new byte[arrayheight * arrayWidth];
-
-        //    for (int i = 0, firstDem = 0, secondDem = 0, iterator = 0; i < result.Length;
-        //        iterator++) 
-        //    {
-        //        while (true)
-        //        {
-        //            result[i] = leftPeace[iterator, firstDem];
-        //            if (firstDem + 1 >= leftWidth)
-        //            {
-        //                i++;
-        //                break;
-        //            }
-        //            i++;
-        //            firstDem++;
-        //        }
-        //        while (true)
-        //        {
-        //            result[i] = rightPeace[iterator, secondDem];
-        //            if (secondDem +1 >= rightWidth)
-        //            {
-        //                i++;
-        //                break;
-        //            }
-        //            i++;
-        //            secondDem++;
-        //        }
-        //        firstDem = secondDem = 0;
-        //    }
-        //    return result;
-        //}
     }
 }
-
-
-
-//System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(diameter, diameter);
-
-//using (System.Drawing.Image i = bitmap)
-//{
-//    using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(i))
-//    {
-//        using (System.Drawing.Brush b = new System.Drawing.SolidBrush(CustomColorConverter.ConvertFromSWMCToSDC(color)))
-//        {
-//            g.FillEllipse(b, 0, 0, diameter, diameter);
-//        }
-//    }
-
-//    using (MemoryStream ms = new MemoryStream())
-//    {
-//        i.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-//        Mask = ms.ToArray();
-//    }
-//}

@@ -1,44 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Media.Imaging;
 
 namespace Paint.Utility
 {
     public class ImageChangesHolder
     {
-        LinkedList<WriteableBitmap> WriteableBitmaps { get; set; } = null;
+        private bool DoublePop { get; set; }
+
+        private Stack<WriteableBitmap> WriteableBitmaps { get; set; } = null;
 
         public void Push(WriteableBitmap bitmap)
         {
-            WriteableBitmaps.AddLast(bitmap);
-            TrimHolder();
+            //if (WriteableBitmaps.Count != 0)
+            //{
+            //var tempBitmap = WriteableBitmaps.Peek();
+            //if (bitmap != tempBitmap)
+            //{
+            WriteableBitmaps.Push(bitmap.Clone());
+            //}
+            DoublePop = true;
+            //}
         }
 
         public WriteableBitmap Pop()
         {
-            if (WriteableBitmaps.Count != 0)
+            if (WriteableBitmaps.Count != 1)
             {
-                var result = WriteableBitmaps.Last.Value;
-                WriteableBitmaps.RemoveLast();
-                return result;
+                if (DoublePop)
+                {
+                    DoublePop = false;
+                    WriteableBitmaps.Pop();
+                    var result = WriteableBitmaps.Pop();
+                    Push(result);
+                    return new WriteableBitmap(result);
+                }
+                return new WriteableBitmap(WriteableBitmaps.Pop());
             }
-            return null;
+            else
+            {
+                return new WriteableBitmap(WriteableBitmaps.Peek());
+            }
         }
 
-        public ImageChangesHolder()
+        public ImageChangesHolder(WriteableBitmap bitmap)
         {
-            WriteableBitmaps = new LinkedList<WriteableBitmap>();
-        }
-
-        private void TrimHolder()
-        {
-            if (WriteableBitmaps.Count > 30)
-            {
-                WriteableBitmaps.RemoveFirst();
-            }
+            WriteableBitmaps = new Stack<WriteableBitmap>();
+            WriteableBitmaps.Push(new WriteableBitmap(bitmap));
         }
     }
 }

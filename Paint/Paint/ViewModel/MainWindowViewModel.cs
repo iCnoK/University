@@ -6,26 +6,31 @@ using System.Windows.Input;
 
 namespace Paint.ViewModel
 {
-    public class MainWindowViewModel : OnPropertyChangedClass
+    public class MainWindowViewModel : BindableBase
     {
-        private DataManager DataManager = new DataManager();
+        private BrushParameters BrushParameters = new BrushParameters();
 
         public SideMenuViewModel SideMenuStatus { get; set; }
         public BrushesBarViewModel BrushesBarStatus { get; set; }
         public PainterViewModel PainterStatus { get; set; }
 
         private ICommand _openMenu;
-
-        public ICommand OpenMenu => _openMenu ?? (_openMenu = new RelayCommand(obj =>
+        public ICommand OpenMenu => _openMenu ?? (_openMenu = new DelegateCommand(delegate ()
         {
             SideMenuStatus.ChangeVisibilityOfMenu = Visibility.Visible;
+        }));
+
+        private ICommand _undoChanges;
+        public ICommand UndoChanges => _undoChanges ?? (_undoChanges = new DelegateCommand(delegate ()
+        {
+            PainterStatus.UndoChanges();
         }));
 
         public MainWindowViewModel()
         {
             SideMenuStatus = new SideMenuViewModel();
-            BrushesBarStatus = new BrushesBarViewModel(DataManager);
-            PainterStatus = new PainterViewModel(DataManager);
+            BrushesBarStatus = new BrushesBarViewModel(BrushParameters);
+            PainterStatus = new PainterViewModel(BrushParameters);
 
             SideMenuStatus.OpenFileChanged += OpenFileChangedEventHandler;
             SideMenuStatus.SaveFileChanged += SaveFileChangedEventHandler;
@@ -45,7 +50,7 @@ namespace Paint.ViewModel
 
         private void SaveFileChangedEventHandler(object sender, System.EventArgs e)
         {
-            //throw new System.NotImplementedException();
+            PainterStatus.SavePicture(SideMenuStatus.SaveFileDirectory);
         }
 
         private void OpenFileChangedEventHandler(object sender, System.EventArgs e)

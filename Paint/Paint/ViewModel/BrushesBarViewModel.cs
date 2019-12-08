@@ -18,14 +18,14 @@ namespace Paint.ViewModel
         public ColorPickerViewModel ColorPickerStatus { get; set; }
 
         #region Misc
-        private DataManager DataManager { get; set; }
+        private BrushParameters BrushParameters { get; set; }
 
         public BrushType LastChangedBrush
         {
-            get => DataManager.BrushType;
+            get => BrushParameters.BrushType;
             private set
             {
-                DataManager.BrushType = value;
+                BrushParameters.BrushType = value;
             }
         }
         
@@ -121,7 +121,7 @@ namespace Paint.ViewModel
             {
                 _widthSliderValue = value;
                 RaisePropertyChanged("WidthSliderValue");
-                DataManager.SetCurrentWidthSliderValue(LastChangedBrush, value);
+                BrushParameters.SetCurrentWidthSliderValue(LastChangedBrush, value);
             }
         }
 
@@ -136,7 +136,7 @@ namespace Paint.ViewModel
             {
                 _opacitySliderValue = value;
                 RaisePropertyChanged("OpacitySliderValue");
-                DataManager.SetCurrentOpacitySliderValue(LastChangedBrush, value);
+                BrushParameters.SetCurrentOpacitySliderValue(LastChangedBrush, value);
             }
         }
 
@@ -170,7 +170,7 @@ namespace Paint.ViewModel
             {
                 if (_currentSelectedColor != value)
                 {
-                    DataManager.CurrentColor = _currentSelectedColor = value;
+                    BrushParameters.CurrentColor = _currentSelectedColor = value;
                     RaisePropertyChanged("CurrentSelectedColor");
                     OnColorChanged();
                 }
@@ -199,11 +199,11 @@ namespace Paint.ViewModel
                     BrushType = (BrushType)obj;
                     LastChangedBrush = (BrushType)obj;
 
-                    MaxMin temp = DataManager.GetWidthSliderMinMax(LastChangedBrush);
+                    MaxMin temp = BrushParameters.GetWidthSliderMinMax(LastChangedBrush);
                     WidthSliderMaximum = temp.Max;
                     WidthSliderMinimum = temp.Min;
-                    WidthSliderValue = DataManager.GetCurrentWidthSliderValue(LastChangedBrush);
-                    OpacitySliderValue = DataManager.GetCurrentOpacitySliderValue(LastChangedBrush);
+                    WidthSliderValue = BrushParameters.GetCurrentWidthSliderValue(LastChangedBrush);
+                    OpacitySliderValue = BrushParameters.GetCurrentOpacitySliderValue(LastChangedBrush);
                     if (LastChangedBrush == BrushType.FILL)
                     {
                         BlockAllSliders();
@@ -252,9 +252,9 @@ namespace Paint.ViewModel
 
         public BrushesBarViewModel() { }
 
-        public BrushesBarViewModel(DataManager dataManager)
+        public BrushesBarViewModel(BrushParameters brushParameters)
         {
-            DataManager = dataManager;
+            BrushParameters = brushParameters;
             ColorPickerStatus = new ColorPickerViewModel();
             SetBrush.Execute(BrushType.MARKER);
             for (int i = 0; i < 12; i++)

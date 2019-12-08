@@ -28,7 +28,7 @@ namespace Paint.Utility
             Minimum = min;
             Maximum = max;
             OpacityValue = 100;
-            WidthValue = 1;
+            WidthValue = min;
             BrushType = brushType;
         }
 
@@ -151,7 +151,7 @@ namespace Paint.Utility
         public Slider()
         {
             sliderInfos = new List<SliderInfo>();
-            sliderInfos.Add(new SliderInfo(1, 100, BrushType.MARKER));
+            sliderInfos.Add(new SliderInfo(20, 100, BrushType.MARKER));
             sliderInfos.Add(new SliderInfo(8, 40, BrushType.FOUNTAINPEN));
             sliderInfos.Add(new SliderInfo(10, 100, BrushType.OILBRUSH));
             sliderInfos.Add(new SliderInfo(5, 200, BrushType.WATERCOLOR));

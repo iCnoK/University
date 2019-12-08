@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Paint.Model
+namespace Paint.Utility.Enums
 {
-    public class ProgramModel
+    public enum ImageFileFormat
     {
-
+        JPEG,
+        PNG,
+        BMP,
+        TIFF,
+        UNKNOWN
     }
 }
