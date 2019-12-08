@@ -5,21 +5,33 @@ namespace Paint.Utility
 {
     public class ImageChangesHolder
     {
+        private const int PercentOfDeletingElements = 20;
+
         private bool DoublePop { get; set; }
 
         private Stack<WriteableBitmap> WriteableBitmaps { get; set; } = null;
 
+        private readonly int StackCapacity;
+
+        private int NumberOfDeletingElements
+        {
+            get
+            {
+                var temp = PercentOfDeletingElements * 1.0 / 100;
+                return (int)(StackCapacity * temp);
+            }
+        }
+
+        private int StackCount
+        {
+            get => WriteableBitmaps.Count;
+        }
+
         public void Push(WriteableBitmap bitmap)
         {
-            //if (WriteableBitmaps.Count != 0)
-            //{
-            //var tempBitmap = WriteableBitmaps.Peek();
-            //if (bitmap != tempBitmap)
-            //{
             WriteableBitmaps.Push(bitmap.Clone());
-            //}
             DoublePop = true;
-            //}
+            CheckStackSize();
         }
 
         public WriteableBitmap Pop()
@@ -42,10 +54,44 @@ namespace Paint.Utility
             }
         }
 
-        public ImageChangesHolder(WriteableBitmap bitmap)
+        public void Clear()
+        {
+            for (int i = 0; i < StackCount; i++)
+            {
+                Pop();
+            }
+        }
+
+        public ImageChangesHolder(WriteableBitmap bitmap, int maxCapacity)
         {
             WriteableBitmaps = new Stack<WriteableBitmap>();
             WriteableBitmaps.Push(new WriteableBitmap(bitmap));
+            StackCapacity = maxCapacity;
+        }
+
+        private void CheckStackSize()
+        {
+            var length1 = StackCapacity - NumberOfDeletingElements;
+            if (StackCount > StackCapacity)
+            {
+                var newStack = new Stack<WriteableBitmap>();
+                var length = StackCapacity - NumberOfDeletingElements;
+                for (int i = 0; i <= length; i++)
+                {
+                    newStack.Push(WriteableBitmaps.Pop().Clone());
+                }
+                WriteableBitmaps = new Stack<WriteableBitmap>();
+                for (int i = 0; i <= length; i++)
+                {
+                    WriteableBitmaps.Push(newStack.Pop().Clone());
+                }
+            }
         }
     }
 }
+
+//if (WriteableBitmaps.Count != 0)
+//{
+//var tempBitmap = WriteableBitmaps.Peek();
+//if (bitmap != tempBitmap)
+//{

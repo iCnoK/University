@@ -38,6 +38,8 @@ namespace Paint.Utility
 
         private int Stride { get; set; }
 
+        private const int StackCapacity = 50;
+
         //public bool IsMainLayer { get; private set; }
 
         public BitmapLayer() : this(500, 500)
@@ -102,7 +104,7 @@ namespace Paint.Utility
 
                 Bitmap = resultBitmap;
 
-                ChangesHolder = new ImageChangesHolder(Bitmap);
+                ChangesHolder = new ImageChangesHolder(Bitmap, StackCapacity);
                 OnImageChanged();
             }
             else
@@ -119,7 +121,7 @@ namespace Paint.Utility
             if (height > 1 && width > 1)
             {
                 Bitmap = new WriteableBitmap(width + 600, height + 600, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null);
-                ChangesHolder = new ImageChangesHolder(Bitmap);
+                ChangesHolder = new ImageChangesHolder(Bitmap, StackCapacity);
                 OnImageChanged();
             }
             else
