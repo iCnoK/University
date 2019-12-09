@@ -1,5 +1,6 @@
 ﻿using Paint.Utility;
 using Paint.Utility.Enums;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.IO;
@@ -149,13 +150,13 @@ namespace Paint.ViewModel
         #region Commands
         private ICommand _mouseDown;
         public ICommand MouseDown => _mouseDown ?? (_mouseDown =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 Timer.Start();
             }));
         private ICommand _mouseUp;
         public ICommand MouseUp => _mouseUp ?? (_mouseUp =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 Timer.Stop();
                 //IsFirstClick = true;
@@ -220,8 +221,10 @@ namespace Paint.ViewModel
             //    //TEST = 123456789;
             //}
 
-            if (CheckCoordinationsRepeat()) return;
-
+            if (CheckCoordinationsRepeat())
+            {
+                return;
+            }
 
             Application.Current.Dispatcher.Invoke(new System.Action(() =>
                 BitmapLayer.Draw(BrushParameters.BrushType, GetPoint, diameter)));

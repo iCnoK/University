@@ -1,5 +1,6 @@
 ﻿using Paint.Utility;
 using Paint.Utility.Enums;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -192,7 +193,7 @@ namespace Paint.ViewModel
         #region Commands
         private ICommand _setBrush;
         public ICommand SetBrush => _setBrush ?? (_setBrush =
-            new RelayCommand(obj =>
+            new DelegateCommand<object>(delegate (object obj)
             {
                 if (obj != null)
                 {
@@ -221,7 +222,7 @@ namespace Paint.ViewModel
 
         private ICommand _setDefaultColor;
         public ICommand SetDefaultColor => _setDefaultColor ?? (_setDefaultColor = 
-            new RelayCommand(obj =>
+            new DelegateCommand<object>(delegate (object obj)
             {
                 if (obj != null)
                 {
@@ -233,7 +234,7 @@ namespace Paint.ViewModel
 
         private ICommand _setCustomColor;
         public ICommand SetCustomColor => _setCustomColor ?? (_setCustomColor =
-            new RelayCommand(obj =>
+            new DelegateCommand<object>(delegate (object obj)
             {
                 if (obj != null)
                 {
@@ -244,7 +245,7 @@ namespace Paint.ViewModel
 
         private ICommand _openColorPicker;
         public ICommand OpenColorPicker => _openColorPicker ?? (_openColorPicker =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 ColorPickerStatus.ChangeVisibilityOfPicker = Visibility.Visible;
             }));

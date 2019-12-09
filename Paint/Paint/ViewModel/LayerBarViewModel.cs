@@ -18,7 +18,7 @@ namespace Paint.ViewModel
         public LayerBarViewModel()
         {
             Items = new ObservableCollection<Item>();
-            BitmapImage bitmapImage = new BitmapImage(new Uri(@"C:\Users\Андрей\Desktop\lol.png"));
+            BitmapImage bitmapImage = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\Utility\Resources\star_wars_dart_vejder_art_105284_1920x1080.jpg"));
             bitmapImage.CreateOptions = BitmapCreateOptions.None;
             WriteableBitmap resultBitmap = new WriteableBitmap(bitmapImage);
             Items.Add(new Item(resultBitmap, true));

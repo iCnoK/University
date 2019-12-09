@@ -1,4 +1,5 @@
 ﻿using Paint.Utility;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace Paint.ViewModel
 
         #region Commands Realization
         public ICommand CloseColorPicker => _closeColorPicker ?? (_closeColorPicker =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 ChangeVisibilityOfPicker = Visibility.Collapsed;
                 OnColorChanged();

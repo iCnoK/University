@@ -138,11 +138,13 @@
     <Compile Include="Utility\Brushes\MarkerBrush.cs" />
     <Compile Include="Utility\BrushParameters.cs" />
     <Compile Include="Utility\Enums\ImageFileFormat.cs" />
+    <Compile Include="Utility\MVVM Support\MvvmMessageBoxEventArgs.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\ImageChangesHolder.cs" />
     <Compile Include="Utility\CustomColorConverter.cs" />
     <Compile Include="Utility\Enums\PainterModelMode.cs" />
     <Compile Include="Utility\Enums\SliderMode.cs" />
+    <Compile Include="Utility\MessageBoxService.cs" />
     <Compile Include="Utility\MVVM Support\MouseBehaviour.cs" />
     <Compile Include="Utility\MVVM Support\OnPropertyChangedClass.cs" />
     <Compile Include="Utility\MVVM Support\RelayCommand.cs" />
@@ -278,6 +280,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Utility\Resources\Undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utility\Resources\PainDLogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

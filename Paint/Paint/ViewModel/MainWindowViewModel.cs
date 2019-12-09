@@ -1,6 +1,9 @@
 ﻿using Paint.Utility;
+using Paint.Utility.MVVM_Support;
 using Prism.Commands;
 using Prism.Mvvm;
+using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 
@@ -8,6 +11,12 @@ namespace Paint.ViewModel
 {
     public class MainWindowViewModel : BindableBase
     {
+        public event EventHandler<MvvmMessageBoxEventArgs> MessageBoxRequest;
+        private void ShowMessageBox(Action<MessageBoxResult> resultAction, string messageBoxText, string caption = "", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.None, MessageBoxOptions options = MessageBoxOptions.None)
+        {
+            this.MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(resultAction, messageBoxText, caption, button, icon, defaultResult, options));
+        }
+        
         private BrushParameters BrushParameters = new BrushParameters();
 
         public SideMenuViewModel SideMenuStatus { get; set; }
@@ -25,6 +34,24 @@ namespace Paint.ViewModel
         {
             PainterStatus.UndoChanges();
         }));
+
+        private ICommand _openBrushConfigurator;
+        public ICommand OpenBrushConfigurator => _openBrushConfigurator ?? (_openBrushConfigurator = new DelegateCommand(delegate ()
+        {
+            ShowMessageBox(ProcessTheAnswerOfMessageBox,
+                "Вы уверены, что желаете закрыть PainD и открыть конфигуратор кистей?\nИзображение автоматически сохранится.",
+                "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
+        }));
+
+        public void ProcessTheAnswerOfMessageBox(MessageBoxResult result)
+        {
+            if (result == MessageBoxResult.OK)
+            {
+                SideMenuStatus.SavePicture.Execute(null);
+                Process.Start("BrushCreator.exe");
+                Application.Current.Shutdown();
+            }
+        }
 
         public MainWindowViewModel()
         {

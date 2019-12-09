@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Paint.Model.SideMenuControl;
 using Paint.Utility;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Windows;
@@ -162,14 +163,14 @@ namespace Paint.ViewModel
         #endregion
 
         #region Commands Realization
-        public ICommand CloseMenu => _closeMenu ?? (_closeMenu = new RelayCommand(obj =>
+        public ICommand CloseMenu => _closeMenu ?? (_closeMenu = new DelegateCommand(delegate ()
         {
             //Width = 300;
             ChangeVisibilityOfMenu = Visibility.Collapsed;
             CreateBarVisibility = Visibility.Collapsed;
         }));
         public ICommand CloseApplication => _closeApplication ?? (_closeApplication =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 Application.Current.Shutdown();
             }));
@@ -179,14 +180,14 @@ namespace Paint.ViewModel
         //        //Width = 600;
         //    }));
         public ICommand CreateNewPicture => _createNewPicture ?? (_createNewPicture =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 //Width = 300;
                 //TODO => здесь должен быть создатель пустого изображения
                 CreateBarVisibility = Visibility.Visible;
             }));
         public ICommand OpenNewPicture => _openNewPicture ?? (_openNewPicture =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 CreateBarVisibility = Visibility.Collapsed;
                 OpenFileDialog fileDialog = SideMenuModel.InitOpenFileDialog();
@@ -201,13 +202,13 @@ namespace Paint.ViewModel
             }));
 
         public ICommand SavePicture => _savePicture ?? (_savePicture =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 CreateBarVisibility = Visibility.Collapsed;
                 OnSaveFileChanged();
             }));
         public ICommand SaveAsPicture => _saveAsPicture ?? (_saveAsPicture =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 CreateBarVisibility = Visibility.Collapsed;
 
@@ -223,7 +224,7 @@ namespace Paint.ViewModel
             }));
 
         public ICommand ChangeCreateBarVisibility => _changeCreateBarVisibility ?? (_changeCreateBarVisibility =
-            new RelayCommand(obj =>
+            new DelegateCommand(delegate ()
             {
                 if ((StringImageHeigth == null || StringImageHeigth == string.Empty) ||
                 (StringImageWidth == null || StringImageWidth == string.Empty))

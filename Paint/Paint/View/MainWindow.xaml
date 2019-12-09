@@ -9,7 +9,7 @@
         
         mc:Ignorable="d"
         Title="PainD" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
-        Height="720" Width="1280" Background="White" WindowStartupLocation="CenterScreen">
+        Height="720" Width="1280" Background="White" WindowStartupLocation="CenterScreen" Icon="/Paint;component/Utility/Resources/PainDLogo.png">
 
     <!--d:DataContext="{d:DesignInstance localView:SideMenu, localView:BrushesBar, localView:ColorPicker}"-->
 
@@ -69,8 +69,14 @@
                 </Rectangle.Fill>
             </Rectangle>
 
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="MainMenuButton" Style="{StaticResource NewHighlightColourForHead}"
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" x:Name="MainMenuButton" Style="{StaticResource NewHighlightColourForHead}"
                             HorizontalContentAlignment="Center"
                             HorizontalAlignment="Left" Height="50" Width="60" Background="#00DDDDDD"
                             BorderBrush="#00707070" Command="{Binding OpenMenu}">
@@ -81,8 +87,41 @@
                                    Height="25" Foreground="White"/>
                     </StackPanel>
                 </Button>
-            </StackPanel>
+
+                <Button Grid.Column="2" Style="{StaticResource NewHighlightColourForHead}"
+                        HorizontalContentAlignment="Center"
+                        HorizontalAlignment="Right" Height="50" Width="100" Background="#00DDDDDD"
+                        BorderBrush="#00707070" Command="{Binding OpenBrushConfigurator}"
+                        ToolTip="Открыть консольный конфигуратор кистей (PainD будет закрыт)">
+                    <StackPanel Orientation="Vertical">
+                        <!--<Image Source="/Utility/Resources/Menu.png" Width="25" Height="25"/>-->
+                        <Label Content="Конфигуратор" HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Top"
+                                   Height="25" Foreground="White"/>
+                        <Label Content="кистей" HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Top"
+                                   Height="25" Foreground="White"/>
+                    </StackPanel>
+                </Button>
+
+            </Grid>
             
+            <!--<StackPanel Orientation="Horizontal">
+                
+
+                --><!--<Button Style="{StaticResource NewHighlightColourForHead}"
+                            HorizontalContentAlignment="Center"
+                            HorizontalAlignment="Right" Height="50" Width="60" Background="#00DDDDDD"
+                            BorderBrush="#00707070" Command="{Binding OpenMenu}">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="/Utility/Resources/Menu.png" Width="25" Height="25"/>
+                        <Label Content="Меню" HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Top"
+                                   Height="25" Foreground="White"/>
+                    </StackPanel>
+                </Button>--><!--
+            </StackPanel>-->
+
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
                 <Button Style="{StaticResource NewHighlightColourForHead}"
                             HorizontalContentAlignment="Center"
