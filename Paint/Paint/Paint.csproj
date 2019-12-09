@@ -151,11 +151,15 @@
     <Compile Include="Utility\MVVM Support\XamlConverters.cs" />
     <Compile Include="ViewModel\BrushesBarViewModel.cs" />
     <Compile Include="ViewModel\ColorPickerViewModel.cs" />
+    <Compile Include="ViewModel\LayerBarViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\PainterViewModel.cs" />
     <Compile Include="ViewModel\SideMenuViewModel.cs" />
     <Compile Include="View\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LayerBar.xaml.cs">
+      <DependentUpon>LayerBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Painter.xaml.cs">
       <DependentUpon>Painter.xaml</DependentUpon>
@@ -168,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ColorPicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LayerBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -267,6 +275,9 @@
     <Resource Include="TempRecources\PIXELPEN.png" />
     <Resource Include="TempRecources\SPRAYCAN.png" />
     <Resource Include="TempRecources\WATERCOLOR.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Utility\Resources\Undo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

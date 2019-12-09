@@ -160,17 +160,17 @@
                             ToolTip="Маркер" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Marker_Brush.png"/>
                     </Button>
-                    <Button Visibility="Collapsed" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                    <Button IsEnabled="False" Background="Gray" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
                             CommandParameter="{x:Static enums:BrushType.FOUNTAINPEN}"
                             ToolTip="Перьевая ручка" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Fountainpen_Brush.png"/>
                     </Button>
-                    <Button Visibility="Collapsed" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                    <Button IsEnabled="False" Background="Gray" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
                             CommandParameter="{x:Static enums:BrushType.OILBRUSH}"
                             ToolTip="Кисть для масляных красок" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Oilbrush_Brush.png"/>
                     </Button>
-                    <Button Visibility="Collapsed" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                    <Button IsEnabled="False" Background="Gray" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
                             CommandParameter="{x:Static enums:BrushType.WATERCOLOR}"
                             ToolTip="Акварель" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Watercolor_Brush.png"/>
@@ -180,14 +180,9 @@
                             ToolTip="Пиксельное перо" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Pixelpen_Brush.png"/>
                     </Button>
-                    <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
-                            CommandParameter="{x:Static enums:BrushType.ERASER}"
-                            ToolTip="Ластик" Style="{StaticResource ProgressiveButtonStyle}">
-                        <Image Source="/Utility/Resources/Brushes/Eraser_Brush.png"/>
-                    </Button>
                 </StackPanel>
-                <StackPanel Visibility="Collapsed" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Visibility="Collapsed" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button IsEnabled="False" Background="Gray" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
                             CommandParameter="{x:Static enums:BrushType.PENCIL}"
                             ToolTip="Карандаш" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Pencil_Brush.png"/>
@@ -198,12 +193,12 @@
                         <Image Source="/Utility/Resources/Brushes/Eraser_Brush.png"/>
                     </Button>
 
-                    <Button Visibility="Collapsed" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                    <Button IsEnabled="False" Background="Gray" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
                             CommandParameter="{x:Static enums:BrushType.SPRAYCAN}"
                             ToolTip="Баллончик с краской" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Spraycan_Brush.png"/>
                     </Button>
-                    <Button Visibility="Collapsed" Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
+                    <Button Width="40" Margin="0,0,1,0" Command="{Binding SetBrush}"
                             CommandParameter="{x:Static enums:BrushType.FILL}"
                             ToolTip="Заполнить" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Fill_Brush.png"/>
@@ -494,7 +489,7 @@
             </Grid>
             
             <StackPanel IsEnabled="{Binding Path=ButtonsIsEnabled}"  Grid.Row="2" Orientation="Horizontal">
-                <Button Grid.Row="2" Height="30" Width="170" Background="Transparent" BorderBrush="LightSlateGray"
+                <Button Grid.Row="2" Height="30" Width="204" Background="Transparent" BorderBrush="LightSlateGray"
                     Style="{StaticResource ProgressiveButtonStyleReview}" HorizontalAlignment="Left" Margin="18,0,0,0"
                           Command="{Binding Path=OpenColorPicker}">
                     <StackPanel Orientation="Horizontal">

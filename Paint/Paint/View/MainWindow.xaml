@@ -8,7 +8,7 @@
         xmlns:localView="clr-namespace:Paint.View"
         
         mc:Ignorable="d"
-        Title="Paint v1.4.88" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
+        Title="PainD" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
         Height="720" Width="1280" Background="White" WindowStartupLocation="CenterScreen">
 
     <!--d:DataContext="{d:DesignInstance localView:SideMenu, localView:BrushesBar, localView:ColorPicker}"-->
@@ -50,8 +50,8 @@
                 <ColumnDefinition Width="240"/>
             </Grid.ColumnDefinitions>
 
-            <ToolBarPanel Grid.Row="0" Grid.ColumnSpan="2" Height="50" VerticalAlignment="Top" >
-                <ToolBarPanel.Background>
+            <Rectangle Grid.Row="0" Grid.ColumnSpan="2">
+                <Rectangle.Fill>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <LinearGradientBrush.RelativeTransform>
                             <TransformGroup>
@@ -66,28 +66,42 @@
                         <GradientStop Color="#FF24272C" Offset="0.4"/>
                         <GradientStop Color="#FF24272C" Offset="0.6"/>
                     </LinearGradientBrush>
-                </ToolBarPanel.Background>
+                </Rectangle.Fill>
+            </Rectangle>
 
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="MainMenuButton" Style="{StaticResource NewHighlightColourForHead}"
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="MainMenuButton" Style="{StaticResource NewHighlightColourForHead}"
                             HorizontalContentAlignment="Center"
                             HorizontalAlignment="Left" Height="50" Width="60" Background="#00DDDDDD"
                             BorderBrush="#00707070" Command="{Binding OpenMenu}">
-                        <StackPanel Orientation="Vertical">
-                            <Image Source="/Utility/Resources/Menu.png" Width="25" Height="25"/>
-                            <Label Content="Меню" HorizontalContentAlignment="Center"
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="/Utility/Resources/Menu.png" Width="25" Height="25"/>
+                        <Label Content="Меню" HorizontalContentAlignment="Center"
                                    VerticalContentAlignment="Top"
                                    Height="25" Foreground="White"/>
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-            </ToolBarPanel>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                <Button Style="{StaticResource NewHighlightColourForHead}"
+                            HorizontalContentAlignment="Center"
+                            HorizontalAlignment="Left" Height="50" Width="60" Background="#00DDDDDD"
+                            BorderBrush="#00707070" Command="{Binding Path=UndoChanges}">
+                    <StackPanel Orientation="Vertical">
+                        <Image Source="/Utility/Resources/Undo.png" Width="25" Height="25"/>
+                        <Label Content="Вернуть" HorizontalContentAlignment="Center"
+                                   VerticalContentAlignment="Top"
+                                   Height="25" Foreground="White"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
 
-            <ToolBarPanel Grid.Row="1" Height="50" >
-                <ToolBarPanel.Effect>
+            <Rectangle Grid.Row="1" Height="50">
+                <Rectangle.Effect>
                     <DropShadowEffect BlurRadius="20" Color="#FF575757" ShadowDepth="1"/>
-                </ToolBarPanel.Effect>
-                <ToolBarPanel.Background>
+                </Rectangle.Effect>
+                <Rectangle.Fill>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <LinearGradientBrush.RelativeTransform>
                             <TransformGroup>
@@ -102,17 +116,19 @@
                         <GradientStop Color="#FFD1D1D1" Offset="0.4"/>
                         <GradientStop Color="#FFD1D1D1" Offset="0.6"/>
                     </LinearGradientBrush>
-                </ToolBarPanel.Background>
+                </Rectangle.Fill>
+            </Rectangle>
 
-                <StackPanel Orientation="Horizontal">
-                    <!--<Button Style="{StaticResource NewHighlightColourForHead}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="60" Width="60" Background="#00DDDDDD" BorderBrush="#00707070">
-                        <StackPanel Orientation="Vertical">
-                            <Image Source="/Utility/Resources/Menu.png" Width="25" Height="25"/>
-                            <Label Content="Меню" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Height="25" Foreground="White"/>
-                        </StackPanel>
-                    </Button>-->
-                </StackPanel>
-            </ToolBarPanel>
+            <localView:LayerBar Grid.Row="1" Grid.Column="0"/>
+            <!--<ToolBarPanel  >
+                <ToolBarPanel.Effect>
+                    
+                </ToolBarPanel.Effect>
+                <ToolBarPanel.Background>
+                    
+
+                </ToolBarPanel.Background>
+            </ToolBarPanel>-->
 
             <ScrollViewer Style="{StaticResource OverrideContentPosition}" CanContentScroll="False"
                           Grid.Row="2" HorizontalScrollBarVisibility="Visible"
@@ -125,7 +141,7 @@
                 </ScrollViewer.Background>
 
                 <localView:Painter DataContext="{Binding PainterStatus}"/>
-                
+
             </ScrollViewer>
 
             <localView:BrushesBar DataContext="{Binding BrushesBarStatus}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"/>
@@ -141,6 +157,6 @@
 
         <localView:SideMenu x:Name="sideMenu" DataContext="{Binding SideMenuStatus}" Grid.Column="0"
                             HorizontalAlignment="Left"/>
-        
+
     </Grid>
 </Window>

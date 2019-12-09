@@ -380,6 +380,11 @@ namespace Paint.Utility
                 opacity = 0;
             }
 
+            if (brush == BrushType.FILL)
+            {
+                return;
+            }
+
             int bytesPerPixel = (Bitmap.Format.BitsPerPixel + 7) / 8;
             Stride = bytesPerPixel * diameter;
 
@@ -451,45 +456,45 @@ namespace Paint.Utility
         /// <summary>
         /// мусор
         /// </summary>
-        private void CreateAndSerializeBrushes()
-        {
-            Brush brush1 = new Brush();
+        //private void CreateAndSerializeBrushes()
+        //{
+        //    Brush brush1 = new Brush();
 
-            BitmapImage bitmapImage = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\ERASER.png"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            var temp = new WriteableBitmap(bitmapImage);
-            BitmapImage bitmapImage1 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\FOUNTAINPEN.png"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            var temp1 = new WriteableBitmap(bitmapImage1);
-            BitmapImage bitmapImage2 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\Marker1.png"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            var temp2 = new WriteableBitmap(bitmapImage2);
-            BitmapImage bitmapImage3 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\OILBRUSH.png"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            var temp3 = new WriteableBitmap(bitmapImage3);
-            BitmapImage bitmapImage4 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\PENCIL.png"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            var temp4 = new WriteableBitmap(bitmapImage4);
-            BitmapImage bitmapImage5 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\PIXELPEN.png"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            var temp5 = new WriteableBitmap(bitmapImage5);
-            BitmapImage bitmapImage6 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\SPRAYCAN.png"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            var temp6 = new WriteableBitmap(bitmapImage6);
-            BitmapImage bitmapImage7 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\WATERCOLOR.png"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            var temp7 = new WriteableBitmap(bitmapImage7);
+        //    BitmapImage bitmapImage = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\ERASER.png"));
+        //    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+        //    var temp = new WriteableBitmap(bitmapImage);
+        //    BitmapImage bitmapImage1 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\FOUNTAINPEN.png"));
+        //    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+        //    var temp1 = new WriteableBitmap(bitmapImage1);
+        //    BitmapImage bitmapImage2 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\Marker1.png"));
+        //    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+        //    var temp2 = new WriteableBitmap(bitmapImage2);
+        //    BitmapImage bitmapImage3 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\OILBRUSH.png"));
+        //    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+        //    var temp3 = new WriteableBitmap(bitmapImage3);
+        //    BitmapImage bitmapImage4 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\PENCIL.png"));
+        //    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+        //    var temp4 = new WriteableBitmap(bitmapImage4);
+        //    BitmapImage bitmapImage5 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\PIXELPEN.png"));
+        //    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+        //    var temp5 = new WriteableBitmap(bitmapImage5);
+        //    BitmapImage bitmapImage6 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\SPRAYCAN.png"));
+        //    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+        //    var temp6 = new WriteableBitmap(bitmapImage6);
+        //    BitmapImage bitmapImage7 = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\TempRecources\WATERCOLOR.png"));
+        //    bitmapImage.CreateOptions = BitmapCreateOptions.None;
+        //    var temp7 = new WriteableBitmap(bitmapImage7);
 
 
-            brush1.BrushLoader.AddBrush(temp, BrushType.ERASER);
-            brush1.BrushLoader.AddBrush(temp1, BrushType.FOUNTAINPEN);
-            brush1.BrushLoader.AddBrush(temp2, BrushType.MARKER);
-            brush1.BrushLoader.AddBrush(temp3, BrushType.OILBRUSH);
-            brush1.BrushLoader.AddBrush(temp4, BrushType.PENCIL);
-            brush1.BrushLoader.AddBrush(temp5, BrushType.PIXELPEN);
-            brush1.BrushLoader.AddBrush(temp6, BrushType.SPRAYCAN);
-            brush1.BrushLoader.AddBrush(temp7, BrushType.WATERCOLOR);
-            brush1.BrushLoader.SaveBrushes();
-        }
+        //    brush1.BrushLoader.AddBrush(temp, BrushType.ERASER);
+        //    brush1.BrushLoader.AddBrush(temp1, BrushType.FOUNTAINPEN);
+        //    brush1.BrushLoader.AddBrush(temp2, BrushType.MARKER);
+        //    brush1.BrushLoader.AddBrush(temp3, BrushType.OILBRUSH);
+        //    brush1.BrushLoader.AddBrush(temp4, BrushType.PENCIL);
+        //    brush1.BrushLoader.AddBrush(temp5, BrushType.PIXELPEN);
+        //    brush1.BrushLoader.AddBrush(temp6, BrushType.SPRAYCAN);
+        //    brush1.BrushLoader.AddBrush(temp7, BrushType.WATERCOLOR);
+        //    brush1.BrushLoader.SaveBrushes();
+        //}
     }
 }

@@ -12,11 +12,31 @@ namespace Paint.ViewModel
     {
         public int GetHeightOfNewImage
         {
-            get => Convert.ToInt32(StringImageHeigth);
+            get
+            {
+                if (StringImageHeigth != null || StringImageHeigth != string.Empty)
+                {
+                    return Convert.ToInt32(StringImageHeigth);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
         }
         public int GetWidthOfNewImage
         {
-            get => Convert.ToInt32(StringImageWidth);
+            get
+            {
+                if (StringImageWidth != null || StringImageWidth != string.Empty)
+                {
+                    return Convert.ToInt32(StringImageWidth);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
         }
 
 
@@ -205,6 +225,16 @@ namespace Paint.ViewModel
         public ICommand ChangeCreateBarVisibility => _changeCreateBarVisibility ?? (_changeCreateBarVisibility =
             new RelayCommand(obj =>
             {
+                if ((StringImageHeigth == null || StringImageHeigth == string.Empty) ||
+                (StringImageWidth == null || StringImageWidth == string.Empty))
+                {
+                    return;
+                }
+                if (GetHeightOfNewImage < 50 || GetWidthOfNewImage < 50)
+                {
+                    StringImageHeigth = StringImageWidth = string.Empty;
+                    return;
+                }
                 CreateBarVisibility = Visibility.Collapsed;
                 OnImageSizeChanged();
             }));
