@@ -36,6 +36,19 @@ namespace Paint.Utility
 
         public List<KeyValuePair<BrushType, WriteableBitmap>> WriteableBitmaps { get; private set; }
 
+        public List<WriteableBitmap> GetBrushesOfSpecialType(BrushType type)
+        {
+            List<WriteableBitmap> result = new List<WriteableBitmap>();
+            for (int i = 0; i < WriteableBitmaps.Count; i++)
+            {
+                if (WriteableBitmaps[i].Key == type)
+                {
+                    result.Add(WriteableBitmaps[i].Value);
+                }
+            }
+            return result;
+        }
+
         public BrushLoader()
         {
             WriteableBitmaps = new List<KeyValuePair<BrushType, WriteableBitmap>>();
@@ -46,6 +59,11 @@ namespace Paint.Utility
         //{
         //    Serialize();
         //}
+
+        public void ReloadDatabase()
+        {
+            LoadAllBrushes();
+        }
 
         public void AddBrush(WriteableBitmap bitmap, BrushType brush)
         {

@@ -12,16 +12,13 @@ namespace Paint.ViewModel
     public class MainWindowViewModel : BindableBase
     {
         public event EventHandler<MvvmMessageBoxEventArgs> MessageBoxRequest;
-        private void ShowMessageBox(Action<MessageBoxResult> resultAction, string messageBoxText, string caption = "", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.None, MessageBoxOptions options = MessageBoxOptions.None)
-        {
-            this.MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(resultAction, messageBoxText, caption, button, icon, defaultResult, options));
-        }
         
         private BrushParameters BrushParameters = new BrushParameters();
 
         public SideMenuViewModel SideMenuStatus { get; set; }
         public BrushesBarViewModel BrushesBarStatus { get; set; }
         public PainterViewModel PainterStatus { get; set; }
+        public LayerBarViewModel LayerBarStatus { get; set; }
 
         private ICommand _openMenu;
         public ICommand OpenMenu => _openMenu ?? (_openMenu = new DelegateCommand(delegate ()
@@ -43,6 +40,11 @@ namespace Paint.ViewModel
                 "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
         }));
 
+        private void ShowMessageBox(Action<MessageBoxResult> resultAction, string messageBoxText, string caption = "", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.None, MessageBoxOptions options = MessageBoxOptions.None)
+        {
+            this.MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(resultAction, messageBoxText, caption, button, icon, defaultResult, options));
+        }
+
         public void ProcessTheAnswerOfMessageBox(MessageBoxResult result)
         {
             if (result == MessageBoxResult.OK)
@@ -57,7 +59,8 @@ namespace Paint.ViewModel
         {
             SideMenuStatus = new SideMenuViewModel();
             BrushesBarStatus = new BrushesBarViewModel(BrushParameters);
-            PainterStatus = new PainterViewModel(BrushParameters);
+            LayerBarStatus = new LayerBarViewModel();
+            PainterStatus = new PainterViewModel(BrushParameters, LayerBarStatus);
 
             SideMenuStatus.OpenFileChanged += OpenFileChangedEventHandler;
             SideMenuStatus.SaveFileChanged += SaveFileChangedEventHandler;

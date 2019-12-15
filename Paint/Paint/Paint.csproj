@@ -144,7 +144,6 @@
     <Compile Include="Utility\CustomColorConverter.cs" />
     <Compile Include="Utility\Enums\PainterModelMode.cs" />
     <Compile Include="Utility\Enums\SliderMode.cs" />
-    <Compile Include="Utility\MessageBoxService.cs" />
     <Compile Include="Utility\MVVM Support\MouseBehaviour.cs" />
     <Compile Include="Utility\MVVM Support\OnPropertyChangedClass.cs" />
     <Compile Include="Utility\MVVM Support\RelayCommand.cs" />

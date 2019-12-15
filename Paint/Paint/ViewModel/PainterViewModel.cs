@@ -1,8 +1,10 @@
-﻿using Paint.Utility;
+﻿using Paint.Model.PainterControl;
+using Paint.Utility;
 using Paint.Utility.Enums;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Timers;
 using System.Windows;
@@ -15,9 +17,15 @@ namespace Paint.ViewModel
     {
         private BrushParameters BrushParameters { get; set; }
 
+        public LayerBarViewModel LayerBarStatus { get; set; }
+
+        public PainterModel PainterModel { get; set; }
+
         //private PainterModel PainterModel { get; set; }
 
-        private BitmapLayer BitmapLayer;
+        //private List<>
+
+        //private BitmapLayer BitmapLayer;
 
         private Timer Timer = new Timer(1);
 
@@ -166,19 +174,23 @@ namespace Paint.ViewModel
 
         public PainterViewModel() { }
 
-        public PainterViewModel(BrushParameters brushParameters)
+        public PainterViewModel(BrushParameters brushParameters, LayerBarViewModel viewModel)
         {
+            LayerBarStatus = viewModel;
+
+            PainterModel = new PainterModel();
+
             BrushParameters = brushParameters;
 
-            BitmapLayer = new BitmapLayer(500, 500);
-            ImageHeight = BitmapLayer.LayerHeight;
-            ImageWidth = BitmapLayer.LayerWidth;
+            PainterModel.MainBitmap = new BitmapLayer(500, 500);
+            ImageHeight = PainterModel.MainBitmap.LayerHeight;
+            ImageWidth = PainterModel.MainBitmap.LayerWidth;
 
-            Image = BitmapLayer.Bitmap;
+            Image = PainterModel.MainBitmap.Bitmap;
 
             PreviosPoint = new Point(0, 0);
 
-            BitmapLayer.ImageChanged += BitmapLayer_ImageChanged; 
+            PainterModel.MainBitmap.ImageChanged += BitmapLayer_ImageChanged; 
 
             Timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
 
@@ -191,20 +203,21 @@ namespace Paint.ViewModel
             //ImageWidth = PainterModel.Image.PixelWidth;
 
             //Image = PainterModel.Image;
+            LayerBarStatus.Items.Add(new Item(PainterModel.MainBitmap.Bitmap, true));
         }
 
         private void BitmapLayer_ImageChanged(object sender, EventArgs e)
         {
-            Image = BitmapLayer.Bitmap;
-            ImageHeight = BitmapLayer.LayerHeight;
-            ImageWidth = BitmapLayer.LayerWidth;
+            Image = PainterModel.MainBitmap.Bitmap;
+            ImageHeight = PainterModel.MainBitmap.LayerHeight;
+            ImageWidth = PainterModel.MainBitmap.LayerWidth;
         }
 
         private void DataManager_ParametersChanged(object sender, EventArgs e)
         {
             //BitmapLayer.UpdateMask(DataManager.BrushType, DataManager.CurrentColor, GetPoint,
             //    DataManager.GetCurrentWidthSliderValue(DataManager.BrushType));
-            BitmapLayer.UpdateMask(BrushParameters.BrushType, BrushParameters.CurrentColor,
+            PainterModel.MainBitmap.UpdateMask(BrushParameters.BrushType, BrushParameters.CurrentColor,
                 BrushParameters.GetCurrentWidthSliderValue(BrushParameters.BrushType),
                 BrushParameters.GetCurrentOpacitySliderValueByte(BrushParameters.BrushType));
             EllipseDiameter = BrushParameters.GetCurrentWidthSliderValue(BrushParameters.BrushType);
@@ -227,7 +240,7 @@ namespace Paint.ViewModel
             }
 
             Application.Current.Dispatcher.Invoke(new System.Action(() =>
-                BitmapLayer.Draw(BrushParameters.BrushType, GetPoint, diameter)));
+                PainterModel.MainBitmap.Draw(BrushParameters.BrushType, GetPoint, diameter)));
 
 
             //switch(BrushParameters.BrushType)
@@ -345,7 +358,7 @@ namespace Paint.ViewModel
                 ImageFileFormat fileFormat = BitmapLayer.GetImageFileFormat(fileName);
                 if (fileFormat != ImageFileFormat.UNKNOWN)
                 {
-                    BitmapLayer.SaveImageWithFormat(completedFileName, fileFormat);
+                    PainterModel.MainBitmap.SaveImageWithFormat(completedFileName, fileFormat);
                 }
                 else
                 {
@@ -356,23 +369,23 @@ namespace Paint.ViewModel
 
         public void SaveChanges()
         {
-            BitmapLayer.HoldCurrentImage();
+            PainterModel.MainBitmap.HoldCurrentImage();
         }
 
         public void UndoChanges()
         {
-            BitmapLayer.ReturnPreviousState();
+            PainterModel.MainBitmap.ReturnPreviousState();
         }
 
         public void Initialize()
         {
             if (PainterModelMode == PainterModelMode.NEW)
             {
-                BitmapLayer.Initialize(ImageHeight, ImageWidth);
+                PainterModel.MainBitmap.Initialize(ImageHeight, ImageWidth);
             }
             else if (PainterModelMode == PainterModelMode.SOURCE)
             {
-                BitmapLayer.Initialize(OpenFileDirectory);
+                PainterModel.MainBitmap.Initialize(OpenFileDirectory);
             }
         }
     }

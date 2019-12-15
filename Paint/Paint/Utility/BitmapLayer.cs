@@ -28,7 +28,7 @@ namespace Paint.Utility
 
         private ImageChangesHolder ChangesHolder { get; set; }
 
-        //private bool Changed { get; set; }
+        private bool Changed { get; set; } = false;
 
         private byte[] Mask { get; set; }
 
@@ -152,6 +152,7 @@ namespace Paint.Utility
         /// <returns></returns>
         public WriteableBitmap Draw(BrushType brush, Point coordinates, int diameter)
         {
+            if (!Changed) Changed = true;
             switch (brush)
             {
                 case BrushType.MARKER:
@@ -202,55 +203,6 @@ namespace Paint.Utility
             return null;
         }
 
-        //public WriteableBitmap DrawWithAcceleration(BrushType brush, Point previous, Point next, int diameter)
-        //{
-        //    switch (brush)
-        //    {
-        //        case BrushType.MARKER:
-        //            {
-        //                DrawWithMarker(previous, next, diameter);
-        //                //DrawWithMarker(coordinates, diameter);
-        //                return Bitmap;
-        //                //break;
-        //            }
-        //        case BrushType.FOUNTAINPEN:
-        //            {
-        //                break;
-        //            }
-        //        case BrushType.OILBRUSH:
-        //            {
-        //                break;
-        //            }
-        //        case BrushType.WATERCOLOR:
-        //            {
-        //                break;
-        //            }
-        //        case BrushType.PIXELPEN:
-        //            {
-        //                //DrawWithMarker2_0(coordinates, diameter);
-        //                break;
-        //            }
-        //        case BrushType.PENCIL:
-        //            {
-        //                break;
-        //            }
-        //        case BrushType.ERASER:
-        //            {
-        //                //DrawWithMarker(coordinates, diameter);
-        //                break;
-        //            }
-        //        case BrushType.SPRAYCAN:
-        //            {
-        //                break;
-        //            }
-        //        case BrushType.FILL:
-        //            {
-        //                break;
-        //            }
-        //    }
-        //    return null;
-        //}
-    
 
         private void DrawWithMarker(Point coordinates, int diameter)
         {
@@ -259,7 +211,7 @@ namespace Paint.Utility
             byte[] source = new byte[Stride * diameter];
             Bitmap.CopyPixels(rect, source, Stride, 0);
 
-            byte[] buffer = IntelligentArrayInsertion(source);
+            byte[] buffer = IntelligentArrayInsertionWithoutCheck(source);
 
             Bitmap.WritePixels(rect, buffer, Stride, 0);
         }
@@ -356,12 +308,43 @@ namespace Paint.Utility
         {
             Color controlColor = new Color();
 
-            for (int i = 0; i < source.Length; i += 4) 
+            Color mainBrushColor = MaskBitmap.GetPixel(MaskBitmap.PixelWidth / 2, MaskBitmap.PixelHeight / 2);
+
+            for (int i = 0; i < source.Length; i += 4)
             {
-                if (Mask[i]     != controlColor.B ||
+                if ((Mask[i] != controlColor.B ||
                     Mask[i + 1] != controlColor.G ||
                     Mask[i + 2] != controlColor.R ||
-                    Mask[i + 3] != controlColor.A)
+                    Mask[i + 3] != controlColor.A))
+                {
+                    if (source[i] != mainBrushColor.B ||
+                        source[i + 1] != mainBrushColor.G ||
+                        source[i + 2] != mainBrushColor.R ||
+                        source[i + 3] != mainBrushColor.A)
+                    {
+                        source[i] = Mask[i];
+                        source[i + 1] = Mask[i + 1];
+                        source[i + 2] = Mask[i + 2];
+                        source[i + 3] = Mask[i + 3];
+                    }
+                    
+                }
+            }
+            return source;
+        }
+
+        private byte[] IntelligentArrayInsertionWithoutCheck(byte[] source)
+        {
+            Color controlColor = new Color();
+
+            Color mainBrushColor = MaskBitmap.GetPixel(MaskBitmap.PixelWidth / 2, MaskBitmap.PixelHeight / 2);
+
+            for (int i = 0; i < source.Length; i += 4)
+            {
+                if ((Mask[i] != controlColor.B ||
+                    Mask[i + 1] != controlColor.G ||
+                    Mask[i + 2] != controlColor.R ||
+                    Mask[i + 3] != controlColor.A))
                 {
                     source[i] = Mask[i];
                     source[i + 1] = Mask[i + 1];
@@ -376,8 +359,9 @@ namespace Paint.Utility
         {
             if (brush == BrushType.ERASER)
             {
-                color = Colors.Transparent;
-                opacity = 0;
+                color = new Color();
+                opacity = color.A;
+                brush = BrushType.MARKER;
             }
 
             if (brush == BrushType.FILL)
@@ -422,6 +406,8 @@ namespace Paint.Utility
                     Color testColor = bitmap.GetPixel(x, y);
                     if (testColor != defaultColor)
                     {
+                        //Color writingColor = newColor;
+                        //writingColor.A = testColor.A;
                         bitmap.SetPixel(x, y, newColor);
                     }
                 }

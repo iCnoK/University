@@ -247,6 +247,7 @@ namespace Paint.ViewModel
             CreateBarVisibility = Visibility.Collapsed;
             Width = 300;
             SaveFileDirectory = $"{Environment.CurrentDirectory}\\unknown.jpg";
+            StringImageHeigth = StringImageWidth = Convert.ToString(500);
         }
     }
 }

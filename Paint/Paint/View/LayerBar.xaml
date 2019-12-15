@@ -6,21 +6,55 @@
              xmlns:local="clr-namespace:Paint.View"
              xmlns:viewModel="clr-namespace:Paint.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="1032">
+             d:DesignHeight="50" d:DesignWidth="1032" Height="{Binding LayerBarHeight}">
 
     <UserControl.DataContext>
         <viewModel:LayerBarViewModel/>
     </UserControl.DataContext>
 
     <Grid>
-        <ListBox Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush.RelativeTransform>
+                    <TransformGroup>
+                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                        <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </LinearGradientBrush.RelativeTransform>
+                <GradientStop Color="#FFF7F7F7"/>
+                <GradientStop Color="White" Offset="1"/>
+                <GradientStop Color="#FFD1D1D1" Offset="0.4"/>
+                <GradientStop Color="#FFD1D1D1" Offset="0.6"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Vertical">
+                <Button Width="100" Margin="2" Content="Расширить" Command="{Binding Path=ExtendBar}"/>
+                <Button Width="100" Margin="2" Content="Уменьшить" Command="{Binding Path=ReduceBar}"/>
+            </StackPanel>
+
+            <ListBox Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding Items}"
-                 SelectedIndex="{Binding ItemsIndex}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True"  Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+                 SelectedIndex="{Binding ItemsIndex}" BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True"  Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <Image Source="{Binding ImageElementSource}" HorizontalAlignment="Center"
+                                   Height="{Binding ItemImageSize, UpdateSourceTrigger=PropertyChanged}"
+                                   Width="{Binding ItemImageSize, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox IsChecked="{Binding IsCheckedElement}" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
     </Grid>
 </UserControl>

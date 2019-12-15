@@ -175,7 +175,7 @@
                             ToolTip="Акварель" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Watercolor_Brush.png"/>
                     </Button>
-                    <Button Width="40" Command="{Binding SetBrush}"
+                    <Button IsEnabled="False" Background="Gray" Width="40" Command="{Binding SetBrush}"
                             CommandParameter="{x:Static enums:BrushType.PIXELPEN}"
                             ToolTip="Пиксельное перо" Style="{StaticResource ProgressiveButtonStyle}">
                         <Image Source="/Utility/Resources/Brushes/Pixelpen_Brush.png"/>

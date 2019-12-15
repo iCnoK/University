@@ -136,7 +136,8 @@
                 </Button>
             </StackPanel>
 
-            <Rectangle Grid.Row="1" Height="50">
+            <!--<Rectangle Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top"
+                       Height="{Binding ElementName=layerBar, Path=ActualHeight}">
                 <Rectangle.Effect>
                     <DropShadowEffect BlurRadius="20" Color="#FF575757" ShadowDepth="1"/>
                 </Rectangle.Effect>
@@ -156,9 +157,9 @@
                         <GradientStop Color="#FFD1D1D1" Offset="0.6"/>
                     </LinearGradientBrush>
                 </Rectangle.Fill>
-            </Rectangle>
+            </Rectangle>-->
 
-            <localView:LayerBar Grid.Row="1" Grid.Column="0"/>
+            
             <!--<ToolBarPanel  >
                 <ToolBarPanel.Effect>
                     
@@ -184,6 +185,9 @@
             </ScrollViewer>
 
             <localView:BrushesBar DataContext="{Binding BrushesBarStatus}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"/>
+
+            <localView:LayerBar x:Name="layerBar" DataContext="{Binding LayerBarStatus}" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" VerticalAlignment="Top"/>
+            
             <!--<ToolBarPanel x:Name="UtilityToolBar" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
                           Background="#FFF0F2F3" ClipToBounds="True" SnapsToDevicePixels="True">
                 <localView:BrushesBar Grid.RowSpan="3"/>

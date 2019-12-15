@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Commands;
+using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -13,36 +15,88 @@ namespace Paint.ViewModel
 {
     public class LayerBarViewModel : BindableBase
     {
+        public event System.EventHandler ItemsChanged;
+
+        protected virtual void OnItemsChanged()
+        {
+            ItemsChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public ObservableCollection<Item> Items { get; set; }
+
+        private int _layerBarHeight;
+        public int LayerBarHeight
+        {
+            get => _layerBarHeight;
+            set
+            {
+                _layerBarHeight = value;
+                RaisePropertyChanged("LayerBarHeight");
+            }
+        }
+
+        //private int _itemImageSize;
+        public int ItemImageSize
+        {
+            get => Items[0].ItemImageSize;
+            set
+            {
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    Items[i].ItemImageSize = value;
+                }
+            }
+        }
+
+        private ICommand _extendBar;
+        public ICommand ExtendBar => _extendBar ?? (_extendBar = new DelegateCommand(delegate ()
+        {
+            LayerBarHeight = 100;
+            ItemImageSize = 70;
+        }));
+
+        private ICommand _reduceBar;
+        public ICommand ReduceBar => _reduceBar ?? (_reduceBar = new DelegateCommand(delegate ()
+        {
+            LayerBarHeight = 50;
+            ItemImageSize = 0;
+        }));
+
+
 
         public LayerBarViewModel()
         {
             Items = new ObservableCollection<Item>();
-            BitmapImage bitmapImage = new BitmapImage(new Uri(@"Z:\GitHub Repositories\University\Paint\Paint\Utility\Resources\star_wars_dart_vejder_art_105284_1920x1080.jpg"));
-            bitmapImage.CreateOptions = BitmapCreateOptions.None;
-            WriteableBitmap resultBitmap = new WriteableBitmap(bitmapImage);
-            Items.Add(new Item(resultBitmap, true));
-            Items.Add(new Item(resultBitmap, false));
+            LayerBarHeight = 50;
+            ItemImageSize = 0;
         }
     }
 
-    public class Item
+    public class Item : BindableBase
     {
-        Image Image { get; set; }
-        CheckBox CheckBox { get; set; }
+        public ImageSource ImageElementSource { get; set; }
+        public bool IsCheckedElement { get; set; }
 
         public Item(WriteableBitmap writeableBitmap, bool isCheckBoxTrue)
         {
-            Image = new Image();
-            CheckBox = new CheckBox();
-            //Image.Source = writeableBitmap;
-            Image.Source = writeableBitmap.Clone();
-            CheckBox.IsChecked = isCheckBoxTrue;
+            ImageElementSource = writeableBitmap.Clone();
+            IsCheckedElement = isCheckBoxTrue;
+        }
+
+        private int _itemImageSize;
+        public int ItemImageSize
+        {
+            get => _itemImageSize;
+            set
+            {
+                _itemImageSize = value;
+                RaisePropertyChanged("ItemImageSize");
+            }
         }
 
         public Item()
         {
-
+            ItemImageSize = 0;
         }
     }
 }

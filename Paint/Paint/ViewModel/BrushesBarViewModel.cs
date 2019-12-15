@@ -265,6 +265,7 @@ namespace Paint.ViewModel
             }
             ButtonsIsEnabled = false;
             ColorPickerStatus.ColorPickerClosed += ColorPickerClosedEventHandler;
+            //SetDefaultColor.Execute(Colors.Black);
         }
 
         private void ColorPickerClosedEventHandler(object sender, EventArgs e)
