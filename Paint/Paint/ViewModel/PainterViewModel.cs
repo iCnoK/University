@@ -10,6 +10,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Paint.ViewModel
 {
@@ -20,12 +21,6 @@ namespace Paint.ViewModel
         public LayerBarViewModel LayerBarStatus { get; set; }
 
         public PainterModel PainterModel { get; set; }
-
-        //private PainterModel PainterModel { get; set; }
-
-        //private List<>
-
-        //private BitmapLayer BitmapLayer;
 
         private Timer Timer = new Timer(1);
 
@@ -168,7 +163,10 @@ namespace Paint.ViewModel
             {
                 Timer.Stop();
                 //IsFirstClick = true;
-                SaveChanges();
+                if (PainterModel.MainBitmap != null)
+                {
+                    SaveChanges();
+                }
             }));
         #endregion
 
@@ -182,28 +180,109 @@ namespace Paint.ViewModel
 
             BrushParameters = brushParameters;
 
-            PainterModel.MainBitmap = new BitmapLayer(500, 500);
-            ImageHeight = PainterModel.MainBitmap.LayerHeight;
-            ImageWidth = PainterModel.MainBitmap.LayerWidth;
+            //PainterModel.MainBitmap = new BitmapLayer(500, 500);
+            ImageHeight = 500;
+            ImageWidth = 500;
+
+            Initialize();
+            PainterModel_Initialized(null, EventArgs.Empty);
 
             Image = PainterModel.MainBitmap.Bitmap;
 
             PreviosPoint = new Point(0, 0);
 
-            PainterModel.MainBitmap.ImageChanged += BitmapLayer_ImageChanged; 
+            PainterModel.MainBitmap.ImageChanged += BitmapLayer_ImageChanged;
 
             Timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
 
             BrushParameters.ParametersChanged += DataManager_ParametersChanged;
 
             DataManager_ParametersChanged(null, EventArgs.Empty);
+
+            PainterModel.Initialized += PainterModel_Initialized;
+
+            LayerBarStatus.AddItem += LayerBarStatus_AddItem;
+            LayerBarStatus.DeleteItem += LayerBarStatus_DeleteItem;
+            LayerBarStatus.ItemChanged += LayerBarStatus_ItemChanged;
+            LayerBarStatus.ItemIndexChanged += LayerBarStatus_ItemIndexChanged;
             //PainterModel = new PainterModel(dataManager);
             //PainterModel.Initialize(500, 500);
             //ImageHeight = PainterModel.Image.PixelHeight;
             //ImageWidth = PainterModel.Image.PixelWidth;
 
             //Image = PainterModel.Image;
-            LayerBarStatus.Items.Add(new Item(PainterModel.MainBitmap.Bitmap, true));
+
+            //LayerBarStatus.Items.Add(new Item(PainterModel.MainBitmap.Bitmap, 1, true));
+            //LayerBarStatus.Items.Add(new Item(PainterModel.MainBitmap.Bitmap, 2, false));
+            //LayerBarStatus.Items.Add(new Item(PainterModel.MainBitmap.Bitmap, 3, true));
+            //LayerBarStatus.Items.Add(new Item(PainterModel.MainBitmap.Bitmap, 4, true));
+
+        }
+
+        private void PainterModel_Initialized(object sender, EventArgs e)
+        {
+            LayerBarStatus.Clear();
+            LayerBarStatus.AddItemIntoCollection(PainterModel.BitmapLayers[0].GetWorkspaceImage(), true);
+        }
+
+        private void LayerBarStatus_AddItem(object sender, EventArgs e)
+        {
+            PainterModel.AddLayer();
+            PainterModel.BitmapLayers[PainterModel.BitmapLayers.Count - 1].ImageChanged += BitmapLayer_ImageChanged;
+            LayerBarStatus.AddItemIntoCollection(PainterModel.BitmapLayers[PainterModel.BitmapLayers.Count - 1].GetWorkspaceImage().Clone());
+            DataManager_ParametersChanged(null, EventArgs.Empty);
+            //WriteableBitmap writeableBitmap = PainterModel.BitmapLayers[0].GetWorkspaceImage();
+            //LayerBarStatus.AddItemIntoCollection(writeableBitmap.Clone());
+        }
+
+        private void LayerBarStatus_DeleteItem(object sender, EventArgs e)
+        {
+            if (PainterModel.BitmapLayers.Count > 1)
+            {
+                PainterModel.BitmapLayers[PainterModel.CurrentLayerIndex].ImageChanged -= BitmapLayer_ImageChanged;
+                PainterModel.BitmapLayers.RemoveAt(PainterModel.CurrentLayerIndex);
+                PainterModel.IsCheckedLayers.RemoveAt(PainterModel.CurrentLayerIndex);
+                LayerBarStatus.DeleteItemFromCollection(PainterModel.CurrentLayerIndex);
+            }
+        }
+
+        private void LayerBarStatus_ItemChanged(object sender, EventArgs e)
+        {
+            PainterModel.NumberOfActivatedLayers = LayerBarStatus.NumberOfActivatedLayers;
+            for (int i = 0; i < LayerBarStatus.Items.Count; i++)
+            {
+                PainterModel.IsCheckedLayers[i] = LayerBarStatus.Items[i].IsCheckedElement;
+            }
+            DataManager_ParametersChanged(null, EventArgs.Empty);
+            if (PainterModel.IsLayersConnecterOn)
+            {
+                Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                Image = PainterModel.CompileAllLayersInOne().Bitmap));
+            }
+        }
+
+        private void LayerBarStatus_ItemIndexChanged(object sender, EventArgs e)
+        {
+            if (LayerBarStatus.ItemIndex >= 0)
+            {
+                PainterModel.CurrentLayerIndex = LayerBarStatus.ItemIndex;
+            }
+            else
+            {
+                PainterModel.CurrentLayerIndex = 0;
+            }
+            //if (PainterModel.NumberOfActivatedLayers == 1)
+            //{
+            //    Image = PainterModel.MainBitmap.Bitmap;
+            //}
+            //if (PainterModel.NumberOfActivatedLayers > 1 && PainterModel.IsCheckedLayers[PainterModel.CurrentLayerIndex] == false)
+            //{
+                
+            //}
+            if (PainterModel.MainBitmap.Bitmap != null)
+            {
+                Image = PainterModel.MainBitmap.Bitmap;
+            }
         }
 
         private void BitmapLayer_ImageChanged(object sender, EventArgs e)
@@ -211,109 +290,65 @@ namespace Paint.ViewModel
             Image = PainterModel.MainBitmap.Bitmap;
             ImageHeight = PainterModel.MainBitmap.LayerHeight;
             ImageWidth = PainterModel.MainBitmap.LayerWidth;
+
+            Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                LayerBarStatus.Items[PainterModel.CurrentLayerIndex].ImageElementSource =
+                PainterModel.BitmapLayers[PainterModel.CurrentLayerIndex].GetWorkspaceImage()), System.Windows.Threading.DispatcherPriority.Background);
         }
 
         private void DataManager_ParametersChanged(object sender, EventArgs e)
         {
-            //BitmapLayer.UpdateMask(DataManager.BrushType, DataManager.CurrentColor, GetPoint,
-            //    DataManager.GetCurrentWidthSliderValue(DataManager.BrushType));
-            PainterModel.MainBitmap.UpdateMask(BrushParameters.BrushType, BrushParameters.CurrentColor,
+            PainterModel.BitmapLayers = BitmapLayer.SyncMask(PainterModel.BitmapLayers,
+                BrushParameters.BrushType, BrushParameters.CurrentColor,
                 BrushParameters.GetCurrentWidthSliderValue(BrushParameters.BrushType),
                 BrushParameters.GetCurrentOpacitySliderValueByte(BrushParameters.BrushType));
+
             EllipseDiameter = BrushParameters.GetCurrentWidthSliderValue(BrushParameters.BrushType);
         }
-        
+
+        //System.Threading.Thread Thread = new System.Threading.Thread(
+        //    new System.Threading.ParameterizedThreadStart(TestFunk(Image, PainterModel)));
+
+        //public static void TestFunk(ImageSource image, PainterModel painterModel)
+        //{
+        //    image = painterModel.CompileAllLayersInOne().Bitmap;
+        //}
+
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            //Color ahbwfbawf = Colors.Transparent;
-
             int diameter = BrushParameters.GetCurrentWidthSliderValue(BrushParameters.BrushType);
-
-            //if (CheckForMouseAcceleration(diameter))
-            //{
-            //    //TEST = 123456789;
-            //}
 
             if (CheckCoordinationsRepeat())
             {
                 return;
             }
 
-            Application.Current.Dispatcher.Invoke(new System.Action(() =>
-                PainterModel.MainBitmap.Draw(BrushParameters.BrushType, GetPoint, diameter)));
+            if (PainterModel.MainBitmap != null)
+            {
+                Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                PainterModel.MainBitmap.Draw(BrushParameters.BrushType, GetPoint, diameter)), System.Windows.Threading.DispatcherPriority.Render);
+
+                if (PainterModel.IsLayersConnecterOn)
+                {
+                    Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                    Image = PainterModel.CompileAllLayersInOne().Bitmap), System.Windows.Threading.DispatcherPriority.Render);
+                }
+                Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                LayerBarStatus.Items[PainterModel.CurrentLayerIndex].ImageElementSource = 
+                PainterModel.BitmapLayers[PainterModel.CurrentLayerIndex].GetWorkspaceImage()), System.Windows.Threading.DispatcherPriority.Background);
 
 
-            //switch(BrushParameters.BrushType)
-            //{
-
-            //case BrushType.MARKER:
-            //    {
-            //        if (CheckCoordinationsRepeat()) return;
-            //        break;
-            //    }
-            //case BrushType.FOUNTAINPEN:
-            //    {
-            //        if (CheckCoordinationsRepeat()) return;
-            //        break;
-            //    }
-            //case BrushType.OILBRUSH:
-            //    {
-            //        if (CheckCoordinationsRepeat()) return;
-            //        break;
-            //    }
-            //case BrushType.WATERCOLOR:
-            //    {
-            //        //Timer.Interval = 5;
-            //        break;
-            //    }
-
-            //case BrushType.PENCIL:
-            //    {
-            //        if (CheckCoordinationsRepeat()) return;
-            //        break;
-            //    }
-            //case BrushType.ERASER:
-            //    {
-            //        if (CheckCoordinationsRepeat()) return;
-            //        break;
-            //    }
-            //case BrushType.SPRAYCAN:
-            //    {
-            //        break;
-            //    }
-            //case BrushType.FILL:
-            //    {
-            //        if (CheckCoordinationsRepeat()) return;
-            //        break;
-            //    }
-            //case BrushType.PIXELPEN:
-            //    {
-            //        if (CheckCoordinationsRepeat()) return;
-            //        break;
-            //    }
-
-            //default:
-            //    {
-            //        //Timer.Interval = 1;
-            //        if (CheckCoordinationsRepeat()) return;
-            //        Application.Current.Dispatcher.Invoke(new System.Action(() =>
-            //            BitmapLayer.Draw(BrushParameters.BrushType, GetPoint,
-            //            BrushParameters.GetCurrentWidthSliderValue(BrushParameters.BrushType))));
-            //        break;
-            //    }
-            //}
-
-
-
-            //if (GetPoint == PreviosPoint)
-            //{
-            //    return;
-            //}
-            //PreviosPoint = GetPoint;
-
-
-            //TEST++;
+                //for (int i = 0; i < LayerBarStatus.Items.Count; i++)
+                //{
+                //    LayerBarStatus.Items[i].ImageElementSource = PainterModel.BitmapLayers[i].GetWorkspaceImage();
+                //}
+            }
         }
+
+        //private void TestFunk()
+        //{
+        //    Image = PainterModel.CompileAllLayersInOne().Bitmap
+        //}
 
         private bool CheckCoordinationsRepeat()
         {
@@ -358,7 +393,8 @@ namespace Paint.ViewModel
                 ImageFileFormat fileFormat = BitmapLayer.GetImageFileFormat(fileName);
                 if (fileFormat != ImageFileFormat.UNKNOWN)
                 {
-                    PainterModel.MainBitmap.SaveImageWithFormat(completedFileName, fileFormat);
+                    Application.Current.Dispatcher.Invoke(new System.Action(() =>
+                    BitmapLayer.SaveImageWithFormat(PainterModel.CompileAllLayersInOne(), completedFileName, fileFormat)));
                 }
                 else
                 {
@@ -381,11 +417,15 @@ namespace Paint.ViewModel
         {
             if (PainterModelMode == PainterModelMode.NEW)
             {
-                PainterModel.MainBitmap.Initialize(ImageHeight, ImageWidth);
+                PainterModel.Initialize(ImageHeight, ImageWidth);
+                //PainterModel.MainBitmap.Initialize(ImageHeight, ImageWidth);
+                //PainterModel.Clear();
             }
             else if (PainterModelMode == PainterModelMode.SOURCE)
             {
-                PainterModel.MainBitmap.Initialize(OpenFileDirectory);
+                PainterModel.Initialize(OpenFileDirectory);
+                //PainterModel.MainBitmap.Initialize(OpenFileDirectory);
+                //PainterModel.Clear();
             }
         }
     }

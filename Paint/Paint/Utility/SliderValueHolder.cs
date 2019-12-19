@@ -157,7 +157,7 @@ namespace Paint.Utility
             sliderInfos.Add(new SliderInfo(5, 200, BrushType.WATERCOLOR));
             sliderInfos.Add(new SliderInfo(1, 100, BrushType.PIXELPEN));
             sliderInfos.Add(new SliderInfo(5, 10, BrushType.PENCIL));
-            sliderInfos.Add(new SliderInfo(1, 200, BrushType.ERASER));
+            sliderInfos.Add(new SliderInfo(40, 200, BrushType.ERASER));
             sliderInfos.Add(new SliderInfo(25, 300, BrushType.SPRAYCAN));
             sliderInfos.Add(new SliderInfo(0, 0, BrushType.FILL));
         }

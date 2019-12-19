@@ -186,7 +186,11 @@
 
             <localView:BrushesBar DataContext="{Binding BrushesBarStatus}" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"/>
 
-            <localView:LayerBar x:Name="layerBar" DataContext="{Binding LayerBarStatus}" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3" VerticalAlignment="Top"/>
+            <Grid FocusManager.IsFocusScope="True" Grid.Row="1" Grid.Column="0" Grid.RowSpan="3">
+                <localView:LayerBar x:Name="layerBar" DataContext="{Binding LayerBarStatus}" 
+                                    VerticalAlignment="Top"/>
+            </Grid>
+            
             
             <!--<ToolBarPanel x:Name="UtilityToolBar" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
                           Background="#FFF0F2F3" ClipToBounds="True" SnapsToDevicePixels="True">

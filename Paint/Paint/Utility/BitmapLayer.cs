@@ -59,6 +59,11 @@ namespace Paint.Utility
             Brush = new Brush();
         }
 
+        private BitmapLayer(BitmapLayer bitmapLayer) : this(bitmapLayer.LayerHeight, bitmapLayer.LayerWidth)
+        {
+            this.Bitmap = bitmapLayer.Bitmap.Clone();
+        }
+
         /// <summary>
         /// Сохранить состояние картинки
         /// </summary>
@@ -234,7 +239,7 @@ namespace Paint.Utility
         //    //Bitmap.WritePixels(rect, buffer, Stride, 0);
         //}
 
-        private WriteableBitmap GetWorkspaceImage()
+        public WriteableBitmap GetWorkspaceImage()
         {
             byte[] carvedImage = new byte[4 * LayerHeight * LayerWidth];
             Int32Rect rect = new Int32Rect(300, 300, LayerWidth, LayerHeight);
@@ -243,6 +248,20 @@ namespace Paint.Utility
             WriteableBitmap resultBitmap = new WriteableBitmap(LayerWidth, LayerHeight, 96, 96, PixelFormats.Bgra32, null);
             resultBitmap.WritePixels(new Int32Rect(0, 0, LayerWidth, LayerHeight), carvedImage, 4 * LayerWidth, 0);
             return resultBitmap;
+        }
+
+        public byte[] GetWorkspaceArray()
+        {
+            byte[] carvedImage = new byte[4 * LayerHeight * LayerWidth];
+            Int32Rect rect = new Int32Rect(300, 300, LayerWidth, LayerHeight);
+            Bitmap.CopyPixels(rect, carvedImage, 4 * LayerWidth, 0);
+            return carvedImage;
+        }
+
+        public void CopyWorspaceArrayToBitmap(byte[] array)
+        {
+            Int32Rect rect = new Int32Rect(300, 300, LayerWidth, LayerHeight);
+            Bitmap.WritePixels(rect, array, 4 * LayerWidth, 0);
         }
 
         //private WriteableBitmap DeleteTransparentFromBitmap(WriteableBitmap bitmap)
@@ -297,41 +316,96 @@ namespace Paint.Utility
                             break;
                         }
                 }
-                WriteableBitmap cuttedBitmap = GetWorkspaceImage().Clone();
+                //WriteableBitmap cuttedBitmap = GetWorkspaceImage().Clone();
 
                 encoder.Frames.Add(BitmapFrame.Create(GetWorkspaceImage().Clone()));
                 encoder.Save(stream);
             }
         }
 
-        private byte[] IntelligentArrayInsertion(byte[] source)
+        public static void SaveImageWithFormat(BitmapLayer bitmapLayer, string fileName, ImageFileFormat imageFileFormat)
         {
-            Color controlColor = new Color();
-
-            Color mainBrushColor = MaskBitmap.GetPixel(MaskBitmap.PixelWidth / 2, MaskBitmap.PixelHeight / 2);
-
-            for (int i = 0; i < source.Length; i += 4)
+            string fileExtension = imageFileFormat.ToString().ToLower();
+            fileName += $".{fileExtension}";
+            using (FileStream stream = new FileStream(fileName, FileMode.Create))
             {
-                if ((Mask[i] != controlColor.B ||
-                    Mask[i + 1] != controlColor.G ||
-                    Mask[i + 2] != controlColor.R ||
-                    Mask[i + 3] != controlColor.A))
+                BitmapEncoder encoder = null;
+                switch (imageFileFormat)
                 {
-                    if (source[i] != mainBrushColor.B ||
-                        source[i + 1] != mainBrushColor.G ||
-                        source[i + 2] != mainBrushColor.R ||
-                        source[i + 3] != mainBrushColor.A)
+                    case ImageFileFormat.BMP:
+                        {
+                            encoder = new BmpBitmapEncoder();
+                            break;
+                        }
+                    case ImageFileFormat.JPEG:
+                        {
+                            encoder = new JpegBitmapEncoder();
+                            bitmapLayer = ChangeBackgroundColor(bitmapLayer, Colors.White);
+                            break;
+                        }
+                    case ImageFileFormat.PNG:
+                        {
+                            encoder = new PngBitmapEncoder();
+                            break;
+                        }
+                    case ImageFileFormat.TIFF:
+                        {
+                            encoder = new TiffBitmapEncoder();
+                            break;
+                        }
+                }
+                //WriteableBitmap cuttedBitmap = GetWorkspaceImage().Clone();
+
+                encoder.Frames.Add(BitmapFrame.Create(bitmapLayer.GetWorkspaceImage().Clone()));
+                encoder.Save(stream);
+            }
+        }
+
+        private static BitmapLayer ChangeBackgroundColor(BitmapLayer source, Color color)
+        {
+            Color defaultColor = new Color();
+            BitmapLayer result = source.Clone();
+            for (int x = 0; x < result.Bitmap.PixelHeight; x++)
+            {
+                for (int y = 0; y < result.Bitmap.PixelWidth; y++)
+                {
+                    if (result.Bitmap.GetPixel(x,y) == defaultColor)
                     {
-                        source[i] = Mask[i];
-                        source[i + 1] = Mask[i + 1];
-                        source[i + 2] = Mask[i + 2];
-                        source[i + 3] = Mask[i + 3];
+                        result.Bitmap.SetPixel(x, y, color);
                     }
-                    
                 }
             }
-            return source;
+            return result;
         }
+
+        //private byte[] IntelligentArrayInsertion(byte[] source)
+        //{
+        //    Color controlColor = new Color();
+
+        //    Color mainBrushColor = MaskBitmap.GetPixel(MaskBitmap.PixelWidth / 2, MaskBitmap.PixelHeight / 2);
+
+        //    for (int i = 0; i < source.Length; i += 4)
+        //    {
+        //        if ((Mask[i] != controlColor.B ||
+        //            Mask[i + 1] != controlColor.G ||
+        //            Mask[i + 2] != controlColor.R ||
+        //            Mask[i + 3] != controlColor.A))
+        //        {
+        //            if (source[i] != mainBrushColor.B ||
+        //                source[i + 1] != mainBrushColor.G ||
+        //                source[i + 2] != mainBrushColor.R ||
+        //                source[i + 3] != mainBrushColor.A)
+        //            {
+        //                source[i] = Mask[i];
+        //                source[i + 1] = Mask[i + 1];
+        //                source[i + 2] = Mask[i + 2];
+        //                source[i + 3] = Mask[i + 3];
+        //            }
+
+        //        }
+        //    }
+        //    return source;
+        //}
 
         private byte[] IntelligentArrayInsertionWithoutCheck(byte[] source)
         {
@@ -350,6 +424,26 @@ namespace Paint.Utility
                     source[i + 1] = Mask[i + 1];
                     source[i + 2] = Mask[i + 2];
                     source[i + 3] = Mask[i + 3];
+                }
+            }
+            return source;
+        }
+
+        public static byte[] CompareAndConnectArrays(byte[] source, byte[] second)
+        {
+            Color controlColor = new Color();
+
+            for (int i = 0; i < source.Length; i += 4)
+            {
+                if ((second[i] != controlColor.B ||
+                    second[i + 1] != controlColor.G ||
+                    second[i + 2] != controlColor.R ||
+                    second[i + 3] != controlColor.A))
+                {
+                    source[i] = second[i];
+                    source[i + 1] = second[i + 1];
+                    source[i + 2] = second[i + 2];
+                    source[i + 3] = second[i + 3];
                 }
             }
             return source;
@@ -414,6 +508,19 @@ namespace Paint.Utility
             }
         }
 
+        public static List<BitmapLayer> SyncMask(List<BitmapLayer> bitmapLayers, BrushType brush, Color color, int diameter, int opacity)
+        {
+            BitmapLayer bitmapLayer = new BitmapLayer(bitmapLayers[0].LayerHeight, bitmapLayers[0].LayerWidth);
+            bitmapLayer.UpdateMask(brush, color, diameter, opacity);
+            for (int i = 0; i < bitmapLayers.Count; i++)
+            {
+                bitmapLayers[i].Stride = bitmapLayer.Stride;
+                bitmapLayers[i].MaskBitmap = bitmapLayer.MaskBitmap;
+                bitmapLayers[i].Mask = bitmapLayer.Mask;
+            }
+            return bitmapLayers;
+        }
+
         public static ImageFileFormat GetImageFileFormat(string fileName)
         {
             string extension = Path.GetExtension(fileName);
@@ -424,6 +531,11 @@ namespace Paint.Utility
             if (string.Equals(extension, ".jpg")) return ImageFileFormat.JPEG;
             if (string.Equals(extension, ".jpeg")) return ImageFileFormat.JPEG;
             return ImageFileFormat.UNKNOWN;
+        }
+
+        public BitmapLayer Clone()
+        {
+            return new BitmapLayer(this);
         }
 
         //private void FillWithColor(ref byte[] array, Color color)

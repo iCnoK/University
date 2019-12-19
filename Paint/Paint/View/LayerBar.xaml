@@ -12,7 +12,7 @@
         <viewModel:LayerBarViewModel/>
     </UserControl.DataContext>
 
-    <Grid>
+    <Grid FocusManager.IsFocusScope="True">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                 <LinearGradientBrush.RelativeTransform>
@@ -31,13 +31,16 @@
         </Grid.Background>
         <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Vertical">
-                <Button Width="100" Margin="2" Content="Расширить" Command="{Binding Path=ExtendBar}"/>
-                <Button Width="100" Margin="2" Content="Уменьшить" Command="{Binding Path=ReduceBar}"/>
+                <Button Width="100" Margin="2" Content="{Binding ButtonText}" Command="{Binding Path=ExtendBar}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="48" Margin="2" Content="+" Command="{Binding Path=AddCommand}"/>
+                    <Button Width="48" Margin="2" Content="-" Command="{Binding Path=DeleteCommand}"/>
+                </StackPanel>
             </StackPanel>
 
-            <ListBox Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            <ListBox FocusManager.IsFocusScope="True" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled" ItemsSource="{Binding Items}"
-                 SelectedIndex="{Binding ItemsIndex}" BorderThickness="0">
+                 SelectedIndex="{Binding ItemIndex}" BorderThickness="0">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel IsItemsHost="True"  Orientation="Horizontal"/>
@@ -48,9 +51,12 @@
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
                             <Image Source="{Binding ImageElementSource}" HorizontalAlignment="Center"
-                                   Height="{Binding ItemImageSize, UpdateSourceTrigger=PropertyChanged}"
-                                   Width="{Binding ItemImageSize, UpdateSourceTrigger=PropertyChanged}"/>
-                            <CheckBox IsChecked="{Binding IsCheckedElement}" HorizontalAlignment="Center"/>
+                                   Height="{Binding ItemImageSize}"
+                                   Width="{Binding ItemImageSize}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding LabelText}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <CheckBox IsChecked="{Binding IsCheckedElement}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
