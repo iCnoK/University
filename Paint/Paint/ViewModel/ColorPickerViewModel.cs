@@ -1,11 +1,6 @@
-﻿using Paint.Utility;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -54,7 +49,6 @@ namespace Paint.ViewModel
                 {
                     _selectedColor = value;
                     RaisePropertyChanged("SelectedColor");
-                    //OnColorChanged();
                 }
             }
         }
@@ -76,7 +70,6 @@ namespace Paint.ViewModel
         public ColorPickerViewModel()
         {
             ChangeVisibilityOfPicker = Visibility.Collapsed;
-            //ChangeVisibilityOfPicker = Visibility.Visible;
         }
     }
 }

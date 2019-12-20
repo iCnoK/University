@@ -1,13 +1,8 @@
 ﻿using Paint.Utility.Enums;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using System.Xml.Serialization;
 
 namespace Paint.Utility
 {
@@ -54,11 +49,6 @@ namespace Paint.Utility
             WriteableBitmaps = new List<KeyValuePair<BrushType, WriteableBitmap>>();
             LoadAllBrushes();
         }
-
-        //public void SaveBrushes()
-        //{
-        //    Serialize();
-        //}
 
         public void ReloadDatabase()
         {
@@ -117,22 +107,5 @@ namespace Paint.Utility
                 }
             }
         }
-
-        //private void Serialize()
-        //{
-        //    BinaryFormatter serializer = new BinaryFormatter();
-        //    FileStream stream = null;
-        //    int counter = 0;
-        //    foreach (var item in WriteableBitmaps)
-        //    {
-        //        byte[] bytedImage = new byte[XYSize * ColorArraySize * XYSize];
-        //        item.Value.CopyPixels(bytedImage, XYSize * ColorArraySize, 0);
-        //        stream = new FileStream($"Brushes\\brush{counter++}.bin", FileMode.OpenOrCreate);
-        //        serializer.Serialize(stream, bytedImage);
-        //        serializer.Serialize(stream, item.Key);
-        //        stream.Close();
-        //    }
-        //    stream.Close();
-        //}
     }
 }

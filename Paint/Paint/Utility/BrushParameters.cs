@@ -1,9 +1,5 @@
 ﻿using Paint.Utility.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace Paint.Utility
@@ -102,17 +98,5 @@ namespace Paint.Utility
             OnParametersChanged();
         }
         #endregion
-
-        //#region Color Methods
-        //public Color GetColor()
-        //{
-        //    return CurrentColor;
-        //}
-
-        //public void SetColor(Color color)
-        //{
-        //    CurrentColor = color;
-        //}
-        //#endregion
     }
 }

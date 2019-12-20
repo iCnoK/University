@@ -1,92 +1,15 @@
 ﻿using Paint.Utility.Enums;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Paint.Utility
 {
-    //public class VisibilityToIntConverter : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        if ((Visibility)value == Visibility.Visible)
-    //        {
-    //            return 5;
-    //        }
-    //        return 0;
-    //    }
-
-    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        if ((int)value == 5)
-    //        {
-    //            return Visibility.Visible;
-    //        }
-    //        return Visibility.Collapsed;
-    //    }
-    //}
-
-    //public class VisibilityToBool : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        if ((Visibility)value == Visibility.Visible)
-    //        {
-    //            return false;
-    //        }
-    //        return true;
-    //    }
-
-    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        if ((bool)value == false)
-    //        {
-    //            return Visibility.Visible;
-    //        }
-    //        return Visibility.Collapsed;
-    //    }
-    //}
-
-    //public class BoolNegation : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        if ((bool)value)
-    //        {
-    //            return false;
-    //        }
-    //        return true;
-    //    }
-
-    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        if ((bool)value)
-    //        {
-    //            return false;
-    //        }
-    //        return true;
-    //    }
-    //}
-
-    
     [ValueConversion(typeof(int), typeof(bool))]
     public class WidthToBool : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //int test = System.Convert.ToInt32(value);
-            //if (test >= 100 && test <= 300)
             if (System.Convert.ToInt32(value) == 300)
             {
                 return false;
@@ -109,8 +32,6 @@ namespace Paint.Utility
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //int test = System.Convert.ToInt32(value);
-            //if (test >= 200 && test <= 300)
             if (System.Convert.ToInt32(value) == 300)
             {
                 return true;
@@ -133,8 +54,6 @@ namespace Paint.Utility
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //int test = System.Convert.ToInt32(value);
-            //if (test >= 100 && test <= 300)
             if (System.Convert.ToInt32(value) == 300)
             {
                 return 5;
@@ -196,29 +115,4 @@ namespace Paint.Utility
             throw new NotImplementedException();
         }
     }
-
-    //public class BitmapToImageSource : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        using (MemoryStream memory = new MemoryStream())
-    //        {
-    //            Bitmap bitmap = (Bitmap)value;
-    //            bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
-    //            memory.Position = 0;
-    //            BitmapImage bitmapimage = new BitmapImage();
-    //            bitmapimage.BeginInit();
-    //            bitmapimage.StreamSource = memory;
-    //            bitmapimage.CacheOption = BitmapCacheOption.OnLoad;
-    //            bitmapimage.EndInit();
-
-    //            return bitmapimage;
-    //        }
-    //    }
-
-    //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        return value;
-    //    }
-    //}
 }

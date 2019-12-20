@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using Paint.Model.SideMenuControl;
-using Paint.Utility;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -39,7 +38,6 @@ namespace Paint.ViewModel
                 }
             }
         }
-
 
         #region Directories
         private string _openFileDirectory;
@@ -155,7 +153,6 @@ namespace Paint.ViewModel
         private ICommand _closeMenu;
         private ICommand _closeApplication;
         private ICommand _createNewPicture;
-        //private ICommand _openParameters;
         private ICommand _openNewPicture;
         private ICommand _savePicture;
         private ICommand _saveAsPicture;
@@ -165,7 +162,6 @@ namespace Paint.ViewModel
         #region Commands Realization
         public ICommand CloseMenu => _closeMenu ?? (_closeMenu = new DelegateCommand(delegate ()
         {
-            //Width = 300;
             ChangeVisibilityOfMenu = Visibility.Collapsed;
             CreateBarVisibility = Visibility.Collapsed;
         }));
@@ -174,16 +170,9 @@ namespace Paint.ViewModel
             {
                 Application.Current.Shutdown();
             }));
-        //public ICommand OpenParameters => _openParameters ?? (_openParameters =
-        //    new RelayCommand(onj =>
-        //    {
-        //        //Width = 600;
-        //    }));
         public ICommand CreateNewPicture => _createNewPicture ?? (_createNewPicture =
             new DelegateCommand(delegate ()
             {
-                //Width = 300;
-                //TODO => здесь должен быть создатель пустого изображения
                 CreateBarVisibility = Visibility.Visible;
             }));
         public ICommand OpenNewPicture => _openNewPicture ?? (_openNewPicture =

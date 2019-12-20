@@ -11,8 +11,6 @@
         Title="PainD" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
         Height="720" Width="1280" Background="White" WindowStartupLocation="CenterScreen" Icon="/Paint;component/Utility/Resources/PainDLogo.png">
 
-    <!--d:DataContext="{d:DesignInstance localView:SideMenu, localView:BrushesBar, localView:ColorPicker}"-->
-
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -22,17 +20,9 @@
     </Window.InputBindings>
 
     <Window.Resources>
-        <!--<converters:VisibilityToIntConverter x:Key="VisToInt"/>
-        <converters:VisibilityToBool x:Key="VisToBool"/>-->
         <converters:WidthToBool x:Key="WToBool"/>
         <converters:WidthToInt x:Key="WToInt"/>
     </Window.Resources>
-
-    <!--{Binding ElementName=sideMenu, Path=Visibility, Converter={StaticResource VisToBool}}-->
-    <!--{Binding ElementName=sideMenu, Path=Visibility, Converter={StaticResource VisToInt}-->
-
-    <!--{Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToBool}}
-    {Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToInt}}-->
 
     <Grid>
         <Grid IsEnabled="{Binding ElementName=sideMenu, Path=ActualWidth, Converter={StaticResource WToBool}}" Grid.ColumnSpan="2">
@@ -94,7 +84,6 @@
                         BorderBrush="#00707070" Command="{Binding OpenBrushConfigurator}"
                         ToolTip="Открыть консольный конфигуратор кистей (PainD будет закрыт)">
                     <StackPanel Orientation="Vertical">
-                        <!--<Image Source="/Utility/Resources/Menu.png" Width="25" Height="25"/>-->
                         <Label Content="Конфигуратор" HorizontalContentAlignment="Center"
                                    VerticalContentAlignment="Top"
                                    Height="25" Foreground="White"/>
@@ -105,22 +94,6 @@
                 </Button>
 
             </Grid>
-            
-            <!--<StackPanel Orientation="Horizontal">
-                
-
-                --><!--<Button Style="{StaticResource NewHighlightColourForHead}"
-                            HorizontalContentAlignment="Center"
-                            HorizontalAlignment="Right" Height="50" Width="60" Background="#00DDDDDD"
-                            BorderBrush="#00707070" Command="{Binding OpenMenu}">
-                    <StackPanel Orientation="Vertical">
-                        <Image Source="/Utility/Resources/Menu.png" Width="25" Height="25"/>
-                        <Label Content="Меню" HorizontalContentAlignment="Center"
-                                   VerticalContentAlignment="Top"
-                                   Height="25" Foreground="White"/>
-                    </StackPanel>
-                </Button>--><!--
-            </StackPanel>-->
 
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
                 <Button Style="{StaticResource NewHighlightColourForHead}"
@@ -135,40 +108,6 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-
-            <!--<Rectangle Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Top"
-                       Height="{Binding ElementName=layerBar, Path=ActualHeight}">
-                <Rectangle.Effect>
-                    <DropShadowEffect BlurRadius="20" Color="#FF575757" ShadowDepth="1"/>
-                </Rectangle.Effect>
-                <Rectangle.Fill>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <LinearGradientBrush.RelativeTransform>
-                            <TransformGroup>
-                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                                <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </LinearGradientBrush.RelativeTransform>
-                        <GradientStop Color="#FFF7F7F7"/>
-                        <GradientStop Color="White" Offset="1"/>
-                        <GradientStop Color="#FFD1D1D1" Offset="0.4"/>
-                        <GradientStop Color="#FFD1D1D1" Offset="0.6"/>
-                    </LinearGradientBrush>
-                </Rectangle.Fill>
-            </Rectangle>-->
-
-            
-            <!--<ToolBarPanel  >
-                <ToolBarPanel.Effect>
-                    
-                </ToolBarPanel.Effect>
-                <ToolBarPanel.Background>
-                    
-
-                </ToolBarPanel.Background>
-            </ToolBarPanel>-->
 
             <ScrollViewer Style="{StaticResource OverrideContentPosition}" CanContentScroll="False"
                           Grid.Row="2" HorizontalScrollBarVisibility="Visible"
@@ -190,16 +129,6 @@
                 <localView:LayerBar x:Name="layerBar" DataContext="{Binding LayerBarStatus}" 
                                     VerticalAlignment="Top"/>
             </Grid>
-            
-            
-            <!--<ToolBarPanel x:Name="UtilityToolBar" Grid.Row="1" Grid.Column="2" Grid.RowSpan="3"
-                          Background="#FFF0F2F3" ClipToBounds="True" SnapsToDevicePixels="True">
-                <localView:BrushesBar Grid.RowSpan="3"/>
-                <ToolBarPanel.Effect>
-                    <DropShadowEffect/>
-                </ToolBarPanel.Effect>
-
-            </ToolBarPanel>-->
         </Grid>
 
         <localView:SideMenu x:Name="sideMenu" DataContext="{Binding SideMenuStatus}" Grid.Column="0"

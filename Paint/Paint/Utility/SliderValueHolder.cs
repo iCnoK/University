@@ -40,21 +40,6 @@ namespace Paint.Utility
 
     public class Slider
     {
-        //public SliderInfo this[BrushType type]
-        //{
-        //    get
-        //    {
-        //        foreach (var item in sliderInfos)
-        //        {
-        //            if (item.BrushType == type)
-        //            {
-        //                return item;
-        //            }
-        //        }
-        //        throw new Exception();
-        //    }
-        //}
-
         private int this[BrushType brush]
         {
             get
@@ -108,43 +93,6 @@ namespace Paint.Utility
             }
             sliderInfos[this[brush]].WidthValue = width;
         }
-
-        //public int this[BrushType type, SliderMode mode]
-        //{
-        //    get
-        //    {
-        //        SliderInfo info = new SliderInfo();
-        //        foreach (var item in sliderInfos)
-        //        {
-        //            if (item.BrushType == type)
-        //            {
-        //                info = item;
-        //                break;
-        //            }
-        //        }
-        //        if (mode == SliderMode.OPACITY)
-        //        {
-        //            return info.OpacityValue;
-        //        }
-        //        return info.WidthValue;
-        //    }
-        //    set
-        //    {
-        //        for (int i = 0; i < sliderInfos.Count; i++)
-        //        {
-        //            if (sliderInfos[i].BrushType == type)
-        //            {
-        //                if (mode == SliderMode.OPACITY)
-        //                {
-        //                    sliderInfos[i].OpacityValue = value;
-        //                    break;
-        //                }
-        //                sliderInfos[i].WidthValue = value;
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
 
         private List<SliderInfo> sliderInfos { get; set; }
 

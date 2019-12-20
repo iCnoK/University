@@ -162,7 +162,7 @@
 
         <Style x:Key="OverrideContentPosition" TargetType="{x:Type ScrollViewer}">
             <Setter Property="OverridesDefaultStyle" Value="True" />
-            
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -190,15 +190,13 @@
                                 Value="{TemplateBinding HorizontalOffset}"
                                 Maximum="{TemplateBinding ScrollableWidth}"
                                 ViewportSize="{TemplateBinding ViewportWidth}"
-                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/> 
+                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
         
-        
-
         <Style TargetType="Button" x:Key="NewHighlightColourForHead">
             <Setter Property="Template">
                 <Setter.Value>
@@ -278,12 +276,6 @@
             </Setter>
         </Style>
 
-
-
-
-
-
-
         <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
             <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -360,15 +352,5 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
-        <!--<Slider Style="{StaticResource Horizontal_Slider}" VerticalAlignment="Center"  Value="500" Width="300" Margin="50,0,50,0"></Slider>-->
-
-
-
-
-
-
-
-
     </Application.Resources>
 </Application>

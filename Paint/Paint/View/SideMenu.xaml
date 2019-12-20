@@ -7,8 +7,7 @@
              xmlns:converters="clr-namespace:Paint.Utility"
              mc:Ignorable="d" x:Name="sideMenu"
              d:DesignHeight="720" d:DesignWidth="300" Width="{Binding Width}" 
-             Visibility="{Binding Path=ChangeVisibilityOfMenu, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}"> <!--Width="{Binding Width}"-->
-    <!--{Binding Width}-->
+             Visibility="{Binding Path=ChangeVisibilityOfMenu, NotifyOnTargetUpdated=True, NotifyOnSourceUpdated=True}">
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="Binding.TargetUpdated">
             <BeginStoryboard>
@@ -75,8 +74,6 @@
                 </EventTrigger>
             </Button.Triggers>
             
-            
-            <!--Command="{Binding DataContext.CloseMenu, RelativeSource={RelativeSource AncestorType=Window}}">-->
             <StackPanel Orientation="Horizontal">
                 <Image Source="/Utility/Resources/LeftArrow.png" Margin="5,0,0,0" Width="30" Height="30" Stretch="Fill"/>
                 <Label Content="Назад" FontSize="18" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>

@@ -24,9 +24,6 @@
             <SolidColorBrush Color="White"/>
         </Grid.Background>
 
-        <!--<Label Content="{Binding Path=XPos}" Foreground="Black" Width="100" HorizontalAlignment="Left"/>-->
-        <!--<Label Content="{Binding Path=YPos}" Foreground="Black" Margin="100,0,0,0" Width="100" HorizontalAlignment="Left"/>-->
-        <!--<Button Height="100" Width="100"/>-->
         <Canvas x:Name="imageCtrl" Height="{Binding ImageHeight, Mode=TwoWay}"
                Width="{Binding ImageWidth, Mode=TwoWay}">
             <Canvas.Background>

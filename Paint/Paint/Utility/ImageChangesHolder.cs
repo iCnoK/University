@@ -89,9 +89,3 @@ namespace Paint.Utility
         }
     }
 }
-
-//if (WriteableBitmaps.Count != 0)
-//{
-//var tempBitmap = WriteableBitmaps.Peek();
-//if (bitmap != tempBitmap)
-//{

@@ -1,14 +1,5 @@
-﻿using Paint.Utility;
-using Paint.Utility.Enums;
-using System;
+﻿using Paint.Utility.Enums;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Paint.Utility
@@ -32,15 +23,6 @@ namespace Paint.Utility
         {
             get
             {
-                //if (brush == BrushType.MARKER)
-                //{
-                //    return Markers[1];
-                //}
-                //if (brush == BrushType.PIXELPEN)
-                //{
-                //    return PixelPens[0];
-                //}
-                //return Markers[0];
                 return WriteableBitmaps.Find(x => x.Key == brush).Value;
             }
         }

@@ -265,7 +265,6 @@ namespace Paint.ViewModel
             }
             ButtonsIsEnabled = false;
             ColorPickerStatus.ColorPickerClosed += ColorPickerClosedEventHandler;
-            //SetDefaultColor.Execute(Colors.Black);
         }
 
         private void ColorPickerClosedEventHandler(object sender, EventArgs e)
@@ -273,7 +272,6 @@ namespace Paint.ViewModel
             CurrentSelectedColor = ColorPickerStatus.SelectedColor;
 
             customSolidBrushes[(int)_customColorsSelectedIndex].Color = ColorPickerStatus.SelectedColor;
-                //CustomColorConverter.ConvertFromSDCToSWMC(ColorPickerStatus.SelectedColor);
         }
 
         #region SliderManage

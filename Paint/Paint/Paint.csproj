@@ -135,7 +135,6 @@
     <Compile Include="Utility\Brush.cs" />
     <Compile Include="Model\PainterControl\PainterModel.cs" />
     <Compile Include="Utility\BitmapLayer.cs" />
-    <Compile Include="Utility\Brushes\MarkerBrush.cs" />
     <Compile Include="Utility\BrushParameters.cs" />
     <Compile Include="Utility\Enums\ImageFileFormat.cs" />
     <Compile Include="Utility\MVVM Support\MvvmMessageBoxEventArgs.cs" />
@@ -145,9 +144,6 @@
     <Compile Include="Utility\Enums\PainterModelMode.cs" />
     <Compile Include="Utility\Enums\SliderMode.cs" />
     <Compile Include="Utility\MVVM Support\MouseBehaviour.cs" />
-    <Compile Include="Utility\MVVM Support\OnPropertyChangedClass.cs" />
-    <Compile Include="Utility\MVVM Support\RelayCommand.cs" />
-    <Compile Include="Utility\ProgramSettings.cs" />
     <Compile Include="Utility\SliderValueHolder.cs" />
     <Compile Include="Utility\MVVM Support\XamlConverters.cs" />
     <Compile Include="ViewModel\BrushesBarViewModel.cs" />
@@ -233,9 +229,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="TempRecources\MARKER.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Utility\Resources\Arrows.png" />
     <Resource Include="Utility\Resources\CreateFile.png" />
     <Resource Include="Utility\Resources\Exit.png" />
@@ -265,17 +258,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Utility\Resources\Pipette.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="TempRecources\FOUNTAINPEN.png" />
-    <Resource Include="TempRecources\OILBRUSH.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="TempRecources\ERASER.png" />
-    <Resource Include="TempRecources\PENCIL.png" />
-    <Resource Include="TempRecources\PIXELPEN.png" />
-    <Resource Include="TempRecources\SPRAYCAN.png" />
-    <Resource Include="TempRecources\WATERCOLOR.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Utility\Resources\Undo.png" />

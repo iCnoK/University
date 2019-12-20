@@ -1,8 +1,6 @@
 ﻿using Paint.Utility;
 using System;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace Paint.Model.PainterControl
 {
@@ -40,8 +38,6 @@ namespace Paint.Model.PainterControl
 
         public bool IsLayersConnecterOn { get; private set; }
 
-        //public BitmapLayer GeneralizedLayer { get; set; }
-
         public BitmapLayer MainBitmap
         {
             get
@@ -51,18 +47,7 @@ namespace Paint.Model.PainterControl
                     return null;
                 }
 
-                //if (IsLayersConnecterOn)
-                //{
-                //    return GeneralizedLayer;
-                //}
-
-                //if (NumberOfActivatedLayers == 1)
-                //{
-
-                //}
                 return BitmapLayers[CurrentLayerIndex];
-
-                //return null;
             }
             set
             {

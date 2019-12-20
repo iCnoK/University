@@ -65,9 +65,6 @@ namespace Paint.ViewModel
             SideMenuStatus.OpenFileChanged += OpenFileChangedEventHandler;
             SideMenuStatus.SaveFileChanged += SaveFileChangedEventHandler;
             SideMenuStatus.ImageSizeChanged += ImageSizeChangedEventHandler;
-
-            //BrushesBarStatus.BrushChanged += BrushChangedEventHandler;
-            //BrushesBarStatus.ColorChanged += ColorChangedEventHandler;
         }
 
         private void ImageSizeChangedEventHandler(object sender, System.EventArgs e)
@@ -86,19 +83,7 @@ namespace Paint.ViewModel
         private void OpenFileChangedEventHandler(object sender, System.EventArgs e)
         {
             PainterStatus.OpenFileDirectory = SideMenuStatus.OpenFileDirectory;
-            //PainterStatus.ImageHeight = SideMenuStatus.GetHeightOfNewImage;
-            //PainterStatus.ImageWidth = SideMenuStatus.GetWidthOfNewImage;
             PainterStatus.Initialize();
         }
-
-        //private void ColorChangedEventHandler(object sender, System.EventArgs e)
-        //{
-        //    //throw new System.NotImplementedException();
-        //}
-
-        //private void BrushChangedEventHandler(object sender, System.EventArgs e)
-        //{
-        //    //throw new System.NotImplementedException();
-        //}
     }
 }
