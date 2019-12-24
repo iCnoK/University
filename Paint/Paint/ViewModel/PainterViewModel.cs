@@ -188,8 +188,36 @@ namespace Paint.ViewModel
 
             LayerBarStatus.AddItem += LayerBarStatus_AddItem;
             LayerBarStatus.DeleteItem += LayerBarStatus_DeleteItem;
+            LayerBarStatus.MoveLeftItem += LayerBarStatus_MoveLeftItem;
+            LayerBarStatus.MoveRightItem += LayerBarStatus_MoveRightItem;
             LayerBarStatus.ItemChanged += LayerBarStatus_ItemChanged;
             LayerBarStatus.ItemIndexChanged += LayerBarStatus_ItemIndexChanged;
+        }
+
+        private void LayerBarStatus_MoveRightItem(object sender, EventArgs e)
+        {
+            int temp = PainterModel.CurrentLayerIndex;
+            if (temp + 1 < PainterModel.BitmapLayers.Count)
+            {
+                LayerBarStatus.SwapElements(temp, temp + 1);
+                PainterModel.CurrentLayerIndex -= 1;
+                PainterModel.SwapLayers(temp, temp + 1);
+                PainterModel.CurrentLayerIndex += 1;
+                LayerBarStatus_ItemChanged(null, EventArgs.Empty);
+            }
+        }
+
+        private void LayerBarStatus_MoveLeftItem(object sender, EventArgs e)
+        {
+            int temp = PainterModel.CurrentLayerIndex;
+            if (PainterModel.CurrentLayerIndex - 1 >= 0)
+            {
+                LayerBarStatus.SwapElements(temp, temp - 1);
+                PainterModel.CurrentLayerIndex += 1;
+                PainterModel.SwapLayers(temp, temp - 1);
+                PainterModel.CurrentLayerIndex -= 1;
+                LayerBarStatus_ItemChanged(null, EventArgs.Empty);
+            }
         }
 
         private void PainterModel_Initialized(object sender, EventArgs e)

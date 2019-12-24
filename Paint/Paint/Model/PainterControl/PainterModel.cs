@@ -69,6 +69,25 @@ namespace Paint.Model.PainterControl
             IsCheckedLayers.Add(false);
         }
 
+        public void SwapLayers(int beginIndex, int destinationIndex)
+        {
+            BitmapLayers = Move<BitmapLayer>(BitmapLayers, beginIndex, destinationIndex);
+            IsCheckedLayers = Move<bool>(IsCheckedLayers, beginIndex, destinationIndex);
+
+        }
+
+        private List<T> Move<T>(List<T> input, int oldIndex, int newIndex)
+        {
+            List<T> ts = new List<T>(input);
+
+            var currentElement = ts[oldIndex];
+            var nextElement = ts[newIndex];
+
+            ts[oldIndex] = nextElement;
+            ts[newIndex] = currentElement;
+            return ts;
+        }
+
         private void Clear()
         {
             NumberOfActivatedLayers = 1;
@@ -112,7 +131,8 @@ namespace Paint.Model.PainterControl
                 if (IsCheckedLayers[i])
                 {
                     bytedBitmap = BitmapLayers[i].GetWorkspaceArray();
-                    bytedBitmapSource = BitmapLayer.CompareAndConnectArrays(bytedBitmapSource, bytedBitmap);
+                    bytedBitmapSource = BitmapLayer.CompareAndConnectArrays(bytedBitmapSource, 
+                        bytedBitmap);
                 }
             }
             bitmapLayer.CopyWorspaceArrayToBitmap(bytedBitmapSource);

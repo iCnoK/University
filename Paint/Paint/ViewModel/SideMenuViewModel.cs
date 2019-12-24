@@ -3,6 +3,7 @@ using Paint.Model.SideMenuControl;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -194,6 +195,9 @@ namespace Paint.ViewModel
             new DelegateCommand(delegate ()
             {
                 CreateBarVisibility = Visibility.Collapsed;
+                //SaveFileDirectory = @"C:\Users\Андрей\Desktop\";
+                //SaveFileName = Path.GetRandomFileName() + ".jpeg";
+                //SaveFileDirectory += SaveFileName;
                 OnSaveFileChanged();
             }));
         public ICommand SaveAsPicture => _saveAsPicture ?? (_saveAsPicture =
@@ -220,7 +224,12 @@ namespace Paint.ViewModel
                 {
                     return;
                 }
-                if (GetHeightOfNewImage < 50 || GetWidthOfNewImage < 50)
+                if (GetHeightOfNewImage < 100 || GetWidthOfNewImage < 100)
+                {
+                    StringImageHeigth = StringImageWidth = string.Empty;
+                    return;
+                }
+                if (GetHeightOfNewImage > 2000 || GetWidthOfNewImage > 2000)
                 {
                     StringImageHeigth = StringImageWidth = string.Empty;
                     return;
@@ -235,7 +244,7 @@ namespace Paint.ViewModel
             ChangeVisibilityOfMenu = Visibility.Collapsed;
             CreateBarVisibility = Visibility.Collapsed;
             Width = 300;
-            SaveFileDirectory = $"{Environment.CurrentDirectory}\\unknown.jpg";
+            SaveFileDirectory = $@"C:\Users\Андрей\Desktop\{Path.GetRandomFileName()}.jpg";
             StringImageHeigth = StringImageWidth = Convert.ToString(500);
         }
     }

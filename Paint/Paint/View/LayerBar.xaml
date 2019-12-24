@@ -31,10 +31,17 @@
         </Grid.Background>
         <StackPanel Orientation="Horizontal">
             <StackPanel Orientation="Vertical">
-                <Button Width="100" Margin="2" Content="{Binding ButtonText}" Command="{Binding Path=ExtendBar}"/>
+                <Button Width="100" Margin="2" Content="{Binding ButtonText}" Command="{Binding Path=ExtendBar}"
+                        ToolTip="{Binding ButtonText}"/>
                 <StackPanel Orientation="Horizontal">
-                    <Button Width="48" Margin="2" Content="+" Command="{Binding Path=AddCommand}"/>
-                    <Button Width="48" Margin="2" Content="-" Command="{Binding Path=DeleteCommand}"/>
+                    <Button Width="22" Margin="2" Content="+" Command="{Binding Path=AddCommand}" ToolTip="Добавить слой"
+                            FontWeight="ExtraBlack"/>
+                    <Button Width="22" Margin="2" Content="-" Command="{Binding Path=DeleteCommand}" ToolTip="Удалить слой"
+                            FontWeight="ExtraBlack"/>
+                    <Button Width="22" Margin="2" Content="&lt;-" Command="{Binding Path=MoveLeft}" ToolTip="Передвинуть влево"
+                            FontWeight="ExtraBlack"/>
+                    <Button Width="22" Margin="2" Content="-&gt;" Command="{Binding Path=MoveRight}" ToolTip="Передвинуть вправо"
+                            FontWeight="ExtraBlack"/>
                 </StackPanel>
             </StackPanel>
 
@@ -49,7 +56,7 @@
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Vertical" ToolTip="{Binding LabelText}">
                             <Image Source="{Binding ImageElementSource}" HorizontalAlignment="Center"
                                    Height="{Binding ItemImageSize}"
                                    Width="{Binding ItemImageSize}"/>

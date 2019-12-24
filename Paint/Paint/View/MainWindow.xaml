@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:local="clr-namespace:Paint.ViewModel"
         xmlns:converters="clr-namespace:Paint.Utility"
         xmlns:localView="clr-namespace:Paint.View"
@@ -11,6 +12,12 @@
         Title="PainD" x:Name="mainWindow" MinHeight="720" MinWidth="1280"
         Height="720" Width="1280" Background="White" WindowStartupLocation="CenterScreen" Icon="/Paint;component/Utility/Resources/PainDLogo.png">
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding SavePictureInFile}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -79,7 +86,7 @@
                 </Button>
 
                 <Button Grid.Column="2" Style="{StaticResource NewHighlightColourForHead}"
-                        HorizontalContentAlignment="Center"
+                        HorizontalContentAlignment="Center" Visibility="Collapsed"
                         HorizontalAlignment="Right" Height="50" Width="100" Background="#00DDDDDD"
                         BorderBrush="#00707070" Command="{Binding OpenBrushConfigurator}"
                         ToolTip="Открыть консольный конфигуратор кистей (PainD будет закрыт)">

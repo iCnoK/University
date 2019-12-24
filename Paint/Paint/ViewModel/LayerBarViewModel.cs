@@ -34,6 +34,18 @@ namespace Paint.ViewModel
             DeleteItem?.Invoke(this, EventArgs.Empty);
         }
 
+        public event System.EventHandler MoveLeftItem;
+        protected virtual void MoveLeftItemEvent()
+        {
+            MoveLeftItem?.Invoke(this, EventArgs.Empty);
+        }
+
+        public event System.EventHandler MoveRightItem;
+        protected virtual void MoveRightItemEvent()
+        {
+            MoveRightItem?.Invoke(this, EventArgs.Empty);
+        }
+
         public ObservableCollection<Item> Items { get; set; }
         public int NumberOfActivatedLayers { get; private set; }
         private int Counter = 1;
@@ -116,6 +128,18 @@ namespace Paint.ViewModel
             DeleteItemEvent();
         }));
 
+        private ICommand _moveLeft;
+        public ICommand MoveLeft => _moveLeft ?? (_deleteCommand = new DelegateCommand(delegate ()
+        {
+            MoveLeftItemEvent();
+        }));
+
+        private ICommand _moveRight;
+        public ICommand MoveRight => _moveRight ?? (_deleteCommand = new DelegateCommand(delegate ()
+        {
+            MoveRightItemEvent();
+        }));
+
         public int GetNumberOfActivatedLayers()
         {
             int result = 0;
@@ -173,6 +197,16 @@ namespace Paint.ViewModel
             NumberOfActivatedLayers = GetNumberOfActivatedLayers();
             OnItemChanged();
         }
+
+        public void SwapElements(int beginIndex, int destinationIndex)
+        {
+            Items.Move(beginIndex, destinationIndex);
+            Counter = 1;
+            for (int i = 0; i < Items.Count; i++)
+            {
+                Items[i].LabelText = Counter++.ToString();
+            }
+        }
     }
 
     public class Item : BindableBase
@@ -194,7 +228,7 @@ namespace Paint.ViewModel
             }
         }
 
-        public bool _isCheckedElement;
+        private bool _isCheckedElement;
         public bool IsCheckedElement
         {
             get => _isCheckedElement;

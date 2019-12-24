@@ -40,6 +40,15 @@ namespace Paint.ViewModel
                 "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK, MessageBoxOptions.ServiceNotification);
         }));
 
+        private ICommand _savePictureInFile;
+        public ICommand SavePictureInFile => _savePictureInFile ?? (_savePictureInFile = new DelegateCommand(delegate ()
+        {
+            ShowMessageBox(ProcessTheAnswerOfMessageBox,
+                "Вы желаете сохранить изображение в формате jpeg?",
+                "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes, MessageBoxOptions.ServiceNotification);
+            
+        }));
+
         private void ShowMessageBox(Action<MessageBoxResult> resultAction, string messageBoxText, string caption = "", MessageBoxButton button = MessageBoxButton.OK, MessageBoxImage icon = MessageBoxImage.None, MessageBoxResult defaultResult = MessageBoxResult.None, MessageBoxOptions options = MessageBoxOptions.None)
         {
             this.MessageBoxRequest?.Invoke(this, new MvvmMessageBoxEventArgs(resultAction, messageBoxText, caption, button, icon, defaultResult, options));
@@ -47,10 +56,9 @@ namespace Paint.ViewModel
 
         public void ProcessTheAnswerOfMessageBox(MessageBoxResult result)
         {
-            if (result == MessageBoxResult.OK)
+            if (result == MessageBoxResult.Yes)
             {
-                SideMenuStatus.SavePicture.Execute(null);
-                Process.Start("BrushCreator.exe");
+                SaveFileChangedEventHandler(null, EventArgs.Empty);
                 Application.Current.Shutdown();
             }
         }

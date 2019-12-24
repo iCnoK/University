@@ -132,19 +132,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\SideMenuControl\SideMenuModel.cs" />
-    <Compile Include="Utility\Brush.cs" />
+    <Compile Include="Utility\Brush\Brush.cs" />
     <Compile Include="Model\PainterControl\PainterModel.cs" />
-    <Compile Include="Utility\BitmapLayer.cs" />
-    <Compile Include="Utility\BrushParameters.cs" />
+    <Compile Include="Model\PainterControl\BitmapLayer.cs" />
+    <Compile Include="Utility\Brush\BrushParameters.cs" />
     <Compile Include="Utility\Enums\ImageFileFormat.cs" />
     <Compile Include="Utility\MVVM Support\MvvmMessageBoxEventArgs.cs" />
-    <Compile Include="Utility\FileManager.cs" />
-    <Compile Include="Utility\ImageChangesHolder.cs" />
-    <Compile Include="Utility\CustomColorConverter.cs" />
+    <Compile Include="Utility\Other\FileManager.cs" />
+    <Compile Include="Model\PainterControl\ImageChangesHolder.cs" />
+    <Compile Include="Utility\Other\CustomColorConverter.cs" />
     <Compile Include="Utility\Enums\PainterModelMode.cs" />
     <Compile Include="Utility\Enums\SliderMode.cs" />
     <Compile Include="Utility\MVVM Support\MouseBehaviour.cs" />
-    <Compile Include="Utility\SliderValueHolder.cs" />
+    <Compile Include="Utility\MVVM Support\SliderValueHolder.cs" />
     <Compile Include="Utility\MVVM Support\XamlConverters.cs" />
     <Compile Include="ViewModel\BrushesBarViewModel.cs" />
     <Compile Include="ViewModel\ColorPickerViewModel.cs" />

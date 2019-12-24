@@ -23,6 +23,8 @@ namespace Paint.Utility
 
         public int LayerWidth => Bitmap.PixelWidth - 600;
 
+        public Color MainColor { get; set; }
+
         private ImageChangesHolder ChangesHolder { get; set; }
 
         private bool Changed { get; set; } = false;
@@ -30,8 +32,6 @@ namespace Paint.Utility
         private byte[] Mask { get; set; }
 
         private WriteableBitmap MaskBitmap { get; set; }
-
-        public Color MainColor { get; set; }
 
         private Brush Brush { get; set; }
 

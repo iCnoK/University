@@ -8,7 +8,7 @@ namespace Paint.Model.SideMenuControl
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.CheckFileExists = true;
-            openFileDialog.Filter = "tiff files (*.tiff)|*.tiff|png files (*.png)|*.png|bmp files (*.bmp)|*.bmp|jpg files (*.jpg)|*.jpg";
+            openFileDialog.Filter = "tiff files (*.tiff)|*.tiff|png files (*.png)|*.png|bmp files (*.bmp)|*.bmp|jpeg files (*.jpeg)|*.jpeg";
             openFileDialog.FilterIndex = 2;
             openFileDialog.RestoreDirectory = true;
             openFileDialog.Multiselect = false;
@@ -18,7 +18,7 @@ namespace Paint.Model.SideMenuControl
         public static SaveFileDialog InitSaveFileDialog()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "tiff files (*.tiff)|*.tiff|png files (*.png)|*.png|bmp files (*.bmp)|*.bmp|jpg files (*.jpg)|*.jpg";
+            saveFileDialog.Filter = "tiff files (*.tiff)|*.tiff|png files (*.png)|*.png|bmp files (*.bmp)|*.bmp|jpeg files (*.jpeg)|*.jpeg";
             saveFileDialog.FilterIndex = 2;
             saveFileDialog.RestoreDirectory = true;
             return saveFileDialog;
