@@ -78,14 +78,14 @@ namespace Paint.Model.PainterControl
 
         private List<T> Move<T>(List<T> input, int oldIndex, int newIndex)
         {
-            List<T> ts = new List<T>(input);
+            List<T> result = new List<T>(input);
 
-            var currentElement = ts[oldIndex];
-            var nextElement = ts[newIndex];
+            var currentElement = result[oldIndex];
+            var nextElement = result[newIndex];
 
-            ts[oldIndex] = nextElement;
-            ts[newIndex] = currentElement;
-            return ts;
+            result[oldIndex] = nextElement;
+            result[newIndex] = currentElement;
+            return result;
         }
 
         private void Clear()

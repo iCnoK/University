@@ -239,6 +239,7 @@ namespace Paint.ViewModel
                 if (obj != null)
                 {
                     _customColorsSelectedIndex = Convert.ToInt32(obj.ToString());
+                    CurrentSelectedColor = customSolidBrushes[(int)_customColorsSelectedIndex].Color;
                     ButtonsIsEnabled = true;
                 }
             }));
